@@ -36,6 +36,10 @@ const Styles = styled.main`
         text-align:center;
         top:50%;
         transform:translate(-50%, -50%);
+        @media(max-width: 768px) {
+            width: 100%;
+            padding:10vmin 0;
+        }
     }
     @keyframes slide {
         0% {
