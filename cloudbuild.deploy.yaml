@@ -13,7 +13,7 @@ steps:
       - 'deploy'
       - 'quirkles-potw'
       - '--image'
-      - 'gcr.io/$PROJECT_ID/quirkles-potw:$COMMIT_SHA
+      - 'gcr.io/$PROJECT_ID/quirkles-potw:$COMMIT_SHA'
       - '--region'
       - 'northamerica-northeast1'
 images:
