@@ -1,0 +1,2 @@
+gcloud builds submit --tag gcr.io/quirkles-potw/potw-web --project quirkles-potw
+gcloud run deploy quirkles-potw --image gcr.io/quirkles-potw/potw-web --platform managed --region us-central1 --project quirkles-potw --allow-unauthenticated
