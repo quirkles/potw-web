@@ -15,6 +15,6 @@ steps:
       - '--image'
       - 'gcr.io/$PROJECT_ID/quirkles-potw:$COMMIT_SHA
       - '--region'
-      - 'REGION'
+      - 'northamerica-northeast1'
 images:
   - 'gcr.io/$PROJECT_ID/quirkles-potw:$COMMIT_SHA'
