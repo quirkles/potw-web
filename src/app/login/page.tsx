@@ -25,17 +25,21 @@ const StyledLoginPage = styles.div`
 export default function Login() {
     const login = useGoogleLogin({
         onSuccess: tokenResponse => {
-            console.log('\n####\n',tokenResponse ,'\n####\n')
             let body = JSON.stringify({
                 token: tokenResponse.access_token
             });
-            console.log('\n####\n',body ,'\n####\n')
             fetch("https://handlegooglelogin-47ow7eeefq-uc.a.run.app", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body,
+            }).then(response => {
+                if (response.status === 200) {
+                    response.json().then(data => {
+                        localStorage.setItem("token", data.token);
+                    });
+                }
             })
         },
     });
