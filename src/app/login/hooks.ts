@@ -1,5 +1,7 @@
 'use client'
 
+import {safeGetLocalStorage, safeSetLocalStorage} from "@/utils/localStorage";
+
 const generateRandomString = (length: number): string => {
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const values = crypto.getRandomValues(new Uint8Array(length));
@@ -26,9 +28,10 @@ const tokenUrl = new URL("https://accounts.spotify.com/api/token")
 
 
 export function useSpotifyAuth() {
-    const urlParams = new URLSearchParams(window.location.search);
+    const search = typeof window !== "undefined" ?  window.location.search : '';
+    const urlParams = new URLSearchParams(search);
     let code = urlParams.get('code');
-    const codeVerifierFromStorage = localStorage.getItem('code_verifier');
+    const codeVerifierFromStorage = safeGetLocalStorage('code_verifier');
     const getTokenIfOnCallbackPage = async (): Promise<null | string> => {
         if(!codeVerifierFromStorage || !code) {
             return null;
