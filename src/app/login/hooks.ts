@@ -29,7 +29,7 @@ export function useSpotifyAuth() {
     const urlParams = new URLSearchParams(window.location.search);
     let code = urlParams.get('code');
     const codeVerifierFromStorage = localStorage.getItem('code_verifier');
-    const getToken = async (): Promise<null | string> => {
+    const getTokenIfOnCallbackPage = async (): Promise<null | string> => {
         if(!codeVerifierFromStorage || !code) {
             return null;
         }
@@ -69,5 +69,5 @@ export function useSpotifyAuth() {
         authUrl.search = new URLSearchParams(params).toString();
         window.location.href = authUrl.toString();
     }
-    return [initiateLogin, getToken]
+    return [initiateLogin, getTokenIfOnCallbackPage]
 }

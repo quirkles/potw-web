@@ -12,6 +12,7 @@ import {COLORS} from "@/app/styles/colors";
 import {useSpotifyAuth} from "@/app/login/hooks";
 import {useEffect, useRef, useState} from "react";
 import {useRouter} from "next/navigation";
+import {safeGetLocalStorage} from "@/utils/localStorage";
 
 const StyledLoginPage = styles.div`
     height: 100vh;
@@ -27,14 +28,15 @@ const StyledLoginPage = styles.div`
 
 export default function Login() {
     const router = useRouter()
-    const [token, setToken] = useState<string | null>(localStorage.getItem("token") || null);
-    const [startLogin, getToken] = useSpotifyAuth();
+    const [token, setToken] = useState<string | null>(safeGetLocalStorage("token"));
+    const [startLogin, getTokenIfOnCallbackPage] = useSpotifyAuth();
     const getTokenPromise = useRef<null | Promise<unknown>>(null)
     useEffect(() => {
         if (token) {
             router.push("/home")
         } else if(getTokenPromise.current === null){
-            getTokenPromise.current = getToken().then(accessToken => {
+            // Check we are on the callback page and get the token if so.
+            getTokenPromise.current = getTokenIfOnCallbackPage().then(accessToken => {
                 if (accessToken) {
                     let body = JSON.stringify({
                         token: accessToken

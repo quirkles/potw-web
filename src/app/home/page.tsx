@@ -5,11 +5,12 @@ import { jwtDecode, JwtPayload } from "jwt-decode";
 import styled from 'styled-components'
 import Header from "@/components/header/Header";
 import {useRouter} from "next/navigation";
+import {safeGetLocalStorage} from "@/utils/localStorage";
 
 const StyledMain = styled.main``
 
 export default function Home() {
-    const [token, setToken] = useState<string | null>(localStorage.getItem("token") || null);
+    const [token, setToken] = useState<string | null>(safeGetLocalStorage("token"));
     const [decoded, setDecoded] = useState<JwtPayload | null>(null)
     const router = useRouter();
     useEffect(() => {
