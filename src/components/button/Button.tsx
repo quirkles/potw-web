@@ -5,6 +5,7 @@ import {
     HTMLAttributes,
 } from "react";
 import {Color, COLORS} from "@/app/styles/colors";
+import {hexToRgbA} from "@/utils/color";
 
 const StyledButton = styled.button<{$hasIcon: boolean, $color: Color}>`
     background: ${props => props.$color};
@@ -25,6 +26,7 @@ const StyledButton = styled.button<{$hasIcon: boolean, $color: Color}>`
     cursor: pointer;
 
     .icon {
+        color: ${props => hexToRgbA(props.$color, 0)};
         background: white;
         margin-left: 1em;
         position: absolute;
@@ -32,12 +34,12 @@ const StyledButton = styled.button<{$hasIcon: boolean, $color: Color}>`
         align-items: center;
         justify-content: center;
         height: 2.2em;
-        width: 2.2em;
+        width: ${(props) => props.$hasIcon ? 2.2 : 0}em;
         border-radius: 0.7em;
         box-shadow: 0.1em 0.1em 0.6em 0.2em ${props => props.$color};
         right: 0.3em;
         transition: all 0.3s;
-        padding: 0.5em;
+        padding: ${props => props.$hasIcon ? 0.5 : 0}em;
         .icon svg {
             width: 1.1em;
             transition: transform 0.3s;
@@ -48,7 +50,8 @@ const StyledButton = styled.button<{$hasIcon: boolean, $color: Color}>`
 
     &:hover .icon {
         width: calc(100% - 0.6em);
-        transform: translateX(0.1em);
+        transform: translateX(${props => props.$hasIcon ? 0.1 : 0}em);
+        color: ${props => hexToRgbA(props.$color, 1)};
     }
 
     &:active .icon {
@@ -72,7 +75,7 @@ export default function Button(props: ButtonProps) {
         >
             {buttonText}
             {
-                props.Icon ? <div className="icon"><props.Icon/></div> : null
+                <div className="icon">{props.Icon ? <props.Icon/> : props.buttonText }</div>
             }
         </StyledButton>
     );
