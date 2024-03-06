@@ -11,26 +11,111 @@ import BG from "@/components/background/Background";
 import {COLORS} from "@/app/styles/colors";
 import {useSpotifyAuth} from "@/app/login/hooks";
 import {useEffect, useRef, useState} from "react";
-import {useRouter} from "next/navigation";
+import {useSearchParams, useRouter} from "next/navigation";
 import {safeGetLocalStorage} from "@/utils/localStorage";
+import StandaloneTextInput from "@/components/form/StandaloneTextInput";
+import IconButton from "@/components/button/IconButton";
+import LoginSvg from "@/components/Icons/Login.svg";
 
 const StyledLoginPage = styles.div`
     height: 100vh;
     width: 100vw;
     .buttons {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 1em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1em;
+    }
+    .email {
+        display: flex;
+        gap: 1em;
     }
 `
 
 export default function Login() {
     const router = useRouter()
+    const params = useSearchParams()
     const [token, setToken] = useState<string | null>(safeGetLocalStorage("token"));
     const [startLogin, getTokenIfOnCallbackPage] = useSpotifyAuth();
+    const [email, setEmail] = useState<string>("");
+    const [otp, setOtp] = useState<string>("");
+    const [otpCodeVerifier, setOtpCodeVerifier] = useState<string>("");
+    const [waitingForToken, setWaitingForToken] = useState<boolean>(false);
     const getTokenPromise = useRef<null | Promise<unknown>>(null)
+
+    useEffect(() => {
+        const otp = params.get("otp")
+        const codeVerifier = params.get("otpCodeVerifier")
+        if(otp && codeVerifier){
+            let body = JSON.stringify({
+                otp,
+                codeVerifier
+            });
+            fetch("https://verifyotp-47ow7eeefq-uc.a.run.app", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body,
+            }).then((resp) => {
+                setWaitingForToken(false)
+                setOtp("")
+                return resp.json()
+            }).then((data) => {
+                if (!data.token){
+                    throw new Error("No token")
+                }
+                localStorage.setItem("token", data.token);
+                setToken(data.token)
+            }).catch((e) => {
+                console.error(e)
+                setOtp("")
+            })
+        }
+    }, [params]);
+
+    const handleEmail = () => {
+        let body = JSON.stringify({
+            email: email
+        });
+        fetch("https://handleemaillogin-47ow7eeefq-uc.a.run.app", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body,
+        }).then((resp: Response) => {
+            return resp.json()
+        }).then((data) => {
+            setOtp("")
+            setOtpCodeVerifier(data.codeVerifier)
+            setWaitingForToken(true)
+        })
+    }
+    const handleOtp = () => {
+        let body = JSON.stringify({
+            otp: otp,
+            codeVerifier: otpCodeVerifier
+        });
+        fetch("https://verifyotp-47ow7eeefq-uc.a.run.app", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body,
+        }).then((resp) => {
+            setWaitingForToken(false)
+            setOtp("")
+            return resp.json()
+        }).then((data) => {
+            localStorage.setItem("token", data.token);
+            setToken(data.token)
+        }).catch((e) => {
+            console.error(e)
+            setOtp("")
+        })
+    }
     useEffect(() => {
         if (token) {
             router.push("/home")
@@ -83,6 +168,14 @@ export default function Login() {
     return <StyledLoginPage>
         <BG>
             <div className="buttons">
+                <div className="email">
+                    {
+                        waitingForToken ?
+                            <StandaloneTextInput onChange={setOtp} value={otp} hint="Enter Otp"/>
+                            : <StandaloneTextInput onChange={setEmail} value={email} hint="Enter email"/>
+                    }
+                    <IconButton onClick={waitingForToken ? handleOtp : handleEmail} Icon={LoginSvg}/>
+                </div>
                 <Button buttonText="Login with spotify" Icon={SpotifySvg}
                         color={COLORS.green}
                         onClick={
