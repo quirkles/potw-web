@@ -16,6 +16,7 @@ import {safeGetLocalStorage} from "@/utils/localStorage";
 import StandaloneTextInput from "@/components/form/StandaloneTextInput";
 import IconButton from "@/components/button/IconButton";
 import LoginSvg from "@/components/Icons/Login.svg";
+import {getConfig} from "@/config";
 
 const StyledLoginPage = styles.div`
     height: 100vh;
@@ -52,7 +53,7 @@ export default function Login() {
                 otp,
                 codeVerifier
             });
-            fetch("https://verifyotp-47ow7eeefq-uc.a.run.app", {
+            fetch(getConfig().functions.verifyOtpUrl, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -79,7 +80,7 @@ export default function Login() {
         let body = JSON.stringify({
             email: email
         });
-        fetch("https://handleemaillogin-47ow7eeefq-uc.a.run.app", {
+        fetch(getConfig().functions.handleEmailUrl, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -98,7 +99,7 @@ export default function Login() {
             otp: otp,
             codeVerifier: otpCodeVerifier
         });
-        fetch("https://verifyotp-47ow7eeefq-uc.a.run.app", {
+        fetch(getConfig().functions.verifyOtpUrl, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

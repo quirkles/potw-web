@@ -15,7 +15,7 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-
+COPY .env.* ./
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
@@ -36,9 +36,10 @@ RUN \
 
 # Production image, copy all the files and run next
 FROM base AS runner
+ARG NODE_ENV=local
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV $NODE_ENV
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
 

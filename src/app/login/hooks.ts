@@ -1,6 +1,7 @@
 'use client'
 
 import {safeGetLocalStorage, safeSetLocalStorage} from "@/utils/localStorage";
+import {getConfig} from "@/config";
 
 const generateRandomString = (length: number): string => {
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -20,8 +21,8 @@ const sha256 = async (plain: string): Promise<ArrayBufferLike> => {
     return window.crypto.subtle.digest('SHA-256', data)
 }
 
-const clientId = '8d6c16d7de394b6c9cf9f80919331308';
-const redirectUri = 'http://localhost:3000/login';
+const clientId = getConfig().spotifyClientId;
+const redirectUri = getConfig().oauthRedirectUrl;
 const scope = 'user-read-email';
 const authUrl = new URL("https://accounts.spotify.com/authorize")
 const tokenUrl = new URL("https://accounts.spotify.com/api/token")

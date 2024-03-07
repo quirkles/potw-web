@@ -37,3 +37,7 @@ next-env.d.ts
 
 # editor config
 .idea
+
+# environment files
+.env.local
+.env.dev
