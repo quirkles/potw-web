@@ -19,14 +19,14 @@ export function getConfig(): Config {
     if(config) {
         return config;
     }
-    const maybeConfig: unknown = {
-        spotifyClientId: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
-        oauthRedirectUri: process.env.NEXT_PUBLIC_OAUTH_REDIRECT_URI,
+    const maybeConfig: Config = {
+        spotifyClientId: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID as string,
+        oauthRedirectUrl: process.env.NEXT_PUBLIC_OAUTH_REDIRECT_URI as string,
         functions: {
-            verifyOtpUrl: process.env.NEXT_PUBLIC_FUNCTIONS_URL_VERIFY_OTP,
-            handleSpotifyLoginUrl: process.env.NEXT_PUBLIC_FUNCTIONS_URL_HANDLE_SPOTIFY_LOGIN,
-            handleGoogleUrl: process.env.NEXT_PUBLIC_FUNCTIONS_URL_HANDLE_GOOGLE_LOGIN,
-            handleEmailUrl: process.env.NEXT_PUBLIC_FUNCTIONS_URL_HANDLE_EMAIL_LOGIN,
+            verifyOtpUrl: process.env.NEXT_PUBLIC_FUNCTIONS_URL_VERIFY_OTP as string,
+            handleSpotifyLoginUrl: process.env.NEXT_PUBLIC_FUNCTIONS_URL_HANDLE_SPOTIFY_LOGIN as string,
+            handleGoogleUrl: process.env.NEXT_PUBLIC_FUNCTIONS_URL_HANDLE_GOOGLE_LOGIN as string,
+            handleEmailUrl: process.env.NEXT_PUBLIC_FUNCTIONS_URL_HANDLE_EMAIL_LOGIN as string,
         }
     }
     config = configSchema.parse(maybeConfig);

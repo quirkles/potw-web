@@ -10,7 +10,7 @@ import SpotifySvg from "@/components/Icons/Spotify.svg";
 import BG from "@/components/background/Background";
 import {COLORS} from "@/app/styles/colors";
 import {useSpotifyAuth} from "@/app/login/hooks";
-import {useEffect, useRef, useState} from "react";
+import {Suspense, useEffect, useRef, useState} from "react";
 import {useSearchParams, useRouter} from "next/navigation";
 import {safeGetLocalStorage} from "@/utils/localStorage";
 import StandaloneTextInput from "@/components/form/StandaloneTextInput";
@@ -34,7 +34,7 @@ const StyledLoginPage = styles.div`
     }
 `
 
-export default function Login() {
+function Login() {
     const router = useRouter()
     const params = useSearchParams()
     const [token, setToken] = useState<string | null>(safeGetLocalStorage("token"));
@@ -48,7 +48,7 @@ export default function Login() {
     useEffect(() => {
         const otp = params.get("otp")
         const codeVerifier = params.get("otpCodeVerifier")
-        if(otp && codeVerifier){
+        if (otp && codeVerifier) {
             let body = JSON.stringify({
                 otp,
                 codeVerifier
@@ -64,7 +64,7 @@ export default function Login() {
                 setOtp("")
                 return resp.json()
             }).then((data) => {
-                if (!data.token){
+                if (!data.token) {
                     throw new Error("No token")
                 }
                 localStorage.setItem("token", data.token);
@@ -120,7 +120,7 @@ export default function Login() {
     useEffect(() => {
         if (token) {
             router.push("/home")
-        } else if(getTokenPromise.current === null){
+        } else if (getTokenPromise.current === null) {
             // Check we are on the callback page and get the token if so.
             getTokenPromise.current = getTokenIfOnCallbackPage().then(accessToken => {
                 if (accessToken) {
@@ -166,36 +166,52 @@ export default function Login() {
             })
         },
     });
-    return <StyledLoginPage>
-        <BG>
-            <div className="buttons">
-                <div className="email">
-                    {
-                        waitingForToken ?
-                            <StandaloneTextInput onChange={setOtp} value={otp} hint="Enter Otp"/>
-                            : <StandaloneTextInput onChange={setEmail} value={email} hint="Enter email"/>
-                    }
-                    <IconButton onClick={waitingForToken ? handleOtp : handleEmail} Icon={LoginSvg}/>
-                </div>
-                <Button buttonText="Login with spotify" Icon={SpotifySvg}
-                        color={COLORS.green}
+    return (
+        <StyledLoginPage>
+            <BG>
+                <div className="buttons">
+                    <div className="email">
+                        {
+                            waitingForToken ?
+                                <StandaloneTextInput onChange={setOtp} value={otp}
+                                                     hint="Enter Otp"/>
+                                : <StandaloneTextInput onChange={setEmail}
+                                                       value={email}
+                                                       hint="Enter email"/>
+                        }
+                        <IconButton
+                            onClick={waitingForToken ? handleOtp : handleEmail}
+                            Icon={LoginSvg}/>
+                    </div>
+                    <Button buttonText="Login with spotify" Icon={SpotifySvg}
+                            color={COLORS.green}
+                            onClick={
+                                () => {
+                                    startLogin()
+                                }
+                            }
+                    />
+                    <Button
+                        buttonText="Login with google"
+                        Icon={GoogleSvg}
+                        color={COLORS.red}
                         onClick={
                             () => {
-                                startLogin()
+                                googleLogin()
                             }
                         }
-                />
-                <Button
-                    buttonText="Login with google"
-                    Icon={GoogleSvg}
-                    color={COLORS.red}
-                    onClick={
-                        () => {
-                            googleLogin()
-                        }
-                    }
-                />
-            </div>
-        </BG>
-    </StyledLoginPage>
+                    />
+                </div>
+            </BG>
+        </StyledLoginPage>
+    )
+
+}
+
+export default function LoginWithSuspense() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <Login/>
+        </Suspense>
+    )
 }
