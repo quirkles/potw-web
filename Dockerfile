@@ -29,7 +29,7 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 RUN echo "Using ENV_FILE: .env.${ENV_FILE}"
-COPY .env.${ENV_FILE} .
+COPY .env.${ENV_FILE} .env.local
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
   elif [ -f package-lock.json ]; then npm run build; \
