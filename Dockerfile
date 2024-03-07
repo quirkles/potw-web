@@ -1,4 +1,5 @@
 FROM node:20-alpine AS base
+ARG NODE_ENV=local
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -26,7 +27,7 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
-COPY .env.* ./
+COPY .env.$NODE_ENV ./.env.$NODE_ENV
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
   elif [ -f package-lock.json ]; then npm run build; \
@@ -36,7 +37,6 @@ RUN \
 
 # Production image, copy all the files and run next
 FROM base AS runner
-ARG NODE_ENV=local
 WORKDIR /app
 
 ENV NODE_ENV $NODE_ENV
