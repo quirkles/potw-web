@@ -2,7 +2,7 @@ steps:
   - id: 'decrypt secrets'
     name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
-    args: [ './scripts/decryptEnv.sh', '-e=${_TARGET_ENVIRONMENT}' ]
+    args: [ './scripts/decrypt_secrets.sh', '-e=${_TARGET_ENVIRONMENT}' ]
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
     args: [
