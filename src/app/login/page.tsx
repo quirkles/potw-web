@@ -33,7 +33,7 @@ const StyledLoginPage = styles.div`
         gap: 1em;
     }
 `
-
+const functionsUrl = getConfig().functionsUrl
 function Login() {
     const router = useRouter()
     const params = useSearchParams()
@@ -53,7 +53,7 @@ function Login() {
                 otp,
                 codeVerifier
             });
-            fetch(getConfig().functions.verifyOtpUrl, {
+            fetch(`${functionsUrl}/verifyOtp`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -80,7 +80,7 @@ function Login() {
         let body = JSON.stringify({
             email: email
         });
-        fetch(getConfig().functions.handleEmailUrl, {
+        fetch(`${functionsUrl}/handleEmailLogin`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -99,7 +99,7 @@ function Login() {
             otp: otp,
             codeVerifier: otpCodeVerifier
         });
-        fetch(getConfig().functions.verifyOtpUrl, {
+        fetch(`${functionsUrl}/verifyOtp`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

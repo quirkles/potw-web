@@ -1,15 +1,11 @@
 import z from "zod";
 
 const configSchema = z.object({
-    spotifyClientId: z.string(),
-    oauthRedirectUrl: z.string(),
-    functions: z.object({
-        verifyOtpUrl: z.string(),
-        handleSpotifyLoginUrl: z.string(),
-        handleGoogleUrl: z.string(),
-        handleEmailUrl: z.string(),
-    })
-});
+        spotifyClientId: z.string(),
+        oauthRedirectUrl: z.string(),
+        functionsUrl: z.string(),
+    }
+);
 
 type Config = z.infer<typeof configSchema>;
 
@@ -22,12 +18,7 @@ export function getConfig(): Config {
     const maybeConfig: Config = {
         spotifyClientId: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID as string,
         oauthRedirectUrl: process.env.NEXT_PUBLIC_OAUTH_REDIRECT_URI as string,
-        functions: {
-            verifyOtpUrl: process.env.NEXT_PUBLIC_FUNCTIONS_URL_VERIFY_OTP as string,
-            handleSpotifyLoginUrl: process.env.NEXT_PUBLIC_FUNCTIONS_URL_HANDLE_SPOTIFY_LOGIN as string,
-            handleGoogleUrl: process.env.NEXT_PUBLIC_FUNCTIONS_URL_HANDLE_GOOGLE_LOGIN as string,
-            handleEmailUrl: process.env.NEXT_PUBLIC_FUNCTIONS_URL_HANDLE_EMAIL_LOGIN as string,
-        }
+        functionsUrl: process.env.NEXT_PUBLIC_FUNCTIONS_URL as string,
     }
     config = configSchema.parse(maybeConfig);
     return config;
