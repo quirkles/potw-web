@@ -1,5 +1,6 @@
 'use client';
 import styled from "styled-components"
+import {D, F, S} from '@mobily/ts-belt'
 import {
     ComponentType,
     HTMLAttributes,
@@ -7,11 +8,42 @@ import {
 import {Color, COLORS} from "@/app/styles/colors";
 import {hexToRgbA} from "@/utils/color";
 
-const StyledButton = styled.button<{$hasIcon: boolean, $color: Color}>`
+export const ButtonSize = {
+    sm: 'sm',
+    med: 'med',
+    lg: 'lg',
+} as const;
+
+type ButtonSize = typeof ButtonSize[keyof typeof ButtonSize];
+
+const getSizes = F.memoizeWithKey(S.make, (size: ButtonSize) => {
+    const base = {
+        verticalPadding: 0.35,
+        horizontalPadding: 1.2,
+        withIconPadding: 3.3,
+        fontsize: 17,
+        height: 2.8,
+        iconHeight: 2.2,
+        iconWidth: 2.2,
+        iconPadding: 0.5
+    }
+    let factor = 1;
+    switch (size) {
+        case ButtonSize.sm:
+            factor = 0.8;
+            break;
+        case ButtonSize.lg:
+            factor = 1.5;
+            break;
+    }
+    return D.map(base, (v) => v * factor)
+})
+
+const StyledButton = styled.button<{$hasIcon: boolean, $color: Color, $size: ButtonSize}>`
     background: ${props => props.$color};
     color: white;
     font-family: inherit;
-    font-size: 17px;
+    font-size: ${props => getSizes(props.$size).fontsize}px;
     font-weight: 500;
     border-radius: 0.9em;
     border: none;
@@ -21,8 +53,8 @@ const StyledButton = styled.button<{$hasIcon: boolean, $color: Color}>`
     box-shadow: inset 0 0 1.6em -0.6em ${props => props.$color};
     overflow: hidden;
     position: relative;
-    height: 2.8em;
-    padding: 0.35em ${props => props.$hasIcon ? "3.3" : "1.2"}em 0.35em 1.2em;
+    height: ${props => getSizes(props.$size).height}em;
+    padding: ${props => getSizes(props.$size).verticalPadding}em ${props => props => getSizes(props.$size)[props.$hasIcon ? 'withIconPadding': 'horizontalPadding']}em ${props => getSizes(props.$size).verticalPadding}em ${props => getSizes(props.$size).horizontalPadding}em;
     cursor: pointer;
 
     .icon {
@@ -33,13 +65,13 @@ const StyledButton = styled.button<{$hasIcon: boolean, $color: Color}>`
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 2.2em;
-        width: ${(props) => props.$hasIcon ? 2.2 : 0}em;
+        height: ${props => getSizes(props.$size).iconHeight}em;
+        width: ${(props) => props.$hasIcon ? getSizes(props.$size).iconWidth : 0}em;
         border-radius: 0.7em;
         box-shadow: 0.1em 0.1em 0.6em 0.2em ${props => props.$color};
         right: 0.3em;
         transition: all 0.3s;
-        padding: ${props => props.$hasIcon ? 0.5 : 0}em;
+        padding: ${props => props.$hasIcon ? getSizes(props.$size).iconPadding : 0}em;
         .icon svg {
             width: 1.1em;
             transition: transform 0.3s;
@@ -63,14 +95,22 @@ interface ButtonProps extends HTMLAttributes<HTMLButtonElement>{
     buttonText: string;
     Icon?: ComponentType,
     color?: Color
+    size?: ButtonSize
 }
 
 export default function Button(props: ButtonProps) {
-    const {color = COLORS.blue, Icon, buttonText, ...rest} = props
+    const {
+        color = COLORS.blue,
+        Icon,
+        buttonText,
+        size = ButtonSize.med,
+        ...rest
+    } = props
     return (
         <StyledButton
             $hasIcon={Boolean(Icon)}
             $color={color}
+            $size={size}
             {...rest}
         >
             {buttonText}

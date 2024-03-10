@@ -11,11 +11,11 @@ const StyledMain = styled.main``
 
 export default function Home() {
     const [token, setToken] = useState<string | null>(safeGetLocalStorage("token"));
-    const [decoded, setDecoded] = useState<JwtPayload | null>(null)
+    const [decoded, setDecoded] = useState<Record<string, string> | null>(null)
     const router = useRouter();
     useEffect(() => {
         if (token) {
-            const decoded = jwtDecode(token);
+            const decoded = jwtDecode<{email: string}>(token);
             setDecoded(decoded);
         } else {
             router.push("/login")
@@ -27,8 +27,7 @@ export default function Home() {
     }
     return (
         <StyledMain>
-           <Header handleLogout={handleLogout}></Header>
-            <code>{JSON.stringify(decoded||{}, null, 2)}</code>
+           <Header handleLogout={handleLogout} email={decoded?.email || ""}></Header>
         </StyledMain>
     );
 }
