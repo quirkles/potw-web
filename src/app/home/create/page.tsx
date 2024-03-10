@@ -19,7 +19,7 @@ const Styled = styled.div`
 export default function Create() {
     let router = useRouter();
     const goBack = () => {
-        router.back()
+        router.push("/home/welcome")
     }
     return (
         <RouteWrapper>

@@ -2,17 +2,12 @@
 
 import styled from "styled-components";
 
-import RouteWrapper from "@/components/routeWrapper/RouteWrapper";
+import {useRouter} from "next/navigation";
 
 const Styled = styled.div`
 `
 
 export default function Home() {
-    return (
-        <RouteWrapper>
-            <Styled>
-                Home view
-            </Styled>
-        </RouteWrapper>
-    )
+    const router = useRouter()
+    router.push("home/welcome")
 }
