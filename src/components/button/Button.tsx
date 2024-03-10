@@ -3,10 +3,12 @@ import styled from "styled-components"
 import {D, F, S} from '@mobily/ts-belt'
 import {
     ComponentType,
-    HTMLAttributes,
+    HTMLAttributes, PropsWithChildren,
 } from "react";
 import {Color, COLORS} from "@/app/styles/colors";
 import {hexToRgbA} from "@/utils/color";
+import {func} from "prop-types";
+import Link from "next/link";
 
 export const ButtonSize = {
     sm: 'sm',
@@ -93,9 +95,10 @@ const StyledButton = styled.button<{$hasIcon: boolean, $color: Color, $size: But
 
 interface ButtonProps extends HTMLAttributes<HTMLButtonElement>{
     buttonText: string;
-    Icon?: ComponentType,
-    color?: Color
-    size?: ButtonSize
+    Icon?: ComponentType;
+    color?: Color;
+    size?: ButtonSize;
+    route?: string;
 }
 
 export default function Button(props: ButtonProps) {
@@ -103,6 +106,7 @@ export default function Button(props: ButtonProps) {
         color = COLORS.blue,
         Icon,
         buttonText,
+        route,
         size = ButtonSize.med,
         ...rest
     } = props
@@ -113,10 +117,33 @@ export default function Button(props: ButtonProps) {
             $size={size}
             {...rest}
         >
-            {buttonText}
-            {
-                <div className="icon">{props.Icon ? <props.Icon/> : props.buttonText }</div>
-            }
+            <Wrapper route={route}>
+                {buttonText}
+                {
+                    <div className="icon">{props.Icon ? <props.Icon/> : props.buttonText }</div>
+                }
+            </Wrapper>
         </StyledButton>
     );
+}
+
+function Wrapper(props: PropsWithChildren<{
+    route?: string;
+}>){
+    let style = {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%'
+    };
+    return props.route ? (
+        <Link href={props.route} style={style}>
+            {props.children}
+        </Link>
+        ):
+        (
+        <div style={style}>
+            {props.children}
+        </div>
+    )
 }

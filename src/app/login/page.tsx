@@ -4,8 +4,8 @@ import {useGoogleLogin} from '@react-oauth/google';
 import styles from 'styled-components'
 
 import Button from "@/components/button/Button";
-import GoogleSvg from "@/components/Icons/Google.svg";
-import SpotifySvg from "@/components/Icons/Spotify.svg";
+import GoogleSvg from "@/components/icons/Google.svg";
+import SpotifySvg from "@/components/icons/Spotify.svg";
 
 import BG from "@/components/background/Background";
 import {COLORS} from "@/app/styles/colors";
@@ -15,7 +15,7 @@ import {useSearchParams, useRouter} from "next/navigation";
 import {safeGetLocalStorage} from "@/utils/localStorage";
 import StandaloneTextInput from "@/components/form/StandaloneTextInput";
 import IconButton from "@/components/button/IconButton";
-import LoginSvg from "@/components/Icons/Login.svg";
+import LoginSvg from "@/components/icons/Login.svg";
 import {getConfig} from "@/config";
 
 const StyledLoginPage = styles.div`
@@ -137,6 +137,7 @@ function Login() {
                         if (response.status === 200) {
                             response.json().then(data => {
                                 localStorage.setItem("token", data.token);
+                                localStorage.setItem("token", data.token);
                                 setToken(data.token)
                             });
                         }
@@ -144,7 +145,7 @@ function Login() {
                 }
             });
         }
-    })
+    }, [token, getTokenIfOnCallbackPage, router])
     const googleLogin = useGoogleLogin({
         onSuccess: tokenResponse => {
             let body = JSON.stringify({
