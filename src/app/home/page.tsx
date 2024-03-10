@@ -1,13 +1,12 @@
 'use client'
 
-import styled from "styled-components";
-
 import {useRouter} from "next/navigation";
-
-const Styled = styled.div`
-`
+import {useEffect} from "react";
 
 export default function Home() {
     const router = useRouter()
-    router.push("home/welcome")
+    useEffect(() => {
+        router.push("home/welcome")
+    });
+    return (<div/>)
 }
