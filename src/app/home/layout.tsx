@@ -21,6 +21,9 @@ const StyledMain = styled.main`
         }
         flex-grow: 1;
     }
+    .router-outlet {
+        position: relative;
+    }
 `
 
 export default function Home(props: PropsWithChildren<{}>) {
@@ -42,7 +45,11 @@ export default function Home(props: PropsWithChildren<{}>) {
     return (
         <StyledMain>
            <Header handleLogout={handleLogout} email={decoded?.email || ""}></Header>
-            {props.children}
+            <div className="router-outlet">
+                <Spacer $padding={SIZE.medium}>
+                    {props.children}
+                </Spacer>
+            </div>
         </StyledMain>
     );
 }
