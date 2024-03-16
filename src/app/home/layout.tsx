@@ -1,15 +1,20 @@
 'use client'
 import {PropsWithChildren, useEffect, useState} from "react";
-
-import { jwtDecode, JwtPayload } from "jwt-decode";
-import styled from 'styled-components'
-import Header from "@/components/header/Header";
 import {useRouter} from "next/navigation";
-import {safeGetLocalStorage} from "@/utils/localStorage";
-import {COLORS} from "@/app/styles/colors";
-import Button from "@/components/button/Button";
+
+import { jwtDecode } from "jwt-decode";
+import styled from 'styled-components'
+
+import {useAppDispatch, useAppSelector} from "@/app/store/hooks";
+import {
+    authUserSelectors,
+    initializeAuthUser
+} from "@/app/store/reducers/authUserReducer";
+
+import Header from "@/components/header/Header";
 import {SIZE, Spacer} from "@/components/spacer/Spacer";
-import {MusicSvg} from "@/components/icons";
+
+import {safeGetLocalStorage} from "@/utils/localStorage";
 
 const StyledMain = styled.main`
     height: 100%;
@@ -26,10 +31,12 @@ const StyledMain = styled.main`
     }
 `
 
-export default function Home(props: PropsWithChildren<{}>) {
+function Home(props: PropsWithChildren<{}>) {
     const [token, setToken] = useState<string | null>(safeGetLocalStorage("token"));
     const [decoded, setDecoded] = useState<Record<string, string> | null>(null)
     const router = useRouter();
+    const dispatch  = useAppDispatch();
+    const authUser = useAppSelector(authUserSelectors.getAuthUser);
     useEffect(() => {
         if (token) {
             const decoded = jwtDecode<{email: string}>(token);
@@ -38,13 +45,18 @@ export default function Home(props: PropsWithChildren<{}>) {
             router.push("/login")
         }
     }, [token, router]);
+    useEffect(() => {
+        if(token) {
+            dispatch(initializeAuthUser(jwtDecode(token as string)));
+        }
+    }, [token, dispatch])
     const handleLogout = () => {
         localStorage.removeItem("token");
         setToken(null);
     }
     return (
         <StyledMain>
-           <Header handleLogout={handleLogout} email={decoded?.email || ""}></Header>
+           <Header handleLogout={handleLogout} email={authUser?.email || ""}></Header>
             <div className="router-outlet">
                 <Spacer $padding={SIZE.medium}>
                     {props.children}
@@ -53,3 +65,11 @@ export default function Home(props: PropsWithChildren<{}>) {
         </StyledMain>
     );
 }
+
+export default function WrappedHome (props: PropsWithChildren<{}>) {
+    return (
+            <Home>
+                {props.children}
+            </Home>
+    );
+};

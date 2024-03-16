@@ -127,7 +127,7 @@ function Login() {
                     let body = JSON.stringify({
                         token: accessToken
                     });
-                    fetch("https://handlespotifylogin-47ow7eeefq-uc.a.run.app", {
+                    fetch(`${functionsUrl}/handleSpotifyLogin`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -151,7 +151,7 @@ function Login() {
             let body = JSON.stringify({
                 token: tokenResponse.access_token
             });
-            fetch("https://handlegooglelogin-47ow7eeefq-uc.a.run.app", {
+            fetch(`${functionsUrl}/handleGoogleLogin`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

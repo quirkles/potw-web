@@ -5,7 +5,7 @@ import {COLORS} from "@/app/styles/colors";
 const StyledWrapper = styled.div<{
     $isEditing: boolean;
 }>`
-    display: flex;
+    display: inline-block;
     position: relative;
     line-height: 1em;
     border-bottom: 1px dashed ${(props) => COLORS[props.$isEditing ? 'green': 'blue']};

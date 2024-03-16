@@ -3,6 +3,9 @@
 import styled from "styled-components";
 import {useRouter} from "next/navigation";
 import {SIZE, Spacer} from "@/components/spacer/Spacer";
+import Heading from "@/components/heading/Heading";
+import TextEditable from "@/components/form/TextEditable";
+import {useState} from "react";
 
 const Styled = styled.div`
     .close {
@@ -17,6 +20,7 @@ const Styled = styled.div`
 
 export default function Create() {
     let router = useRouter();
+    const [gameName, setGameName] = useState("Newgame");
     const goBack = () => {
         router.push("/home/welcome")
     }
@@ -25,9 +29,12 @@ export default function Create() {
                 <div className="close" onClick={goBack}>
                         X
                 </div>
-                <h1>
-                    Create Game
-                </h1>
+                <Heading variant="h1">
+                    Create A New Game
+                </Heading>
+                <p>
+                    My new game will be called <TextEditable text={gameName} onChange={setGameName}/>
+                </p>
             </Styled>
     )
 }

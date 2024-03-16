@@ -21,5 +21,6 @@ export function getConfig(): Config {
         functionsUrl: process.env.NEXT_PUBLIC_FUNCTIONS_URL as string,
     }
     config = configSchema.parse(maybeConfig);
+    console.log('\n####\n',config ,'\n####\n')
     return config;
 }
