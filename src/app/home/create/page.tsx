@@ -5,7 +5,8 @@ import {useRouter} from "next/navigation";
 import {SIZE, Spacer} from "@/components/spacer/Spacer";
 import Heading from "@/components/heading/Heading";
 import TextEditable from "@/components/form/TextEditable";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {faker} from "@faker-js/faker";
 
 const Styled = styled.div`
     .close {
@@ -20,7 +21,12 @@ const Styled = styled.div`
 
 export default function Create() {
     let router = useRouter();
-    const [gameName, setGameName] = useState("Newgame");
+    const [gameName, setGameName] = useState("");
+
+    useEffect(() => {
+        let s = `${faker.color.human()}-${faker.animal.type()}-${faker.location.country()}`.toLowerCase().replace(/\s/g, '-').replace(/,/g, '');
+        setGameName(s);
+    }, []);
     const goBack = () => {
         router.push("/home/welcome")
     }
@@ -32,9 +38,10 @@ export default function Create() {
                 <Heading variant="h1">
                     Create A New Game
                 </Heading>
-                <p>
+                <Spacer $paddingY="small"/>
+                <div>
                     My new game will be called <TextEditable text={gameName} onChange={setGameName}/>
-                </p>
+                </div>
             </Styled>
     )
 }

@@ -1,3 +1,5 @@
+'use client'
+
 import {useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 import {COLORS} from "@/app/styles/colors";
@@ -25,7 +27,6 @@ const StyledWrapper = styled.div<{
         outline: none;
     }
     >span {
-        padding: 0 7px 0 0;
         font-style: italic;
         color: ${COLORS.grey}
     }
@@ -55,6 +56,10 @@ export default function TextEditable(props: TextEditableProps) {
             spanRef.current.size = Math.max(localText.length, 1);
         }
     }, [localText, isEditing]);
+    useEffect(() => {
+        setLocalText(text);
+    }, [text]);
+    console.log('\n####\n','text', text ,'\n####\n')
     return (
         <StyledWrapper $isEditing={isEditing}>
             {isEditing ?
