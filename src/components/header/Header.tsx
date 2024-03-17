@@ -16,6 +16,7 @@ const StyledHeader = styled.header`
         height: 100%;
         flex-grow: 1;
         align-items: center;
+        gap: 1em;
     }
     .left {
         justify-content: flex-start;
@@ -50,9 +51,9 @@ export default function Header(props: HeaderProps) {
         <StyledHeader>
             <div className="left">{props.email}</div>
             <div className="middle">
-                <Button buttonText="New Game" color={COLORS.green} Icon={MusicSvg} route='/home/create' size={ButtonSize.sm}></Button>
             </div>
             <div className="right">
+                <Button buttonText="New Game" color={COLORS.green} Icon={MusicSvg} route='/home/create' size={ButtonSize.sm}></Button>
                 <Button buttonText={"Logout"} onClick={props.handleLogout} Icon={LogoutSvg} size={ButtonSize.sm}></Button>
             </div>
         </StyledHeader>

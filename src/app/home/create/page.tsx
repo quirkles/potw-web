@@ -10,11 +10,13 @@ import {faker} from "@faker-js/faker";
 import Checkbox from "@/components/form/Checkbox";
 import {COLORS} from "@/app/styles/colors";
 import {FlexBox} from "@/components/layout/Flexbox";
+import P from "@/components/text/P";
 
 const Styled = styled.div`
-    background-color: ${COLORS.lightGrey};
+    background-color: ${COLORS.white};
     color: ${COLORS.black};
     height: 100%;
+
     .close {
         position: absolute;
         top: 2em;
@@ -38,31 +40,33 @@ export default function Create() {
         router.push("/home/welcome")
     }
     return (
-            <Styled>
-        <Spacer $padding="medium">
+        <Styled>
+            <Spacer $padding="medium">
                 <div className="close" onClick={goBack}>
-                        X
+                    X
                 </div>
                 <Heading variant="h1">
                     Create A New Game
                 </Heading>
                 <Spacer $paddingY="small"/>
                 <div>
-                    My new game will be called <TextEditable text={gameName} onChange={setGameName}/>
+                    My new game will be called <TextEditable text={gameName}
+                                                             onChange={setGameName}/>
                 </div>
                 <Spacer $paddingY="small"/>
                 <div>
                     <FlexBox $alignItems="center" $gap="small">
-                        <Checkbox checked={isPrivate} onChange={(e) => { 
+                        <Checkbox checked={isPrivate} onChange={(e) => {
                             setIsPrivate(e)
                         }}/>
-                        <p>{isPrivate ? 'Private' : 'Public'} Game</p>
+                        <P $fontWeight="bold">{isPrivate ? 'Private' : 'Public'} Game</P>
                     </FlexBox>
                 </div>
                 <small>
-                    The game will be {isPrivate ? 'private' : 'public'}, {isPrivate ? 'I will invite players to join' : 'players can request to join freely.'}
+                    The game will
+                    be {isPrivate ? 'private' : 'public'}, {isPrivate ? 'I will invite players to join' : 'players can request to join freely.'}
                 </small>
-        </Spacer>
-            </Styled>
+            </Spacer>
+        </Styled>
     )
 }
