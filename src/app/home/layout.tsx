@@ -12,7 +12,6 @@ import {
 } from "@/app/store/reducers/authUserReducer";
 
 import Header from "@/components/header/Header";
-import {SIZE, Spacer} from "@/components/spacer/Spacer";
 
 import {safeGetLocalStorage} from "@/utils/localStorage";
 
@@ -58,9 +57,7 @@ function Home(props: PropsWithChildren<{}>) {
         <StyledMain>
            <Header handleLogout={handleLogout} email={authUser?.email || ""}></Header>
             <div className="router-outlet">
-                <Spacer $padding={SIZE.medium}>
-                    {props.children}
-                </Spacer>
+                {props.children}
             </div>
         </StyledMain>
     );

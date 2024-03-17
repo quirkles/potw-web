@@ -25,10 +25,10 @@ const StyledWrapper = styled.div<{
         padding-inline: 0;
         border: none;
         outline: none;
+        background-color: transparent;
     }
     >span {
         font-style: italic;
-        color: ${COLORS.grey}
     }
 `
 
@@ -47,19 +47,23 @@ export default function TextEditable(props: TextEditableProps) {
     const [localText, setLocalText] = useState<string>(text);
     const [isEditing, setIsEditing] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
-    const spanRef = useRef<HTMLInputElement>(null);
+    const spanRef = useRef<HTMLSpanElement>(null);
+    const isFirstClick = useRef(true);
     useEffect(() => {
         if (inputRef.current) {
             inputRef.current.size = Math.max(localText.length, 1);
-        }
-        if (spanRef.current) {
-            spanRef.current.size = Math.max(localText.length, 1);
         }
     }, [localText, isEditing]);
     useEffect(() => {
         setLocalText(text);
     }, [text]);
-    console.log('\n####\n','text', text ,'\n####\n')
+    useEffect(() => {
+        inputRef.current?.focus();
+        if (isEditing && isFirstClick.current) {
+            isFirstClick.current = false;
+            inputRef.current?.select();
+        }
+    }, [isEditing]);
     return (
         <StyledWrapper $isEditing={isEditing}>
             {isEditing ?
@@ -80,10 +84,8 @@ export default function TextEditable(props: TextEditableProps) {
                         setIsEditing(false)
                         onBlur(localText);
                     }}
-                    autoFocus
-                /> : <span onClick={() => {
+                /> : <span ref={spanRef} onClick={() => {
                     setIsEditing(true);
-                    inputRef.current?.focus();
                 }}>{localText}</span>
             }
         </StyledWrapper>

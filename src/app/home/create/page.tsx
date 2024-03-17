@@ -2,13 +2,19 @@
 
 import styled from "styled-components";
 import {useRouter} from "next/navigation";
-import {SIZE, Spacer} from "@/components/spacer/Spacer";
+import {Spacer} from "@/components/spacer/Spacer";
 import Heading from "@/components/heading/Heading";
 import TextEditable from "@/components/form/TextEditable";
 import {useEffect, useState} from "react";
 import {faker} from "@faker-js/faker";
+import Checkbox from "@/components/form/Checkbox";
+import {COLORS} from "@/app/styles/colors";
+import {FlexBox} from "@/components/layout/Flexbox";
 
 const Styled = styled.div`
+    background-color: ${COLORS.lightGrey};
+    color: ${COLORS.black};
+    height: 100%;
     .close {
         position: absolute;
         top: 2em;
@@ -22,9 +28,10 @@ const Styled = styled.div`
 export default function Create() {
     let router = useRouter();
     const [gameName, setGameName] = useState("");
+    const [isPrivate, setIsPrivate] = useState(false);
 
     useEffect(() => {
-        let s = `${faker.color.human()}-${faker.animal.type()}-${faker.location.country()}`.toLowerCase().replace(/\s/g, '-').replace(/,/g, '');
+        let s = `${faker.color.human()}-${faker.commerce.product()}-${faker.science.chemicalElement().name}`.toLowerCase().replace(/\s/g, '-').replace(/,/g, '');
         setGameName(s);
     }, []);
     const goBack = () => {
@@ -32,6 +39,7 @@ export default function Create() {
     }
     return (
             <Styled>
+        <Spacer $padding="medium">
                 <div className="close" onClick={goBack}>
                         X
                 </div>
@@ -42,6 +50,19 @@ export default function Create() {
                 <div>
                     My new game will be called <TextEditable text={gameName} onChange={setGameName}/>
                 </div>
+                <Spacer $paddingY="small"/>
+                <div>
+                    <FlexBox $alignItems="center" $gap="small">
+                        <Checkbox checked={isPrivate} onChange={(e) => { 
+                            setIsPrivate(e)
+                        }}/>
+                        <p>{isPrivate ? 'Private' : 'Public'} Game</p>
+                    </FlexBox>
+                </div>
+                <small>
+                    The game will be {isPrivate ? 'private' : 'public'}, {isPrivate ? 'I will invite players to join' : 'players can request to join freely.'}
+                </small>
+        </Spacer>
             </Styled>
     )
 }
