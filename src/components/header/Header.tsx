@@ -8,7 +8,11 @@ const StyledHeader = styled.header`
     flex-direction: row;
     height: 4em;
     padding: 0 2em;
-    background-image: linear-gradient(to right top, #ffd166, #ffb952, #ffa043, #ff863b, #ff683a, #ff5048, #ff3458, #ff006a, #ff008c, #f800b1, #e42bd8, #c04cfd);
+    background-image: linear-gradient(
+            to right top,
+            ${COLORS.blue},
+            ${COLORS.black}
+    );
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
     > div {
@@ -44,12 +48,12 @@ const StyledHeader = styled.header`
 
 interface HeaderProps {
     handleLogout: () => void;
-    email: string;
+    username: string;
 }
 export default function Header(props: HeaderProps) {
     return (
         <StyledHeader>
-            <div className="left">{props.email}</div>
+            <div className="left">{props.username}</div>
             <div className="middle">
             </div>
             <div className="right">

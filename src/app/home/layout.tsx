@@ -55,7 +55,7 @@ function Home(props: PropsWithChildren<{}>) {
     }
     return (
         <StyledMain>
-           <Header handleLogout={handleLogout} email={authUser?.email || ""}></Header>
+           <Header handleLogout={handleLogout} username={authUser?.email?.replace(/@.*$/, "") || ""}></Header>
             <div className="router-outlet">
                 {props.children}
             </div>
