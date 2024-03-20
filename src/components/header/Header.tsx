@@ -1,7 +1,10 @@
 import styled from 'styled-components'
+import Link from "next/link";
+
 import Button, {ButtonSize} from "@/components/button/Button";
-import {COLORS} from "@/app/styles/colors";
 import {LogoutSvg, MusicSvg} from "@/components/icons";
+
+import {COLORS} from "@/app/styles/colors";
 
 const StyledHeader = styled.header`
     display: flex;
@@ -48,12 +51,15 @@ const StyledHeader = styled.header`
 
 interface HeaderProps {
     handleLogout: () => void;
-    username: string;
+    user:{
+        username: string;
+        sqlId: string;
+    }
 }
 export default function Header(props: HeaderProps) {
     return (
         <StyledHeader>
-            <div className="left">{props.username}</div>
+            <div className="left"><Link href={`/home/user/${props.user.sqlId}`}>{props.user.username}</Link></div>
             <div className="middle">
             </div>
             <div className="right">

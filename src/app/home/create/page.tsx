@@ -36,6 +36,10 @@ const Styled = styled.div`
     }
 `
 
+function getFakeGameName() {
+    return `${faker.color.human()}-${faker.commerce.product()}-${faker.science.chemicalElement().name}`.toLowerCase().replace(/\s/g, '-').replace(/,/g, '');
+}
+
 export default function Create() {
     let router = useRouter();
 
@@ -45,8 +49,7 @@ export default function Create() {
 
 
     useEffect(() => {
-        const initialName = `${faker.color.human()}-${faker.commerce.product()}-${faker.science.chemicalElement().name}`.toLowerCase().replace(/\s/g, '-').replace(/,/g, '');
-        dispatch(updateNewGame({name: initialName, isPrivate: false}));
+        dispatch(updateNewGame({name: getFakeGameName(), isPrivate: false}));
     }, [dispatch]);
     const goBack = () => {
         router.push("/home/welcome")
@@ -98,7 +101,9 @@ export default function Create() {
                 <Button buttonText="Create" onClick={() => authUser?.sqlId && dispatch(createGame({
                     ...newGame,
                     adminId: authUser.sqlId
-                }))}/>
+                })).then(() => {
+                    dispatch(updateNewGame({name: getFakeGameName()}))
+                })}/>
             </Spacer>
         </Styled>
     )
