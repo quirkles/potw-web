@@ -1,16 +1,16 @@
 import {createAppSlice} from "@/app/store/createAppSlice";
 import {fetchUserByIdRequest} from "@/app/services/user/fetchUserById";
 
-type TUser = {
-    sqlId?: string,
-    firestoreId?: string,
-    email?: string,
-    username?: string,
-    isFetching?: boolean,
-    error?: string,
+export type TUser = {
+    sqlId: string | null,
+    firestoreId: string | null,
+    email: string | null,
+    username: string | null,
+    isFetching: boolean | null,
+    error: string | null,
 }
 
-type TUsersState = {
+export type TUsersState = {
     users: {
         [sqlId: string]: TUser,
     }
@@ -29,16 +29,25 @@ export const usersSlice = createAppSlice({
             {
                 pending: (state, action) => {
                     state.users[action.meta.arg] = {
-                        isFetching: true
+                        ...state.users[action.meta.arg] || {},
+                        isFetching: true,
+                        error: null
+
                     }
                 },
                 fulfilled: (state, action) => {
-                    state.users[action.payload.sqlId] = action.payload;
+                    state.users[action.payload.sqlId] = {
+                        ...[action.payload.sqlId] || {},
+                        ...action.payload,
+                        isFetching: false,
+                        error: null
+                    };
                 },
                 rejected: (state, action) => {
                     state.users[action.meta.arg] = {
+                        ...state.users[action.meta.arg] || {},
                         isFetching: false,
-                        error: action.error.message
+                        error: action.error.message || 'Unknown error'
                     }
                 },
             },
@@ -52,7 +61,7 @@ export const { fetchUserById } = usersSlice.actions
 export default usersSlice.reducer
 
 export const usersSelectors = {
-    getUserBySqlId: (state: {usersState: TUsersState}, sqlId: string): TUser => {
-        return state.usersState.users[sqlId];
+    getUserBySqlId: (state: {usersState: TUsersState}, sqlId: string): TUser | null => {
+        return state.usersState.users[sqlId] || null
     }
 } as const

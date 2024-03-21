@@ -2,6 +2,7 @@
 
 import {safeGetLocalStorage, safeSetLocalStorage} from "@/utils/localStorage";
 import {getConfig} from "@/config";
+import {useState} from "react";
 
 const generateRandomString = (length: number): string => {
     const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -28,15 +29,23 @@ const authUrl = new URL("https://accounts.spotify.com/authorize")
 const tokenUrl = new URL("https://accounts.spotify.com/api/token")
 
 
-export function useSpotifyAuth() {
+export function useSpotifyAuth(): [
+    () => void,
+    () => Promise<null | string>,
+    boolean
+] {
     const search = typeof window !== "undefined" ?  window.location.search : '';
     const urlParams = new URLSearchParams(search);
     let code = urlParams.get('code');
     const codeVerifierFromStorage = safeGetLocalStorage('code_verifier');
+
+    const [isOnCallbackPage, setIsOnCallbackPage] = useState(Boolean(codeVerifierFromStorage && code));
     const getTokenIfOnCallbackPage = async (): Promise<null | string> => {
         if(!codeVerifierFromStorage || !code) {
+            setIsOnCallbackPage(false)
             return null;
         }
+        setIsOnCallbackPage(true)
         const payload = {
             method: 'POST',
             headers: {
@@ -73,5 +82,5 @@ export function useSpotifyAuth() {
         authUrl.search = new URLSearchParams(params).toString();
         window.location.href = authUrl.toString();
     }
-    return [initiateLogin, getTokenIfOnCallbackPage]
+    return [initiateLogin, getTokenIfOnCallbackPage, isOnCallbackPage]
 }

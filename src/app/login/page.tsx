@@ -17,6 +17,7 @@ import StandaloneTextInput from "@/components/form/StandaloneTextInput";
 import IconButton from "@/components/button/IconButton";
 import LoginSvg from "@/components/icons/Login.svg";
 import {getConfig} from "@/config";
+import {Loader} from "@/components/loader/Loader";
 
 const StyledLoginPage = styles.div`
     height: 100vh;
@@ -37,18 +38,24 @@ const functionsUrl = getConfig().functionsUrl
 function Login() {
     const router = useRouter()
     const params = useSearchParams()
+
+    const [startLogin, getTokenIfOnCallbackPage, isOnCallbackPage] = useSpotifyAuth();
+
     const [token, setToken] = useState<string | null>(safeGetLocalStorage("token"));
-    const [startLogin, getTokenIfOnCallbackPage] = useSpotifyAuth();
     const [email, setEmail] = useState<string>("");
     const [otp, setOtp] = useState<string>("");
     const [otpCodeVerifier, setOtpCodeVerifier] = useState<string>("");
     const [waitingForToken, setWaitingForToken] = useState<boolean>(false);
-    const getTokenPromise = useRef<null | Promise<unknown>>(null)
+    const [isHandlingAuthCallback, setIsHandlingAuthCallback] = useState<boolean | null>(
+        isOnCallbackPage, //from spotify
+    );
 
+    const getTokenPromise = useRef<null | Promise<unknown>>(null)
     useEffect(() => {
         const otp = params.get("otp")
         const codeVerifier = params.get("otpCodeVerifier")
         if (otp && codeVerifier) {
+            setIsHandlingAuthCallback(true)
             let body = JSON.stringify({
                 otp,
                 codeVerifier
@@ -148,6 +155,7 @@ function Login() {
     }, [token, getTokenIfOnCallbackPage, router])
     const googleLogin = useGoogleLogin({
         onSuccess: tokenResponse => {
+            setIsHandlingAuthCallback(true)
             let body = JSON.stringify({
                 token: tokenResponse.access_token
             });
@@ -167,7 +175,7 @@ function Login() {
             })
         },
     });
-    return (
+    return isHandlingAuthCallback ? <Loader/> : (
         <StyledLoginPage>
             <BG>
                 <div className="buttons">
