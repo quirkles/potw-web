@@ -98,6 +98,19 @@ export default function Create() {
                     be {newGame.isPrivate ? 'private' : 'public'}, {newGame.isPrivate ? 'I will invite players to join' : 'players can request to join freely.'}
                 </small>
                 <Spacer $paddingY="small"/>
+                <div>
+                    <FlexBox $alignItems="center" $gap="small">
+                        <Checkbox
+                            checked={newGame.addAdminAsPlayer} onChange={(e) => {
+                            dispatch(updateNewGame({addAdminAsPlayer: e}))
+                        }}/>
+                        <P $fontWeight="bold">{newGame.addAdminAsPlayer ? 'Include me' : 'Don\'t include me'}</P>
+                    </FlexBox>
+                </div>
+                <small>
+                    {newGame.addAdminAsPlayer ? 'A' : 'Don\'t a'}dd me as a player to this game.
+                </small>
+                <Spacer $paddingY="small"/>
                 <Button buttonText="Create" onClick={() => authUser?.sqlId && dispatch(createGame({
                     ...newGame,
                     adminId: authUser.sqlId

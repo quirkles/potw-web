@@ -13,6 +13,7 @@ type TGame = {
 
 type TNewGame = Omit<TGame, "id" | "adminId"> & {
     status: "unsaved" | "pendingCreate" | "failed",
+    addAdminAsPlayer: boolean,
 }
 
 type TGameState = {
@@ -27,7 +28,8 @@ export const gameSlice = createAppSlice({
         newGame: {
             name: "",
             isPrivate: false,
-            status: "unsaved"
+            status: "unsaved",
+            addAdminAsPlayer: true,
         }
     } as TGameState,
     reducers: (create) => ({
@@ -46,7 +48,8 @@ export const gameSlice = createAppSlice({
                     state.newGame = {
                         name: "",
                         isPrivate: false,
-                        status: "unsaved"
+                        status: "unsaved",
+                        addAdminAsPlayer: true,
                     };
                 },
                 rejected: (state) => {
