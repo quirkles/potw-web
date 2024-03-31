@@ -20,6 +20,7 @@ import {
     updateNewGame
 } from "@/app/store/reducers/gamesReducer";
 import {authUserSelectors} from "@/app/store/reducers/authUserReducer";
+import Datepicker from "@/components/form/Datepicker";
 
 const Styled = styled.div`
     background-color: ${COLORS.white};
@@ -110,6 +111,9 @@ export default function Create() {
                 <small>
                     {newGame.addAdminAsPlayer ? 'A' : 'Don\'t a'}dd me as a player to this game.
                 </small>
+                <Spacer $paddingY="small"/>
+                <P>My game will start on:</P>
+                <Datepicker initialDate={newGame.startDate}/>
                 <Spacer $paddingY="small"/>
                 <Button buttonText="Create" onClick={() => authUser?.sqlId && dispatch(createGame({
                     ...newGame,

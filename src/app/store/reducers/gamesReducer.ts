@@ -2,6 +2,7 @@ import {PayloadAction} from '@reduxjs/toolkit'
 import {CreateGamePayload} from "@/app/services/schemas/game";
 import {createGameRequest} from "@/app/services/game/createGame";
 import {createAppSlice} from "@/app/store/createAppSlice";
+import {addTo, DateString, getDateString} from "@/utils/date";
 
 type TGame = {
     id: string,
@@ -9,6 +10,7 @@ type TGame = {
     description?: string,
     isPrivate: boolean,
     adminId: string,
+    startDate: DateString
 }
 
 type TNewGame = Omit<TGame, "id" | "adminId"> & {
@@ -30,6 +32,7 @@ export const gameSlice = createAppSlice({
             isPrivate: false,
             status: "unsaved",
             addAdminAsPlayer: true,
+            startDate: addTo(7, "day", getDateString()),
         }
     } as TGameState,
     reducers: (create) => ({
@@ -50,6 +53,7 @@ export const gameSlice = createAppSlice({
                         isPrivate: false,
                         status: "unsaved",
                         addAdminAsPlayer: true,
+                        startDate: addTo(7, "day", getDateString()),
                     };
                 },
                 rejected: (state) => {
