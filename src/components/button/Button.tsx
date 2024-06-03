@@ -74,7 +74,7 @@ const StyledButton = styled.button<{$hasIcon: boolean, $color: Color, $size: But
         right: 0.3em;
         transition: all 0.3s;
         padding: ${props => props.$hasIcon ? getSizes(props.$size).iconPadding : 0}em;
-        .icon svg {
+        svg {
             width: 1.1em;
             transition: transform 0.3s;
             color: ${props => props.$color};
@@ -86,6 +86,9 @@ const StyledButton = styled.button<{$hasIcon: boolean, $color: Color, $size: But
         width: calc(100% - 0.6em);
         transform: translateX(${props => props.$hasIcon ? 0.1 : 0}em);
         color: ${props => hexToRgbA(props.$color, 1)};
+        svg {
+            transform: scale(1.5);
+        }
     }
 
     &:active .icon {

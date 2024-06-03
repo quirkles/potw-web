@@ -6,7 +6,7 @@ import {
 import {getConfig} from "@/config";
 
 export async function createGameRequest(input: CreateGamePayload):Promise<CreateGameResponse>{
-    return fetch(`${getConfig().functionsUrl}/createGame`, {
+    return fetch(`${getConfig().functionsUrl}/app-game-create`, {
         method: "POST",
         body: JSON.stringify(input),
         headers: {

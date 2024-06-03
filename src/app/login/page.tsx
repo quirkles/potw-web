@@ -60,7 +60,7 @@ function Login() {
                 otp,
                 codeVerifier
             });
-            fetch(`${functionsUrl}/verifyOtp`, {
+            fetch(`${functionsUrl}/app-auth-verifyOtp`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -87,7 +87,7 @@ function Login() {
         let body = JSON.stringify({
             email: email
         });
-        fetch(`${functionsUrl}/handleEmailLogin`, {
+        fetch(`${functionsUrl}/app-auth-handleEmailLogin`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -106,7 +106,7 @@ function Login() {
             otp: otp,
             codeVerifier: otpCodeVerifier
         });
-        fetch(`${functionsUrl}/verifyOtp`, {
+        fetch(`${functionsUrl}/app-auth-verifyOtp`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -134,7 +134,7 @@ function Login() {
                     let body = JSON.stringify({
                         token: accessToken
                     });
-                    fetch(`${functionsUrl}/handleSpotifyLogin`, {
+                    fetch(`${functionsUrl}/app-auth-handleSpotifyLogin`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -159,7 +159,7 @@ function Login() {
             let body = JSON.stringify({
                 token: tokenResponse.access_token
             });
-            fetch(`${functionsUrl}/handleGoogleLogin`, {
+            fetch(`${functionsUrl}/app-auth-handleGoogleLogin`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
