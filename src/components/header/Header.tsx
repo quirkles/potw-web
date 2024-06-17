@@ -5,6 +5,7 @@ import Button, {ButtonSize} from "@/components/button/Button";
 import {LogoutSvg, MusicSvg} from "@/components/icons";
 
 import {COLORS} from "@/app/styles/colors";
+import AlbumListSvg from "@/components/icons/AlbumList.svg";
 
 const StyledHeader = styled.header`
     display: flex;
@@ -63,6 +64,7 @@ export default function Header(props: HeaderProps) {
             <div className="middle">
             </div>
             <div className="right">
+                <Button buttonText="My games" color={COLORS.blue} Icon={AlbumListSvg} route='/home/games' size={ButtonSize.sm}></Button>
                 <Button buttonText="New Game" color={COLORS.green} Icon={MusicSvg} route='/home/create' size={ButtonSize.sm}></Button>
                 <Button buttonText={"Logout"} onClick={props.handleLogout} Icon={LogoutSvg} size={ButtonSize.sm}></Button>
             </div>

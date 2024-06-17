@@ -5,8 +5,8 @@ import {useRouter} from "next/navigation";
 import {Spacer} from "@/components/spacer/Spacer";
 import Heading from "@/components/heading/Heading";
 import TextEditable from "@/components/form/TextEditable";
-import {useEffect, useState} from "react";
-import {faker, ne} from "@faker-js/faker";
+import {useEffect} from "react";
+import {faker} from "@faker-js/faker";
 import Checkbox from "@/components/form/Checkbox";
 import {COLORS} from "@/app/styles/colors";
 import {FlexBox} from "@/components/layout/Flexbox";
@@ -21,6 +21,7 @@ import {
 } from "@/app/store/reducers/gamesReducer";
 import {authUserSelectors} from "@/app/store/reducers/authUserReducer";
 import Datepicker from "@/components/form/Datepicker";
+import PeriodSelect from "@/components/form/PeriodSelect";
 
 const Styled = styled.div`
     background-color: ${COLORS.white};
@@ -114,6 +115,10 @@ export default function Create() {
                 <Spacer $paddingY="small"/>
                 <P>My game will start on:</P>
                 <Datepicker initialDate={newGame.startDate}/>
+                <Spacer $paddingY="small"/>
+                <P>My game will repeat:</P>
+                <Spacer $paddingY="xSmall"/>
+                <PeriodSelect/>
                 <Spacer $paddingY="small"/>
                 <Button buttonText="Create" onClick={() => authUser?.sqlId && dispatch(createGame({
                     ...newGame,

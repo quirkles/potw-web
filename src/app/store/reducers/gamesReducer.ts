@@ -1,5 +1,5 @@
 import {PayloadAction} from '@reduxjs/toolkit'
-import {CreateGamePayload} from "@/app/services/schemas/game";
+import {CreateGamePayload, GameEntity} from "@/app/services/schemas/game";
 import {createGameRequest} from "@/app/services/game/createGame";
 import {createAppSlice} from "@/app/store/createAppSlice";
 import {addTo, DateString, getDateString} from "@/utils/date";
@@ -53,7 +53,7 @@ type CustomRecurring = {
 }
 export type GamePeriod = BasicPeriod | CustomPeriod | CustomRecurring
 
-type TGame = {
+type StoreGame = {
     id: string,
     name: string,
     description?: string,
@@ -63,14 +63,14 @@ type TGame = {
     period: GamePeriod,
 }
 
-type TNewGame = Omit<TGame, "id" | "adminId"> & {
+type StoreNewGame = Omit<StoreGame, "id" | "adminId"> & {
     status: "unsaved" | "pendingCreate" | "failed",
     addAdminAsPlayer: boolean,
 }
 
-type TGameState = {
-    games: TGame[],
-    newGame: TNewGame,
+type StoreGameState = {
+    games: StoreGame[],
+    newGame: StoreNewGame,
 }
 
 export const gameSlice = createAppSlice({
@@ -85,9 +85,9 @@ export const gameSlice = createAppSlice({
             period: "weekly",
             startDate: addTo(7, "day", getDateString()),
         }
-    } as TGameState,
+    } as StoreGameState,
     reducers: (create) => ({
-        updateNewGame: create.reducer((state, action: PayloadAction<Partial<TNewGame>>) => {
+        updateNewGame: create.reducer((state, action: PayloadAction<Partial<StoreNewGame>>) => {
             state.newGame = {...state.newGame, ...action.payload}
         }),
         createGame: create.asyncThunk(
@@ -113,16 +113,36 @@ export const gameSlice = createAppSlice({
                 },
             },
         ),
+        fetchMyGames: create.asyncThunk(
+            async (userId: string): Promise<GameEntity[]> => {
+                return [];
+            },
+            {
+                pending: (state) => {
+                },
+                fulfilled: (state, action) => {
+                    state.games = Array.prototype.concat.apply(
+                        state.games,
+                        action.payload
+                    )
+                },
+                rejected: (state) => {
+                },
+            },
+        )
     }),
 })
 
 // Action creators are generated for each case reducer function
-export const { updateNewGame, createGame } = gameSlice.actions
+export const { updateNewGame, createGame, fetchMyGames } = gameSlice.actions
 
 export default gameSlice.reducer
 
 export const gameSelectors = {
-    getNewGame: (state: {gameState: TGameState}): TNewGame => {
+    getNewGame: (state: {gameState: StoreGameState}): StoreNewGame => {
         return state.gameState.newGame;
+    },
+    getGamesForUser: (state: {gameState: StoreGameState}, userId: string): StoreGame[] => {
+        return []
     }
 } as const

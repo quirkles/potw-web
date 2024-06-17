@@ -3,9 +3,11 @@ import {PropsWithChildren} from "react";
 
 export const SIZE = {
     none: "none",
+    xSmall: "xSmall",
     small: "small",
     medium: "medium",
     large: "large",
+    xLarge: "xLarge",
 } as const
 
 export type SIZE = keyof typeof SIZE;
@@ -31,9 +33,11 @@ const values: {
     [size in keyof typeof SIZE]: `${number}em`;
 } = {
     none: "0em",
+    xSmall: "0.5em",
     small: "1em",
     medium: "2em",
-    large: "4em",
+    large: "3em",
+    xLarge: "4em",
 }
 
 const SpacerStyle = styled.div<SpacerProps>`
