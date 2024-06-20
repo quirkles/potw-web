@@ -88,6 +88,7 @@ export const gameSlice = createAppSlice({
     } as StoreGameState,
     reducers: (create) => ({
         updateNewGame: create.reducer((state, action: PayloadAction<Partial<StoreNewGame>>) => {
+            console.log("updateNewGame", action.payload)
             state.newGame = {...state.newGame, ...action.payload}
         }),
         createGame: create.asyncThunk(

@@ -26,6 +26,7 @@ const StyledWrapper = styled.div<{
         border: none;
         outline: none;
         background-color: transparent;
+        color: black;
     }
     >span {
         font-style: italic;

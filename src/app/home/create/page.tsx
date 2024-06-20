@@ -58,6 +58,9 @@ export default function Create() {
     }
     return (
         <Styled>
+            <code>
+                {JSON.stringify(newGame, null, 2)}
+            </code>
             <Spacer $padding="medium">
                 <div className="close" onClick={goBack}>
                     X
@@ -69,8 +72,8 @@ export default function Create() {
                 <div>
                     My new game will be called <TextEditable
                         text={newGame.name || ""}
-                        onChange={() => {
-                            dispatch(updateNewGame({name: newGame.name}))
+                        onChange={(newVal) => {
+                            dispatch(updateNewGame({name: newVal}))
                         }}
                 />
                 </div>
@@ -118,7 +121,13 @@ export default function Create() {
                 <Spacer $paddingY="small"/>
                 <P>My game will repeat:</P>
                 <Spacer $paddingY="xSmall"/>
-                <PeriodSelect/>
+                <PeriodSelect
+                    selectedPeriod={newGame.period}
+                    onChange={(period) => {
+                        dispatch(updateNewGame({
+                            period
+                        }))
+                }}/>
                 <Spacer $paddingY="small"/>
                 <Button buttonText="Create" onClick={() => authUser?.sqlId && dispatch(createGame({
                     ...newGame,
