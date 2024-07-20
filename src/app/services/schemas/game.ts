@@ -29,16 +29,29 @@ export const createGamePayloadSchema = z.object({
     description: z.string().optional(),
     isPrivate: z.boolean(),
     adminId: z.string(),
-    startDate: z.string(),
+    startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     addAdminAsPlayer: z.boolean(),
     period: periodSchema,
 })
 export type CreateGamePayload = z.infer<typeof createGamePayloadSchema>;
 
 export const createGameResponseSchema = createGamePayloadSchema
-    .omit({adminId: true}).merge(z.object({
+    .omit({adminId: true, addAdminAsPlayer: true}).merge(z.object({
         id: z.string(),
         admin: createUserResponseSchema,
     }));
 
-export type GameEntity = z.infer<typeof createGameResponseSchema>;
+export type CreateGameResponse = z.infer<typeof createGameResponseSchema>;
+
+const fetchedGameSchema = createGameResponseSchema.omit({admin: true}).merge(z.object({
+    id: z.string(),
+    players: z.array(z.string()),
+    admin: createUserResponseSchema,
+}));
+
+
+export type FetchedGame = z.infer<typeof fetchedGameSchema>;
+
+export const fetchGamesResponseSchema = z.object({
+    games: fetchedGameSchema.array(),
+})

@@ -58,9 +58,6 @@ export default function Create() {
     }
     return (
         <Styled>
-            <code>
-                {JSON.stringify(newGame, null, 2)}
-            </code>
             <Spacer $padding="medium">
                 <div className="close" onClick={goBack}>
                     X

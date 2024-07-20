@@ -60,7 +60,7 @@ interface HeaderProps {
 export default function Header(props: HeaderProps) {
     return (
         <StyledHeader>
-            <div className="left"><Link href={`/home/user/${props.user.sqlId}`}>{props.user.username}</Link></div>
+            <div className="left"><Link href={`/home/users/${props.user.sqlId}`}>{props.user.username}</Link></div>
             <div className="middle">
             </div>
             <div className="right">

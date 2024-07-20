@@ -1,9 +1,14 @@
 import {PayloadAction} from '@reduxjs/toolkit'
-import {CreateGamePayload, GameEntity} from "@/app/services/schemas/game";
-import {createGameRequest} from "@/app/services/game/createGame";
+import {
+    CreateGamePayload,
+    CreateGameResponse,
+    FetchedGame
+} from "@/app/services/schemas/game";
+import {createGameRequest, fetchGamesForUser} from "@/app/services/game/createGame";
 import {createAppSlice} from "@/app/store/createAppSlice";
-import {addTo, DateString, getDateString} from "@/utils/date";
+import {addTo, DateString, getDateString, isDateString} from "@/utils/date";
 import {RecordToEnum} from "@/utils/typeUtils";
+import {CreateUserResponse} from "@/app/services/schemas/user";
 
 export const BasicPeriod = {
     "daily": "daily",
@@ -53,30 +58,33 @@ type CustomRecurring = {
 }
 export type GamePeriod = BasicPeriod | CustomPeriod | CustomRecurring
 
-type StoreGame = {
+export type StoreGame = {
     id: string,
     name: string,
     description?: string,
     isPrivate: boolean,
-    adminId: string,
+    admin: CreateUserResponse,
     startDate: DateString
     period: GamePeriod,
+    players: string[],
 }
 
-type StoreNewGame = Omit<StoreGame, "id" | "adminId"> & {
+type StoreNewGame = Omit<StoreGame, "id" | "adminId" | "players" | "admin"> & {
     status: "unsaved" | "pendingCreate" | "failed",
     addAdminAsPlayer: boolean,
 }
 
 type StoreGameState = {
-    games: StoreGame[],
+    games: {
+        [gameId: string]: StoreGame
+    },
     newGame: StoreNewGame,
 }
 
 export const gameSlice = createAppSlice({
     name: 'gameState',
     initialState: {
-        games: [],
+        games: {},
         newGame: {
             name: "",
             isPrivate: false,
@@ -115,19 +123,25 @@ export const gameSlice = createAppSlice({
             },
         ),
         fetchMyGames: create.asyncThunk(
-            async (userId: string): Promise<GameEntity[]> => {
-                return [];
+            async (userId: string) => {
+                return fetchGamesForUser(userId)
             },
             {
                 pending: (state) => {
+                    console.log("fetchMyGames pending")
                 },
                 fulfilled: (state, action) => {
-                    state.games = Array.prototype.concat.apply(
-                        state.games,
-                        action.payload
-                    )
+                    action.payload.forEach((game) => {
+                        if(isFetchGameStoreGame(game)) {
+                            state.games[game.id] = {
+                                ...(state.games[game.id] || {}),
+                                ...(game as StoreGame)
+                            };
+                        }
+                    })
                 },
                 rejected: (state) => {
+                    console.log("fetchMyGames rejected")
                 },
             },
         )
@@ -143,7 +157,11 @@ export const gameSelectors = {
     getNewGame: (state: {gameState: StoreGameState}): StoreNewGame => {
         return state.gameState.newGame;
     },
-    getGamesForUser: (state: {gameState: StoreGameState}, userId: string): StoreGame[] => {
-        return []
+    getGames: (state: {gameState: StoreGameState}): {[key: string]: StoreGame} => {
+        return state.gameState.games;
     }
 } as const
+
+function isFetchGameStoreGame(game: FetchedGame | StoreGame): game is StoreGame {
+    return isDateString(game.startDate);
+}

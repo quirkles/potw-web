@@ -99,8 +99,8 @@ const Styled = styled.div`
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 2.8em;
-            width: 2.8em;
+            height: 4em;
+            width: 4em;
             border-radius: 0.7em;
             right: 0.3em;
             padding: 1em;

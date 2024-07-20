@@ -1,12 +1,12 @@
 import {
     CreateGamePayload,
-    GameEntity,
-    createGameResponseSchema
+    CreateGameResponse,
+    createGameResponseSchema, FetchedGame, fetchGamesResponseSchema
 } from "@/app/services/schemas/game";
 import {getConfig} from "@/config";
 import z from "zod";
 
-export async function createGameRequest(input: CreateGamePayload):Promise<GameEntity>{
+export async function createGameRequest(input: CreateGamePayload):Promise<CreateGameResponse>{
     return fetch(`${getConfig().functionsUrl}/app-game-create`, {
         method: "POST",
         body: JSON.stringify(input),
@@ -27,7 +27,7 @@ export async function createGameRequest(input: CreateGamePayload):Promise<GameEn
     })
 }
 
-export async function fetchGamesForUser(userId: CreateGamePayload):Promise<GameEntity[]>{
+export async function fetchGamesForUser(userId: string):Promise<FetchedGame[]>{
     return fetch(`${getConfig().functionsUrl}/app-game-fetch?userId=${userId}`)
     .then((res) => {
         if (!res.ok) {
@@ -35,6 +35,9 @@ export async function fetchGamesForUser(userId: CreateGamePayload):Promise<GameE
         }
         return res.json();
     }).then((data) => {
-        return z.array(createGameResponseSchema).parse(data)
+        return fetchGamesResponseSchema.parse(data).games
+    }).catch((e) => {
+        console.error(`Error fetching games: ${e}`);
+        throw e;
     })
 }
