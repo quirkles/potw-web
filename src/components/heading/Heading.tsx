@@ -2,8 +2,8 @@ import styled from "styled-components";
 import {PropsWithChildren} from "react";
 
 const StyledHeading = styled.h1`
+    margin-bottom: 0.5em;
     text-decoration: underline;
-    text-underline: 1px solid white;
 `;
 
 interface HeadingProps {

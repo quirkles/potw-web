@@ -1,37 +1,35 @@
-import {ReactNode} from "react";
-import {GoogleOAuthProvider} from '@react-oauth/google';
+import { ReactNode } from "react";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
-import type {Metadata} from "next";
-import {Overpass_Mono} from "next/font/google";
+import type { Metadata } from "next";
+import { Overpass_Mono } from "next/font/google";
 
 import "./styles/globals.css";
 import "./styles/reset.css";
-import {StoreProvider} from "@/app/store/StoreProvider";
+import { StoreProvider } from "@/app/store/StoreProvider";
+import { NotificationProvider } from "@/app/providers/Notifications";
 
-const overpassMono = Overpass_Mono({subsets: ["latin"]});
+const overpassMono = Overpass_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "Pick of the week",
-    description: "A weekly music club",
+  title: "Pick of the week",
+  description: "A weekly music club",
 };
 
 export default function RootLayout({
-                                       children,
-                                   }: Readonly<{
-    children: ReactNode;
+  children,
+}: Readonly<{
+  children: ReactNode;
 }>) {
-    return (
-        <StoreProvider>
-            <GoogleOAuthProvider
-                clientId="242205172363-929p3ej7krpb009780q36s5s0460be2n.apps.googleusercontent.com"
-            >
-                <html lang="en">
-                    <body className={overpassMono.className}>
-                        {children}
-                    </body>
-                </html>
-
-            </GoogleOAuthProvider>
-        </StoreProvider>
-    );
+  return (
+    <StoreProvider>
+      <NotificationProvider>
+        <GoogleOAuthProvider clientId="242205172363-929p3ej7krpb009780q36s5s0460be2n.apps.googleusercontent.com">
+          <html lang="en">
+            <body className={overpassMono.className}>{children}</body>
+          </html>
+        </GoogleOAuthProvider>
+      </NotificationProvider>
+    </StoreProvider>
+  );
 }

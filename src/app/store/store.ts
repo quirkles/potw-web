@@ -1,8 +1,8 @@
 import type { Action, ThunkAction } from "@reduxjs/toolkit";
 import { combineSlices, configureStore } from "@reduxjs/toolkit";
-import {authUserSlice} from "@/app/store/reducers/authUserReducer";
-import {gameSlice} from "@/app/store/reducers/gamesReducer";
-import {usersSlice} from "@/app/store/reducers/usersReducer";
+import { authUserSlice } from "@/app/store/reducers/authUserReducer";
+import { gameSlice } from "@/app/store/reducers/gamesReducer";
+import { usersSlice } from "@/app/store/reducers/usersReducer";
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
@@ -15,9 +15,9 @@ export type RootState = ReturnType<typeof rootReducer>;
 // server-side rendering (SSR) scenarios. In SSR, separate store instances
 // are needed for each request to prevent cross-request state pollution.
 export const makeStore = () => {
-    return configureStore({
-        reducer: rootReducer,
-    });
+  return configureStore({
+    reducer: rootReducer,
+  });
 };
 
 // Infer the return type of `makeStore`
@@ -25,8 +25,8 @@ export type AppStore = ReturnType<typeof makeStore>;
 // Infer the `AppDispatch` type from the store itself
 export type AppDispatch = AppStore["dispatch"];
 export type AppThunk<ThunkReturnType = void> = ThunkAction<
-    ThunkReturnType,
-    RootState,
-    unknown,
-    Action
+  ThunkReturnType,
+  RootState,
+  unknown,
+  Action
 >;

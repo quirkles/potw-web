@@ -4,7 +4,6 @@ import {
     createGameResponseSchema, FetchedGame, fetchGamesResponseSchema
 } from "@/app/services/schemas/game";
 import {getConfig} from "@/config";
-import z from "zod";
 
 export async function createGameRequest(input: CreateGamePayload):Promise<CreateGameResponse>{
     return fetch(`${getConfig().functionsUrl}/app-game-create`, {

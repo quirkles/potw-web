@@ -51,7 +51,7 @@ const Styles = styled.main`
     }
 `
 
-export default function GoogleSvg(props: PropsWithChildren<{}>) {
+export default function Background(props: PropsWithChildren<{}>) {
     return (
         <Styles>
             <div className="bg"></div>

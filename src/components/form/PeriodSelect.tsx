@@ -19,7 +19,6 @@ interface PeriodOptionProps {
     period: GamePeriod;
     value: string;
     displayText: string;
-    selected: boolean;
 }
 
 const options: Omit<PeriodOptionProps, "selected">[] = [
@@ -128,6 +127,8 @@ const Styled = styled.div`
 export default function PeriodSelect(props: PropsWithChildren<PeriodSelectProps>) {
     const {onChange = () => null, selectedPeriod} = props;
 
+    const selectedOption = options.find((option) => isEqual(option.period, selectedPeriod));
+
     function handlePeriodChange(event: ChangeEvent<HTMLSelectElement>) {
         const selectedPeriod = options.find((option) => option.value === event.target.value);
         if (!selectedPeriod) {
@@ -139,12 +140,12 @@ export default function PeriodSelect(props: PropsWithChildren<PeriodSelectProps>
     return (
         <Styled>
             <div>
-                <select id="period" name="period" onChange={handlePeriodChange}>
+                <select id="period" name="period" onChange={handlePeriodChange} value={selectedOption?.value}>
                     {
                         options.map((options) => {
                             const {value, period} = options;
                             return (
-                                <PeriodOption key={value} {...options} selected={isEqual(period, selectedPeriod)}/>
+                                <PeriodOption key={value} {...options}/>
                             );
                         })
                     }
@@ -159,9 +160,8 @@ export default function PeriodSelect(props: PropsWithChildren<PeriodSelectProps>
 
 
 function PeriodOption(props: PeriodOptionProps) {
-    const {value, displayText, selected} = props;
-    console.log(value, displayText, selected)
+    const {value, displayText} = props;
     return (
-        <option value={value} selected={selected}>{displayText}</option>
+        <option value={value}>{displayText}</option>
     );
 }
