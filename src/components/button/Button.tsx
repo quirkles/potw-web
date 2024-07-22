@@ -7,6 +7,7 @@ import { D, F, S } from "@mobily/ts-belt";
 
 import { getColor, hexToRgbA } from "@/utils/color";
 import { BaseColorName } from "@/app/styles/colors";
+import {get} from "@jridgewell/set-array";
 
 export const ButtonSize = {
   sm: "sm",
@@ -45,7 +46,7 @@ const StyledButton = styled.button<{
   $size: ButtonSize;
 }>`
   background: ${(props) => getColor(props.$color)};
-  color: ${(props) => getColor(props.$color, "contrast")};
+  color: ${(props) => getColor(props.$color, "font")};
   font-family: inherit;
   font-size: ${(props) => getSizes(props.$size).fontsize}px;
   font-weight: 500;
@@ -79,7 +80,7 @@ const StyledButton = styled.button<{
     width: ${(props) =>
       props.$hasIcon ? getSizes(props.$size).iconWidth : 0}em;
     border-radius: 0.7em;
-    box-shadow: 0.1em 0.1em 0.6em 0.2em ${(props) => props.$color};
+    box-shadow: 0.1em 0.1em 0.6em 0.2em ${(props) => getColor(props.$color)};
     right: 0.3em;
     transition: all 0.3s;
     padding: ${(props) =>
@@ -113,7 +114,7 @@ interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   route?: string;
 }
 
-export default function Button(props: ButtonProps) {
+function Button(props: ButtonProps) {
   const {
     color = "blue",
     Icon,
@@ -160,3 +161,5 @@ function Wrapper(
     <div style={style}>{props.children}</div>
   );
 }
+
+export default Button;

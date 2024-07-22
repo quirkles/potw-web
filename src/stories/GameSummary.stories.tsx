@@ -1,6 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Button from "@/components/button/Button";
-import { COLORS } from "@/app/styles/colors";
 import { GameSummary } from "@/components/gameSummary/GameSummary";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

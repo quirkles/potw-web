@@ -123,9 +123,7 @@ const Styled = styled.div`
   }
 `;
 
-export default function PeriodSelect(
-  props: PropsWithChildren<PeriodSelectProps>,
-) {
+function PeriodSelect(props: PropsWithChildren<PeriodSelectProps>) {
   const { onChange = () => null, selectedPeriod } = props;
 
   const selectedOption = options.find((option) =>
@@ -170,3 +168,5 @@ function PeriodOption(props: PeriodOptionProps) {
   const { value, displayText } = props;
   return <option value={value}>{displayText}</option>;
 }
+
+export default PeriodSelect;

@@ -86,7 +86,7 @@ interface CheckboxProps {
   checked: boolean;
   onChange: (checked: boolean) => void;
 }
-export default function Checkbox(props: CheckboxProps) {
+function Checkbox(props: CheckboxProps) {
   return (
     <StyledLabel>
       <input
@@ -100,3 +100,5 @@ export default function Checkbox(props: CheckboxProps) {
     </StyledLabel>
   );
 }
+
+export default Checkbox;

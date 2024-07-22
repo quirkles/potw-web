@@ -26,7 +26,7 @@ interface TextareaProps {
   cols?: number;
 }
 
-export default function TextArea(props: TextareaProps) {
+function TextArea(props: TextareaProps) {
   return (
     <StyledTextArea
       rows={props.rows || 5}
@@ -37,3 +37,5 @@ export default function TextArea(props: TextareaProps) {
     />
   );
 }
+
+export default TextArea;

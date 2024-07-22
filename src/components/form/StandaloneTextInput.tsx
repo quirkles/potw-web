@@ -64,7 +64,7 @@ interface StandaloneTextInputProps {
   onChange: (value: string) => void;
 }
 
-export default function StandaloneTextInput(props: StandaloneTextInputProps) {
+function StandaloneTextInput(props: StandaloneTextInputProps) {
   return (
     <StyledTextInput>
       <input
@@ -78,3 +78,5 @@ export default function StandaloneTextInput(props: StandaloneTextInputProps) {
     </StyledTextInput>
   );
 }
+
+export default StandaloneTextInput;

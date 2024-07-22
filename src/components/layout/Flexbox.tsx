@@ -30,7 +30,7 @@ const StyledFlexBox = styled.div<FlexParentProps>`
           : "0"};
 `;
 
-export function FlexBox(props: PropsWithChildren<FlexParentProps>) {
+function FlexBox(props: PropsWithChildren<FlexParentProps>) {
   return <StyledFlexBox {...props}>{props.children}</StyledFlexBox>;
 }
 
@@ -54,6 +54,8 @@ const StyledFlexChild = styled.div<FlexChildProps>`
   align-self: ${(props) => props.$alignSelf || "auto"};
 `;
 
-export function FlexChild(props: PropsWithChildren<FlexChildProps>) {
+function FlexChild(props: PropsWithChildren<FlexChildProps>) {
   return <StyledFlexChild {...props}>{props.children}</StyledFlexChild>;
 }
+
+export { FlexBox, FlexChild };

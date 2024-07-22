@@ -1,4 +1,4 @@
-export default function GamePage({ params }: { params: { id: string } }) {
+function GamePage({ params }: { params: { id: string } }) {
   return (
     <div>
       <h1>Game Page</h1>
@@ -6,3 +6,5 @@ export default function GamePage({ params }: { params: { id: string } }) {
     </div>
   );
 }
+
+export default GamePage;

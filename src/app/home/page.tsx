@@ -2,10 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-export default function Home() {
+function Home() {
   const router = useRouter();
   useEffect(() => {
     router.push("home/welcome");
   });
   return <div />;
 }
+
+export default Home;

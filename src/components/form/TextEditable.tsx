@@ -40,7 +40,7 @@ interface TextEditableProps {
   onBlur?: (text: string) => void;
 }
 
-export default function TextEditable(props: TextEditableProps) {
+function TextEditable(props: TextEditableProps) {
   const { text, onChange = () => {}, onBlur = () => {} } = props;
   const [localText, setLocalText] = useState<string>(text);
   const [isEditing, setIsEditing] = useState(false);
@@ -96,3 +96,5 @@ export default function TextEditable(props: TextEditableProps) {
     </StyledWrapper>
   );
 }
+
+export default TextEditable;

@@ -1,4 +1,5 @@
 "use client";
+
 import { PropsWithChildren, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -76,6 +77,8 @@ function Home(props: PropsWithChildren<{}>) {
   );
 }
 
-export default function WrappedHome(props: PropsWithChildren<{}>) {
+function WrappedHome(props: PropsWithChildren<{}>) {
   return <Home>{props.children}</Home>;
 }
+
+export default WrappedHome;

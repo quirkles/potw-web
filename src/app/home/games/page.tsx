@@ -1,26 +1,26 @@
 "use client";
 
-import { PropsWithChildren, useEffect, useState } from "react";
 import Link from "next/link";
-import { styled } from "styled-components";
+import { PropsWithChildren, useEffect } from "react";
+import styled from "styled-components";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import { selectGamesForUsers } from "@/app/store/selectors";
 import { gameSlice, StoreGame } from "@/app/store/reducers/gamesReducer";
-import { Spacer } from "@/components/spacer/Spacer";
-import { COLORS } from "@/app/styles/colors";
-import Button from "@/components/button/Button";
-import { useNotificationsContext } from "@/app/providers/Notifications";
+
+import Spacer from "@/components/spacer/Spacer";
+
+import { getColor } from "@/utils/color";
 
 const StyledGames = styled.div`
-  background-color: ${COLORS.white};
-  color: ${COLORS.black};
+  background-color: ${getColor("white")};
+  color: ${getColor("black")};
   height: 100%;
   display: flex;
   flex-direction: column;
 `;
 
-export default function Games() {
+function Games() {
   const dispatch = useAppDispatch();
   const authUser = useAppSelector((state) => state.authUser);
   const games = useAppSelector(selectGamesForUsers);
@@ -44,7 +44,7 @@ export default function Games() {
 
 const StyledGameItem = styled.div`
   display: flex;
-  border: 1px solid ${COLORS.black};
+  border: 1px solid ${getColor("black")};
   padding: 1em;
   border-radius: var(--border-radius);
   //justify-content: center;
@@ -80,3 +80,5 @@ function GameListItem(props: PropsWithChildren<{ game: StoreGame }>) {
     </StyledGameItem>
   );
 }
+
+export default Games;

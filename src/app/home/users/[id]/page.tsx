@@ -1,21 +1,25 @@
 "use client";
+
 import styled from "styled-components";
-import { Spacer } from "@/components/spacer/Spacer";
+import { useEffect } from "react";
+
+import Spacer from "@/components/spacer/Spacer";
+
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
+import Loader from "@/components/loader/Loader";
+
 import {
   fetchUserById,
   TUser,
   usersSelectors,
 } from "@/app/store/reducers/usersReducer";
-import { useEffect } from "react";
-import { Loader } from "@/components/loader/Loader";
 
 const StyledUserIdPage = styled.div`
   height: 100%;
   width: 100%;
 `;
 
-export default function UserIdPage({ params }: { params: { id: string } }) {
+function UserIdPage({ params }: { params: { id: string } }) {
   const user = useAppSelector((state) =>
     usersSelectors.getUserBySqlId(state, params.id),
   );
@@ -39,3 +43,5 @@ function Loaded(props: { user: TUser }) {
     </Spacer>
   );
 }
+
+export default UserIdPage;

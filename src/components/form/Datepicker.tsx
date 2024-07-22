@@ -26,7 +26,7 @@ interface DatepickerProps {
   onChange?: (date: DateString) => void;
 }
 
-export default function Datepicker(props: DatepickerProps) {
+function Datepicker(props: DatepickerProps) {
   const { onChange = () => {} } = props;
   const [date, setDate] = useState<string>(props.initialDate);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -44,3 +44,5 @@ export default function Datepicker(props: DatepickerProps) {
     </StyledDatepicker>
   );
 }
+
+export default Datepicker;

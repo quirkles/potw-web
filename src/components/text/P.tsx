@@ -48,6 +48,8 @@ const StyledP = styled.p<PProps>`
   }};
   text-transform: ${(props: PProps) => props.$textTransform || "none"};
 `;
-export default function P(props: PropsWithChildren<PProps>) {
+function P(props: PropsWithChildren<PProps>) {
   return <StyledP {...props}>{props.children}</StyledP>;
 }
+
+export default P;

@@ -10,10 +10,12 @@ interface HeadingProps {
   variant: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
 
-export default function Heading(headingProps: PropsWithChildren<HeadingProps>) {
+function Heading(headingProps: PropsWithChildren<HeadingProps>) {
   return (
     <StyledHeading as={headingProps.variant}>
       {headingProps.children}
     </StyledHeading>
   );
 }
+
+export default Heading;

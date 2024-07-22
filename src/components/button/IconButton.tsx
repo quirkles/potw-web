@@ -57,7 +57,7 @@ interface IconButtonProps {
   Icon: ComponentType;
   onClick: () => void;
 }
-export default function IconButton(props: IconButtonProps) {
+function IconButton(props: IconButtonProps) {
   return (
     <StyledIconButton onClick={props.onClick}>
       <div className="svg-wrapper-1">
@@ -68,3 +68,5 @@ export default function IconButton(props: IconButtonProps) {
     </StyledIconButton>
   );
 }
+
+export default IconButton;

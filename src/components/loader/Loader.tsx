@@ -58,7 +58,7 @@ div:nth-child(2) {
     }
 `;
 
-export function Loader() {
+function Loader() {
   return (
     <Styles>
       <div>...Loading...hang tight...</div>
@@ -72,3 +72,5 @@ export function Loader() {
     </Styles>
   );
 }
+
+export default Loader;

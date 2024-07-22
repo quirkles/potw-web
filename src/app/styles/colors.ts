@@ -1,4 +1,4 @@
-import { tint } from "@/utils/color";
+import { tint } from "@/utils/color.tint";
 
 export type hexString = `#${string}`;
 

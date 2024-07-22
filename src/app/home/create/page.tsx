@@ -1,17 +1,19 @@
 "use client";
 
+import { useEffect } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
-import { Spacer } from "@/components/spacer/Spacer";
+import { faker } from "@faker-js/faker";
+
+import Spacer from "@/components/spacer/Spacer";
 import Heading from "@/components/heading/Heading";
 import TextEditable from "@/components/form/TextEditable";
-import { useEffect } from "react";
-import { faker } from "@faker-js/faker";
 import Checkbox from "@/components/form/Checkbox";
 import { FlexBox } from "@/components/layout/Flexbox";
 import P from "@/components/text/P";
 import Button from "@/components/button/Button";
 import TextArea from "@/components/form/Textarea";
+
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import {
   createGame,
@@ -21,6 +23,7 @@ import {
 import { authUserSelectors } from "@/app/store/reducers/authUserReducer";
 import Datepicker from "@/components/form/Datepicker";
 import PeriodSelect from "@/components/form/PeriodSelect";
+
 import { addTo } from "@/utils/date";
 import { getColor } from "@/utils/color";
 
@@ -45,7 +48,7 @@ function getFakeGameName() {
     .replace(/,/g, "");
 }
 
-export default function Create() {
+function Create() {
   let router = useRouter();
 
   const dispatch = useAppDispatch();
@@ -201,3 +204,5 @@ export default function Create() {
     </Styled>
   );
 }
+
+export default Create;

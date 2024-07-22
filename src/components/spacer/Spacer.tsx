@@ -69,6 +69,8 @@ const SpacerStyle = styled.div<SpacerProps>`
     values[props.$marginRight || props.$marginX || props.$margin || SIZE.none]};
 `;
 
-export const Spacer = (props: PropsWithChildren<SpacerProps>) => {
+function Spacer(props: PropsWithChildren<SpacerProps>) {
   return <SpacerStyle {...props}>{props.children}</SpacerStyle>;
-};
+}
+
+export default Spacer;

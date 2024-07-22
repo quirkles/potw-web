@@ -16,7 +16,7 @@ import StandaloneTextInput from "@/components/form/StandaloneTextInput";
 import IconButton from "@/components/button/IconButton";
 import LoginSvg from "@/components/icons/Login.svg";
 import { getConfig } from "@/config";
-import { Loader } from "@/components/loader/Loader";
+import Loader from "@/components/loader/Loader";
 
 const StyledLoginPage = styles.div`
     height: 100vh;
@@ -236,10 +236,12 @@ function Login() {
   );
 }
 
-export default function LoginWithSuspense() {
+function LoginWithSuspense() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Login />
     </Suspense>
   );
 }
+
+export default LoginWithSuspense;

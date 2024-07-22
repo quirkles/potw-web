@@ -1,3 +1,5 @@
+"use client";
+
 import styled from "styled-components";
 
 import { PropsWithChildren } from "react";
@@ -56,7 +58,7 @@ const Styles = styled.main`
   }
 `;
 
-export default function Background(props: PropsWithChildren<{}>) {
+function Background(props: PropsWithChildren<{}>) {
   return (
     <Styles>
       <div className="bg"></div>
@@ -66,3 +68,5 @@ export default function Background(props: PropsWithChildren<{}>) {
     </Styles>
   );
 }
+
+export default Background;
