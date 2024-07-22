@@ -2,15 +2,15 @@ import styled from "styled-components";
 import { PropsWithChildren } from "react";
 import { baskerville, overpassMono, rubik } from "@/app/styles/fonts";
 
-interface PProps {
+interface SpanProps {
   $textTransform?: "capitalize" | "lowercase" | "uppercase" | "none";
   $fontSize?: "small" | "medium" | "large";
   $fontWeight?: "light" | "normal" | "bold";
   $fontType?: "serif" | "sans" | "mono";
 }
 
-const StyledP = styled.p<PProps>`
-  font-family: ${(props: PProps) => {
+const StyledSpan = styled.span<SpanProps>`
+  font-family: ${(props: SpanProps) => {
     switch (props.$fontType) {
       case "serif":
         return baskerville.style.fontFamily;
@@ -22,7 +22,7 @@ const StyledP = styled.p<PProps>`
         return overpassMono.style.fontFamily;
     }
   }};
-  font-size: ${(props: PProps) => {
+  font-size: ${(props: SpanProps) => {
     switch (props.$fontSize) {
       case "small":
         return "0.8em";
@@ -34,7 +34,7 @@ const StyledP = styled.p<PProps>`
         return "1em";
     }
   }};
-  font-weight: ${(props: PProps) => {
+  font-weight: ${(props: SpanProps) => {
     switch (props.$fontWeight) {
       case "light":
         return "300";
@@ -46,8 +46,8 @@ const StyledP = styled.p<PProps>`
         return "400";
     }
   }};
-  text-transform: ${(props: PProps) => props.$textTransform || "none"};
+  text-transform: ${(props: SpanProps) => props.$textTransform || "none"};
 `;
-export default function P(props: PropsWithChildren<PProps>) {
-  return <StyledP {...props}>{props.children}</StyledP>;
+export default function Span(props: PropsWithChildren<SpanProps>) {
+  return <StyledSpan {...props}>{props.children}</StyledSpan>;
 }

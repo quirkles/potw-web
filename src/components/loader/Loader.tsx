@@ -1,14 +1,14 @@
 import styled from "styled-components";
-import {COLORS} from "@/app/styles/colors";
+import { getColor } from "@/utils/color";
 
 const Styles = styled.div`
     --speed-of-animation: 0.9s;
     --gap: 6px;
-    --first-color: ${COLORS.blue};
-    --second-color: ${COLORS.yellow};
-    --third-color: ${COLORS.purple};
-    --fourth-color: ${COLORS.red};
-    --fifth-color: ${COLORS.green};
+    --first-color: ${getColor("blue")};
+    --second-color: ${getColor("yellow")};
+    --third-color: ${getColor("purple")};
+    --fourth-color: ${getColor("red")};
+    --fifth-color: ${getColor("green")};
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -56,21 +56,19 @@ div:nth-child(2) {
     20% {
         transform: scaleY(1);
     }
-`
+`;
 
 export function Loader() {
-    return (
-            <Styles>
-                <div>
-                    ...Loading...hang tight...
-                </div>
-                <div>
-                    <span/>
-                    <span/>
-                    <span/>
-                    <span/>
-                    <span/>
-                </div>
-            </Styles>
-    );
+  return (
+    <Styles>
+      <div>...Loading...hang tight...</div>
+      <div>
+        <span />
+        <span />
+        <span />
+        <span />
+        <span />
+      </div>
+    </Styles>
+  );
 }

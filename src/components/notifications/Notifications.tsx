@@ -1,34 +1,75 @@
 import styled from "styled-components";
 import {
   INotification,
+  NotificationEventTypes,
   NotificationType,
   NotificationTypes,
+  useNotificationsContext,
 } from "@/app/providers/Notifications";
-import { COLORS } from "@/app/styles/colors";
 import Heading from "@/components/heading/Heading";
 import P from "@/components/text/P";
+import { useEffect, useState } from "react";
+import { getColor } from "@/utils/color";
 
 const StyledNotifications = styled.div`
   height: 0;
   width: 0;
   ul {
     position: fixed;
-    top: 0;
-    right: 0;
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    bottom: 0;
+    right: 1em;
+    display: flex;
+    flex-direction: column-reverse;
     li {
-      background-color: white;
-      border: 1px solid black;
-      padding: 1em;
-      margin: 0.5em;
+      position: relative;
     }
   }
 `;
 
 export function Notifications() {
-  return <StyledNotifications></StyledNotifications>;
+  const notificationContext = useNotificationsContext();
+  const [notifications, setNotifications] = useState<INotification[]>([]);
+  const handleDismiss = (id: string) => {
+    setNotifications((notifications) =>
+      notifications.filter((notification) => notification.id !== id),
+    );
+  };
+  useEffect(() => {
+    if (!notificationContext) {
+      return;
+    }
+    const subscription = notificationContext.subscribeToNotificationEvents(
+      (notification) => {
+        switch (notification.type) {
+          case NotificationEventTypes.ADD:
+            setNotifications((notifications) => [
+              ...notifications,
+              notification.payload as INotification,
+            ]);
+            break;
+          case NotificationEventTypes.REMOVE:
+            handleDismiss(notification.payload as string);
+            break;
+        }
+      },
+    );
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [notificationContext]);
+  return (
+    <StyledNotifications>
+      <ul>
+        {notifications.map((notification) => (
+          <Notification
+            key={notification.id}
+            notification={notification}
+            onDismiss={handleDismiss}
+          />
+        ))}
+      </ul>
+    </StyledNotifications>
+  );
 }
 
 const variants: {
@@ -38,30 +79,31 @@ const variants: {
   };
 } = {
   SUCCESS: {
-    backgroundColor: COLORS.green,
-    color: "white",
-  },
-  ERROR: {
-    backgroundColor: COLORS.red,
-    color: "white",
-  },
-  WARNING: {
-    backgroundColor: COLORS.yellow,
-    color: "black",
+    backgroundColor: getColor("green"),
+    color: getColor("green", "contrast"),
   },
   INFO: {
-    backgroundColor: COLORS.blue,
-    color: "white",
+    backgroundColor: getColor("blue"),
+    color: getColor("blue", "contrast"),
+  },
+  WARNING: {
+    backgroundColor: getColor("yellow"),
+    color: getColor("yellow", "contrast"),
+  },
+  ERROR: {
+    backgroundColor: getColor("red"),
+    color: getColor("red", "contrast"),
   },
 };
 
-const StyledNotification = styled.div<{
+const StyledNotification = styled.li<{
   $type: NotificationType;
 }>`
   position: relative;
   padding: 0.5em 2em 0.5em 1em;
   margin: 0.5em 0;
   font-size: x-small;
+  border: 1px solid ${(props) => variants[props.$type].color};
   color: ${(props) => variants[props.$type].color};
   background-color: ${(props) => variants[props.$type].backgroundColor};
   h3 {
@@ -85,7 +127,7 @@ export function Notification(props: NotificationProps) {
   const { notification, onDismiss } = props;
   const { title, message, type = NotificationTypes.INFO, id } = notification;
   return (
-    <StyledNotification $type={type}>
+    <StyledNotification $type={type} className="notification">
       <div className="dismiss" onClick={() => onDismiss(id)}>
         X
       </div>

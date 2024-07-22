@@ -1,11 +1,12 @@
 "use client";
+
+import { ComponentType, HTMLAttributes, PropsWithChildren } from "react";
+import Link from "next/link";
 import styled from "styled-components";
 import { D, F, S } from "@mobily/ts-belt";
-import { ComponentType, HTMLAttributes, PropsWithChildren } from "react";
-import { Color, COLORS } from "@/app/styles/colors";
-import { hexToRgbA } from "@/utils/color";
-import { func } from "prop-types";
-import Link from "next/link";
+
+import { getColor, hexToRgbA } from "@/utils/color";
+import { BaseColorName } from "@/app/styles/colors";
 
 export const ButtonSize = {
   sm: "sm",
@@ -40,11 +41,11 @@ const getSizes = F.memoizeWithKey(S.make, (size: ButtonSize) => {
 
 const StyledButton = styled.button<{
   $hasIcon: boolean;
-  $color: Color;
+  $color: BaseColorName;
   $size: ButtonSize;
 }>`
-  background: ${(props) => props.$color};
-  color: white;
+  background: ${(props) => getColor(props.$color)};
+  color: ${(props) => getColor(props.$color, "contrast")};
   font-family: inherit;
   font-size: ${(props) => getSizes(props.$size).fontsize}px;
   font-weight: 500;
@@ -53,7 +54,7 @@ const StyledButton = styled.button<{
   letter-spacing: 0.05em;
   display: flex;
   align-items: center;
-  box-shadow: inset 0 0 1.6em -0.6em ${(props) => props.$color};
+  box-shadow: inset 0 0 1.6em -0.6em ${(props) => getColor(props.$color)};
   overflow: hidden;
   position: relative;
   height: ${(props) => getSizes(props.$size).height}em;
@@ -67,7 +68,7 @@ const StyledButton = styled.button<{
   cursor: pointer;
 
   .icon {
-    color: ${(props) => hexToRgbA(props.$color, 0)};
+    color: ${(props) => hexToRgbA(getColor(props.$color), 0)};
     background: white;
     margin-left: 1em;
     position: absolute;
@@ -86,14 +87,14 @@ const StyledButton = styled.button<{
     svg {
       width: 1.1em;
       transition: transform 0.3s;
-      color: ${(props) => props.$color};
+      color: ${(props) => getColor(props.$color)};
     }
   }
 
   &:hover .icon {
     width: calc(100% - 0.6em);
     transform: translateX(${(props) => (props.$hasIcon ? 0.1 : 0)}em);
-    color: ${(props) => hexToRgbA(props.$color, 1)};
+    color: ${(props) => hexToRgbA(getColor(props.$color), 1)};
     svg {
       transform: scale(1.5);
     }
@@ -107,14 +108,14 @@ const StyledButton = styled.button<{
 interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   buttonText: string;
   Icon?: ComponentType;
-  color?: Color;
+  color?: BaseColorName;
   size?: ButtonSize;
   route?: string;
 }
 
 export default function Button(props: ButtonProps) {
   const {
-    color = COLORS.blue,
+    color = "blue",
     Icon,
     buttonText,
     route,

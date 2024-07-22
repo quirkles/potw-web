@@ -22,7 +22,7 @@ export interface INotification {
   durationMs?: number;
 }
 
-const NotificationEventTypes = {
+export const NotificationEventTypes = {
   ADD: "ADD",
   REMOVE: "REMOVE",
 } as const;
@@ -92,9 +92,10 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       ...notification,
     };
     notificationSubject.next(notificationEventCreators.ADD(notificationWithId));
+    const timeout = notificationWithId.durationMs;
     setTimeout(
       () => notificationSubject.next(notificationEventCreators.REMOVE(id)),
-      notification.durationMs ?? 5000,
+      timeout,
     );
   }
   const notificationContext: NotificationContext = {

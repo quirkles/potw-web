@@ -1,6 +1,6 @@
 "use client";
 
-import { PropsWithChildren, useEffect } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import Link from "next/link";
 import { styled } from "styled-components";
 
@@ -24,20 +24,6 @@ export default function Games() {
   const dispatch = useAppDispatch();
   const authUser = useAppSelector((state) => state.authUser);
   const games = useAppSelector(selectGamesForUsers);
-  const notificationsContext = useNotificationsContext();
-
-  useEffect(() => {
-    console.log("effect");
-    if (!notificationsContext) {
-      return;
-    }
-    console.log("sub");
-    const sub = notificationsContext.subscribeToNotificationEvents((event) => {
-      console.log("EVENT");
-      console.log(event);
-    });
-    return () => sub.unsubscribe();
-  }, [notificationsContext]);
 
   useEffect(() => {
     if (authUser?.sqlId) {
@@ -45,17 +31,8 @@ export default function Games() {
     }
   }, [authUser?.sqlId, dispatch]);
 
-  const notify = () => {
-    if (!notificationsContext) {
-      return;
-    }
-    notificationsContext.dispatchNotification({
-      message: "Hello",
-    });
-  };
   return (
     <StyledGames>
-      <Button buttonText="Clikcy" onClick={notify}></Button>
       <Spacer $padding="medium">
         <h1>Games</h1>
         {games &&

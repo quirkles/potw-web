@@ -8,7 +8,6 @@ import GoogleSvg from "@/components/icons/Google.svg";
 import SpotifySvg from "@/components/icons/Spotify.svg";
 
 import BG from "@/components/background/Background";
-import { COLORS } from "@/app/styles/colors";
 import { useSpotifyAuth } from "@/app/login/hooks";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -218,7 +217,7 @@ function Login() {
           <Button
             buttonText="Login with spotify"
             Icon={SpotifySvg}
-            color={COLORS.green}
+            color="green"
             onClick={() => {
               startLogin();
             }}
@@ -226,7 +225,7 @@ function Login() {
           <Button
             buttonText="Login with google"
             Icon={GoogleSvg}
-            color={COLORS.red}
+            color="red"
             onClick={() => {
               googleLogin();
             }}

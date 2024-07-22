@@ -8,7 +8,6 @@ import TextEditable from "@/components/form/TextEditable";
 import { useEffect } from "react";
 import { faker } from "@faker-js/faker";
 import Checkbox from "@/components/form/Checkbox";
-import { COLORS } from "@/app/styles/colors";
 import { FlexBox } from "@/components/layout/Flexbox";
 import P from "@/components/text/P";
 import Button from "@/components/button/Button";
@@ -23,10 +22,11 @@ import { authUserSelectors } from "@/app/store/reducers/authUserReducer";
 import Datepicker from "@/components/form/Datepicker";
 import PeriodSelect from "@/components/form/PeriodSelect";
 import { addTo } from "@/utils/date";
+import { getColor } from "@/utils/color";
 
 const Styled = styled.div`
-  background-color: ${COLORS.white};
-  color: ${COLORS.black};
+  background-color: ${getColor("white")};
+  color: ${getColor("black")};
 
   .close {
     position: absolute;
