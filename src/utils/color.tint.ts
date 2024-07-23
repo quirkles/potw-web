@@ -1,3 +1,5 @@
+import {hexString} from "@/app/styles/colors";
+
 type ColorObject = Record<"r" | "g" | "b" | "a", number>;
 const singleColorSpace = 16 * 16; // 256
 const blueSpace = singleColorSpace;
@@ -67,7 +69,7 @@ export const tint = (
     useLinear,
     reformat,
   }: { toColor?: string; useLinear?: boolean; reformat?: boolean } = {},
-) => {
+): hexString | null => {
   const { round } = Math;
   const clampedRatio = Math.min(Math.max(ratio, -1), 1);
   if (ratio < -1 || ratio > 1) {
@@ -84,13 +86,9 @@ export const tint = (
       `Invalid input color format. "${inputColor}" should be rgb(a) or hex. It will fallback to "${baseColor}"`,
     );
   }
-  let isRGBformat = baseColor.length > 9 || baseColor.includes("rgb(");
-  isRGBformat = reformat ? !isRGBformat : isRGBformat;
-
   if (toColor) {
     const isToColorRgbFormat =
       (toColor && toColor?.length > 9) || toColor?.includes("rgb(");
-    isRGBformat = reformat ? !isToColorRgbFormat : isToColorRgbFormat;
   }
   const formattedBaseColor = toColorObject(baseColor);
   const isNegativeRatio = clampedRatio < 0;
@@ -138,11 +136,7 @@ export const tint = (
   outputColor.a = formattedToColor.a < 0 ? formattedBaseColor.a : blendedAlpha;
 
   const hasAlpha = formattedBaseColor.a >= 0 || formattedToColor.a >= 0;
-  if (isRGBformat) {
-    return `rgb${hasAlpha ? "a" : ""}(${outputColor.r},${outputColor.g},${outputColor.b}${
-      hasAlpha ? `,${round(outputColor.a * 1000) / 1000}` : ""
-    })`;
-  }
+
   return `#${(
     outputColor.r * redSpace +
     outputColor.g * greenSpace +

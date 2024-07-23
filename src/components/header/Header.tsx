@@ -6,6 +6,7 @@ import { LogoutSvg, MusicSvg } from "@/components/icons";
 
 import AlbumListSvg from "@/components/icons/AlbumList.svg";
 import { getColor } from "@/utils/color";
+import { tint } from "@/utils/color.tint";
 
 const StyledHeader = styled.header`
   display: flex;
@@ -15,7 +16,7 @@ const StyledHeader = styled.header`
   background-image: linear-gradient(
     to right top,
     ${getColor("blue")},
-    ${getColor("black")}
+    ${getColor("green")}
   );
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
