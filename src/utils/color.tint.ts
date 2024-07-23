@@ -1,4 +1,4 @@
-import {hexString} from "@/app/styles/colors";
+import { hexString } from "@/app/styles/colors";
 
 type ColorObject = Record<"r" | "g" | "b" | "a", number>;
 const singleColorSpace = 16 * 16; // 256
