@@ -14,20 +14,20 @@ export const GridItem = styled.div<{
   $lg?: number;
   $xl?: number;
 }>`
-  grid-column: span
-    ${(props) =>
-      props.$xs || props.$sm || props.$md || props.$lg || props.$xl || 12};
+  grid-column: span ${(props) => props.$xs || 12};
   @media (min-width: 768px) {
-    grid-column: span
-      ${(props) => props.$sm || props.$md || props.$lg || props.$xl || 12};
+    grid-column: span ${(props) => props.$sm || props.$xs || 12};
   }
   @media (min-width: 992px) {
-    grid-column: span ${(props) => props.$md || props.$lg || props.$xl || 12};
+    grid-column: span ${(props) => props.$md || props.$sm || props.$xs || 12};
   }
   @media (min-width: 1200px) {
-    grid-column: span ${(props) => props.$lg || props.$xl || 12};
+    grid-column: span
+      ${(props) => props.$lg || props.$md || props.$sm || props.$xs || 12};
   }
   @media (min-width: 1400px) {
-    grid-column: span ${(props) => props.$xl || 12};
+    grid-column: span
+      ${(props) =>
+        props.$xl || props.$lg || props.$md || props.$sm || props.$xs || 12};
   }
 `;
