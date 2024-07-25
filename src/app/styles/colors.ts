@@ -18,6 +18,10 @@ export const BaseColors = {
 
 export type BaseColorName = keyof typeof BaseColors;
 
+export const baseColors: BaseColorName[] = Object.keys(
+  BaseColors,
+) as BaseColorName[];
+
 export type BaseColorHex = (typeof BaseColors)[BaseColorName];
 
 type ColorWeights = {

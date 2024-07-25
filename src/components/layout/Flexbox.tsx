@@ -14,7 +14,7 @@ interface FlexParentProps {
   $gap?: "small" | "medium" | "large";
 }
 
-const StyledFlexBox = styled.div<FlexParentProps>`
+const FlexBox = styled.div<FlexParentProps>`
   display: flex;
   flex-direction: ${(props) => props.$direction || "row"};
   justify-content: ${(props) => props.$justifyContent || "flex-start"};
@@ -30,10 +30,6 @@ const StyledFlexBox = styled.div<FlexParentProps>`
           : "0"};
 `;
 
-function FlexBox(props: PropsWithChildren<FlexParentProps>) {
-  return <StyledFlexBox {...props}>{props.children}</StyledFlexBox>;
-}
-
 interface FlexChildProps {
   $grow?: number;
   $shrink?: number;
@@ -47,15 +43,11 @@ interface FlexChildProps {
     | "stretch";
 }
 
-const StyledFlexChild = styled.div<FlexChildProps>`
+const FlexChild = styled.div<FlexChildProps>`
   flex-grow: ${(props) => props.$grow || 0};
   flex-shrink: ${(props) => props.$shrink || 1};
   flex-basis: ${(props) => props.$basis || "auto"};
   align-self: ${(props) => props.$alignSelf || "auto"};
 `;
-
-function FlexChild(props: PropsWithChildren<FlexChildProps>) {
-  return <StyledFlexChild {...props}>{props.children}</StyledFlexChild>;
-}
 
 export { FlexBox, FlexChild };
