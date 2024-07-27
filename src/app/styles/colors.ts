@@ -4,6 +4,7 @@ export type hexString = `#${string}`;
 
 export const BaseColors = {
   blue: "#6699cc",
+  navy: "#112A46",
   red: "#f2777a",
   green: "#99cc99",
   yellow: "#ffcc66",
@@ -38,10 +39,10 @@ type ColorWeights = {
 
 type ColorWeight = keyof ColorWeights;
 
-type ColorName = `${BaseColorName}_${ColorWeight}`;
+export type ColorName = `${BaseColorName}_${ColorWeight}`;
 
 type Colors = {
-  [key in ColorName]: hexString;
+  [key in ColorName | BaseColorName]: hexString;
 };
 
 export const colors: Colors = (
@@ -52,6 +53,7 @@ export const colors: Colors = (
   acc[`${key}_300`] = tint(0.4, BaseColors[key]) as hexString;
   acc[`${key}_400`] = tint(0.2, BaseColors[key]) as hexString;
   acc[`${key}_500`] = BaseColors[key];
+  acc[`${key}`] = BaseColors[key];
   acc[`${key}_600`] = tint(-0.2, BaseColors[key]) as hexString;
   acc[`${key}_700`] = tint(-0.4, BaseColors[key]) as hexString;
   acc[`${key}_800`] = tint(-0.6, BaseColors[key]) as hexString;

@@ -1,4 +1,4 @@
-import { BaseColorName, colors, hexString } from "@/app/styles/colors";
+import {BaseColorName, ColorName, colors, hexString} from "@/app/styles/colors";
 import { F } from "@mobily/ts-belt";
 
 export function hexToRgbA(hex: hexString, opacity: number = 1): string {
@@ -21,7 +21,7 @@ const colorConfig: {
   [baseColor in BaseColorName]: {
     baseColor: BaseColorName;
     accentBaseColor: BaseColorName;
-    contrastBaseColor: BaseColorName;
+    contrastBaseColor: ColorName | BaseColorName;
     fontBaseColor: BaseColorName;
   };
 } = {
@@ -31,34 +31,40 @@ const colorConfig: {
     contrastBaseColor: "white",
     fontBaseColor: "white",
   },
+  navy: {
+    accentBaseColor: "blue",
+    baseColor: "black",
+    contrastBaseColor: "cyan",
+    fontBaseColor: "white",
+  },
   cyan: {
     accentBaseColor: "green",
     baseColor: "cyan",
-    contrastBaseColor: "red",
+    contrastBaseColor: "navy",
     fontBaseColor: "white",
   },
   grey: {
     accentBaseColor: "black",
     baseColor: "grey",
-    contrastBaseColor: "green",
+    contrastBaseColor: "green_700",
     fontBaseColor: "white",
   },
   lightGrey: {
     accentBaseColor: "grey",
     baseColor: "lightGrey",
-    contrastBaseColor: "black",
+    contrastBaseColor: "blue_700",
     fontBaseColor: "white",
   },
   orange: {
-    accentBaseColor: "yellow",
+    accentBaseColor: "red",
     baseColor: "orange",
-    contrastBaseColor: "white",
+    contrastBaseColor: "yellow",
     fontBaseColor: "white",
   },
   purple: {
     accentBaseColor: "blue",
     baseColor: "purple",
-    contrastBaseColor: "yellow",
+    contrastBaseColor: "navy",
     fontBaseColor: "white",
   },
   red: {
@@ -82,7 +88,7 @@ const colorConfig: {
   green: {
     baseColor: "green",
     accentBaseColor: "blue",
-    contrastBaseColor: "red",
+    contrastBaseColor: "purple_700",
     fontBaseColor: "white",
   },
   yellow: {
@@ -101,16 +107,6 @@ export const getColorConfig = F.memoizeWithKey(
 export const getColor = (
   baseColor: BaseColorName,
   variant: "base" | "accent" | "contrast" | "font" = "base",
-  weight:
-    | "100"
-    | "200"
-    | "300"
-    | "400"
-    | "500"
-    | "600"
-    | "700"
-    | "800"
-    | "900" = "500",
 ): hexString => {
   const color = getColorConfig(baseColor);
   const colorKey:
@@ -126,5 +122,5 @@ export const getColor = (
           ? "fontBaseColor"
           : "contrastBaseColor";
   const colorVariant = color[colorKey];
-  return colors[`${colorVariant}_${weight || "500"}`];
+  return colors[colorVariant] as hexString;
 };

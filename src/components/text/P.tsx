@@ -7,6 +7,7 @@ interface PProps {
   $fontSize?: "small" | "medium" | "large";
   $fontWeight?: "light" | "normal" | "bold";
   $fontType?: "serif" | "sans" | "mono";
+  $color?: string;
 }
 
 const StyledP = styled.p<PProps>`
@@ -47,6 +48,7 @@ const StyledP = styled.p<PProps>`
     }
   }};
   text-transform: ${(props: PProps) => props.$textTransform || "none"};
+  color: ${(props: PProps) => props.$color || "inherit"};
 `;
 function P(props: PropsWithChildren<PProps>) {
   return <StyledP {...props}>{props.children}</StyledP>;

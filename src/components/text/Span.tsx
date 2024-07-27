@@ -1,12 +1,14 @@
 import styled from "styled-components";
 import { PropsWithChildren } from "react";
 import { baskerville, overpassMono, rubik } from "@/app/styles/fonts";
+import { hexString } from "@/app/styles/colors";
 
 interface SpanProps {
   $textTransform?: "capitalize" | "lowercase" | "uppercase" | "none";
   $fontSize?: "small" | "medium" | "large";
   $fontWeight?: "light" | "normal" | "bold";
   $fontType?: "serif" | "sans" | "mono";
+  $color?: hexString;
 }
 
 const StyledSpan = styled.span<SpanProps>`
@@ -47,6 +49,7 @@ const StyledSpan = styled.span<SpanProps>`
     }
   }};
   text-transform: ${(props: SpanProps) => props.$textTransform || "none"};
+  color: ${(props: SpanProps) => props.$color || "inherit"};
 `;
 export default function Span(props: PropsWithChildren<SpanProps>) {
   return <StyledSpan {...props}>{props.children}</StyledSpan>;
