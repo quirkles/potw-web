@@ -10,7 +10,7 @@ import Span from "@/components/text/Span";
 
 import { getPeriodDisplayText } from "@/utils/date";
 import { getColor } from "@/utils/color";
-import { FlexBox, FlexChild } from "@/components/layout/Flexbox";
+import { FlexBox, FlexItem } from "@/components/layout/Flexbox";
 import Spacer from "@/components/spacer/Spacer";
 import Link from "next/link";
 
@@ -61,7 +61,7 @@ export function GameSummary(props: IGameSummaryProps) {
   return (
     <StyledGameSummary $color={colorName}>
       <FlexBox>
-        <FlexChild $grow={1}>
+        <FlexItem $grow={1}>
           <Heading
             variant="h3"
             $color={contrastColor}
@@ -76,8 +76,8 @@ export function GameSummary(props: IGameSummaryProps) {
             </Span>
             .
           </P>
-        </FlexChild>
-        <FlexChild>
+        </FlexItem>
+        <FlexItem>
           <FlexBox $direction="column" $alignItems="flex-end">
             <Span $textTransform="capitalize" $fontSize="small">
               {hasGameStarted ? "started" : "starts"}:{" "}
@@ -110,7 +110,7 @@ export function GameSummary(props: IGameSummaryProps) {
               )}
             </Span>
           </FlexBox>
-        </FlexChild>
+        </FlexItem>
       </FlexBox>
       <div className="divider" />
       <Spacer $marginY="small" />

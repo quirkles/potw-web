@@ -14,7 +14,7 @@ const StyledTextArea = styled.textarea`
   padding: 0.5em;
   color: ${getColor("black")};
   &::placeholder {
-    color: ${getColor("green")};
+    color: ${getColor("blue")};
   }
 `;
 

@@ -43,11 +43,11 @@ interface FlexChildProps {
     | "stretch";
 }
 
-const FlexChild = styled.div<FlexChildProps>`
+const FlexItem = styled.div<FlexChildProps>`
   flex-grow: ${(props) => props.$grow || 0};
   flex-shrink: ${(props) => props.$shrink || 1};
   flex-basis: ${(props) => props.$basis || "auto"};
   align-self: ${(props) => props.$alignSelf || "auto"};
 `;
 
-export { FlexBox, FlexChild };
+export { FlexBox, FlexItem };
