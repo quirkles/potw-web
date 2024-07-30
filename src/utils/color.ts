@@ -1,4 +1,9 @@
-import {BaseColorName, ColorName, colors, hexString} from "@/app/styles/colors";
+import {
+  BaseColorName,
+  ColorName,
+  colors,
+  hexString,
+} from "@/app/styles/colors";
 import { F } from "@mobily/ts-belt";
 
 export function hexToRgbA(hex: hexString, opacity: number = 1): string {
