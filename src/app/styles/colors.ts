@@ -3,15 +3,15 @@ import { tint } from "@/utils/color.tint";
 export type hexString = `#${string}`;
 
 export const BaseColors = {
-  blue: "#6699cc",
-  navy: "#112A46",
-  red: "#f2777a",
-  green: "#99cc99",
-  yellow: "#ffcc66",
+  blue: "#28A5C2",
+  navy: "#2F719A",
+  red: "#E73E2C",
+  green: "#1CA075",
+  yellow: "#F19C13",
   purple: "#cc99cc",
-  orange: "#f99157",
-  cyan: "#66cccc",
-  white: "#FFFFFF",
+  orange: "#F35E47",
+  cyan: "#69BFD7",
+  white: "#F9F9F3",
   black: "#000000",
   grey: "#575757",
   lightGrey: "#adadad",
