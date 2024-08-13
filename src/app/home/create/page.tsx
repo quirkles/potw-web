@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { faker } from "@faker-js/faker";
 
@@ -44,6 +44,10 @@ function Create() {
   const dispatch = useAppDispatch();
   const newGame = useAppSelector(gameSelectors.getNewGame);
   const authUser = useAppSelector(authUserSelectors.getAuthUser);
+
+  const [users, setUsers] = useState<{ email: string; id: string | null }[]>(
+    [],
+  );
 
   useEffect(() => {
     dispatch(updateNewGame({ name: getFakeGameName(), isPrivate: false }));
@@ -174,7 +178,17 @@ function Create() {
             <Spacer $paddingY="small" />
           </GridItem>
           <GridItem $lg={6}>
-            <InviteUsers />
+            <InviteUsers
+              emails={users.map((u) => u.email)}
+              onAddUser={(user) => {
+                setUsers((state) => {
+                  if (state.some((u) => u.email === user.email)) {
+                    return state;
+                  }
+                  return state.concat(user);
+                });
+              }}
+            />
           </GridItem>
         </GridContainer>
         <Spacer $paddingY="medium">

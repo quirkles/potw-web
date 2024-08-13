@@ -7,11 +7,15 @@ import {
   orderBy,
   query,
   startAt,
-  where,
 } from "@firebase/firestore";
 import { getFirebaseApp } from "@/firebase";
 
-export async function searchByEmail(email: string): Promise<string[]> {
+export async function searchByEmail(email: string): Promise<
+  {
+    displayText: string;
+    value: string;
+  }[]
+> {
   const firebaseApp = getFirebaseApp();
   const db = getFirestore(firebaseApp);
   const q = query(
@@ -22,6 +26,8 @@ export async function searchByEmail(email: string): Promise<string[]> {
     limit(10),
   );
   const result = await getDocs(q);
-  const results = result.docs.map((doc) => doc.data().email);
-  return results;
+  return result.docs.map((doc) => ({
+    displayText: doc.data().email,
+    value: doc.id,
+  }));
 }
