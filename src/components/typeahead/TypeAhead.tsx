@@ -142,7 +142,7 @@ function TypeAhead<
     return () => {
       sub.unsubscribe();
     };
-  }, [inputRef.current]);
+  });
 
   useEffect(() => {
     handleScroll();
