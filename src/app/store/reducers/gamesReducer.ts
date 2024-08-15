@@ -11,6 +11,7 @@ import { createAppSlice } from "@/app/store/createAppSlice";
 import { addTo, DateString, getDateString, isDateString } from "@/utils/date";
 import { RecordToEnum } from "@/utils/typeUtils";
 import { CreateUserResponse } from "@/app/services/schemas/user";
+import { ZodError } from "zod";
 
 export const BasicPeriod = {
   daily: "daily",
@@ -62,7 +63,7 @@ export type GamePeriod = BasicPeriod | CustomPeriod | CustomRecurring;
 export type StoreGame = {
   id: string;
   name: string;
-  description?: string;
+  description: string | null;
   isPrivate: boolean;
   admin: CreateUserResponse;
   startDate: DateString;
@@ -95,6 +96,7 @@ export const gameSlice = createAppSlice({
       addAdminAsPlayer: true,
       period: "weekly",
       startDate: addTo(7, "day", getDateString()),
+      description: null,
       endDate: null,
       isOpenEnded: true,
     },
@@ -109,6 +111,10 @@ export const gameSlice = createAppSlice({
       async (
         createGamePayload: StoreNewGame & {
           adminId: string;
+          players: {
+            email: string;
+            id: string | null;
+          }[];
         },
       ) => {
         if (createGamePayload.isOpenEnded) {
@@ -118,6 +124,7 @@ export const gameSlice = createAppSlice({
         try {
           validatedPayload = createGamePayloadSchema.parse(createGamePayload);
         } catch (e) {
+          console.error((e as ZodError).issues);
           console.error("Invalid payload passed to create game", e);
           throw e;
         }
@@ -134,6 +141,7 @@ export const gameSlice = createAppSlice({
             status: "unsaved",
             addAdminAsPlayer: true,
             isOpenEnded: true,
+            description: null,
             period: "weekly",
             startDate: addTo(7, "day", getDateString()),
             endDate: null,

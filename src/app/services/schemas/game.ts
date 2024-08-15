@@ -36,6 +36,12 @@ export const createGamePayloadSchema = z.object({
     .or(z.null()),
   addAdminAsPlayer: z.boolean(),
   period: periodSchema,
+  players: z.array(
+    z.object({
+      email: z.string(),
+      id: z.string().or(z.null()),
+    }),
+  ),
 });
 export type CreateGamePayload = z.infer<typeof createGamePayloadSchema>;
 

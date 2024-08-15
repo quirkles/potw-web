@@ -200,8 +200,10 @@ function Create() {
                 createGame({
                   ...newGame,
                   adminId: authUser.sqlId,
+                  players: users,
                 }),
               ).then(() => {
+                setUsers([]);
                 dispatch(updateNewGame({ name: getFakeGameName() }));
               })
             }
