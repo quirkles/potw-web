@@ -8,7 +8,7 @@ import TypeAhead from "@/components/typeahead/TypeAhead";
 import { isEmail } from "@/utils/string";
 
 interface IManageUsersProps {
-  onAddUser: (user: { email: string; id: string | null }) => void;
+  onAddUser: (user: { email: string; firestoreId: string | null }) => void;
   emails: string[];
 }
 
@@ -33,13 +33,13 @@ function InviteUsers(props: IManageUsersProps) {
         onSelect={(selected) => {
           onAddUser({
             email: selected.displayText,
-            id: selected.value as string,
+            firestoreId: selected.value as string,
           });
         }}
         onAddFromInput={(value) => {
           onAddUser({
             email: value,
-            id: null,
+            firestoreId: null,
           });
         }}
         placeholder="alice@google.com"

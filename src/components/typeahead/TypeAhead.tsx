@@ -114,16 +114,53 @@ function TypeAhead<
   const inputRef = useRef<HTMLInputElement | null>(null);
   const ulRef = useRef<HTMLUListElement | null>(null);
 
+  const handleAddFromInput = () => {
+    if (inputRef.current) {
+      const value = inputRef.current.value.trim();
+      if (!value) {
+        return;
+      }
+      let errorMsg = validate(value);
+      if (errorMsg) {
+        setErrorMsg(errorMsg);
+        return;
+      }
+      let matchingValue = results.find((r) => {
+        if (typeof r == "string" || typeof r == "number") {
+          return r === value;
+        }
+        return r.displayText === value;
+      });
+      if (matchingValue) {
+        return handleItemClick(matchingValue);
+      } else {
+        onAddFromInput(inputRef.current.value);
+      }
+      inputRef.current.value = "";
+      inputRef.current.focus();
+      inputRef.current.dispatchEvent(new Event("keyup", { bubbles: true }));
+      setResults([]);
+    }
+  };
+
   useEffect(() => {
     if (!inputRef.current) {
       return;
     }
-    const sub = fromEvent(inputRef.current, "keyup")
+    let doAdd: boolean = false;
+    const sub = fromEvent<KeyboardEvent>(inputRef.current, "keyup")
       .pipe(
+        tap((e: KeyboardEvent) => {
+          if (e.code === "Enter") {
+            // console.log("enter");
+            doAdd = true;
+          }
+        }),
         debounceTime(debounceMs),
-        map((e: any) => e.target.value),
+        map((e: any) => e.target.value.replace(/\n\t\s+/g, "").trim()),
         distinctUntilChanged(),
         switchMap((v) => {
+          console.log("value", v);
           setErrorMsg(null);
           return v.length
             ? onValueChange(v).catch((err) => {
@@ -136,8 +173,15 @@ function TypeAhead<
       .subscribe({
         next: (v) => {
           setResults(v);
+          if (doAdd) {
+            handleAddFromInput();
+          }
+          doAdd = false;
         },
-        error: onError,
+        error: (err) => {
+          doAdd = false;
+          onError(err);
+        },
       });
     return () => {
       sub.unsubscribe();
@@ -162,35 +206,6 @@ function TypeAhead<
   const handleItemClick = (item: T) => {
     onSelect(item);
     if (inputRef.current) {
-      inputRef.current.value = "";
-      inputRef.current.focus();
-      inputRef.current.dispatchEvent(new Event("keyup", { bubbles: true }));
-      setResults([]);
-    }
-  };
-
-  const handleAddFromInput = () => {
-    if (inputRef.current) {
-      const value = inputRef.current.value.trim();
-      if (!value) {
-        return;
-      }
-      let errorMsg = validate(value);
-      if (errorMsg) {
-        setErrorMsg(errorMsg);
-        return;
-      }
-      let matchingValue = results.find((r) => {
-        if (typeof r == "string" || typeof r == "number") {
-          return r === value;
-        }
-        return r.displayText === value;
-      });
-      if (matchingValue) {
-        return handleItemClick(matchingValue);
-      } else {
-        onAddFromInput(inputRef.current.value);
-      }
       inputRef.current.value = "";
       inputRef.current.focus();
       inputRef.current.dispatchEvent(new Event("keyup", { bubbles: true }));

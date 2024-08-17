@@ -45,9 +45,9 @@ function Create() {
   const newGame = useAppSelector(gameSelectors.getNewGame);
   const authUser = useAppSelector(authUserSelectors.getAuthUser);
 
-  const [users, setUsers] = useState<{ email: string; id: string | null }[]>(
-    [],
-  );
+  const [users, setUsers] = useState<
+    { email: string; firestoreId: string | null }[]
+  >([]);
 
   useEffect(() => {
     dispatch(updateNewGame({ name: getFakeGameName(), isPrivate: false }));

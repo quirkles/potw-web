@@ -39,7 +39,7 @@ export const createGamePayloadSchema = z.object({
   players: z.array(
     z.object({
       email: z.string(),
-      id: z.string().or(z.null()),
+      firestoreId: z.string().or(z.null()),
     }),
   ),
 });

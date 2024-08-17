@@ -113,7 +113,7 @@ export const gameSlice = createAppSlice({
           adminId: string;
           players: {
             email: string;
-            id: string | null;
+            firestoreId: string | null;
           }[];
         },
       ) => {
