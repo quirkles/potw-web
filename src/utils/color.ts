@@ -1,7 +1,7 @@
 import {
   BaseColorName,
-  ColorName,
-  colors,
+  ColorWeightName,
+  Colors,
   hexString,
 } from "@/app/styles/colors";
 import { F } from "@mobily/ts-belt";
@@ -26,7 +26,7 @@ const colorConfig: {
   [baseColor in BaseColorName]: {
     baseColor: BaseColorName;
     accentBaseColor: BaseColorName;
-    contrastBaseColor: ColorName | BaseColorName;
+    contrastBaseColor: ColorWeightName | BaseColorName;
     fontBaseColor: BaseColorName;
   };
 } = {
@@ -127,5 +127,5 @@ export const getColor = (
           ? "fontBaseColor"
           : "contrastBaseColor";
   const colorVariant = color[colorKey];
-  return colors[colorVariant] as hexString;
+  return Colors[colorVariant] as hexString;
 };

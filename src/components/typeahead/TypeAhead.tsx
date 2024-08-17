@@ -12,6 +12,8 @@ import { getColor } from "@/utils/color";
 import { FlexBox, FlexItem } from "@/components/layout/Flexbox";
 import Button from "@/components/button/Button";
 import { F } from "@mobily/ts-belt";
+import Spacer from "@/components/spacer/Spacer";
+import { Colors } from "@/app/styles/colors";
 
 interface ITypeAheadProps<
   T extends
@@ -77,11 +79,12 @@ const StyledTypeAhead = styled.div`
       font-size: x-small;
       padding: 0.5rem;
       border-radius: 0.5rem;
-      background-color: ${getColor("blue")};
-      color: ${getColor("blue", "font")};
+      background-color: ${getColor("green")};
+      color: ${getColor("green", "font")};
       cursor: pointer;
+      white-space: nowrap;
       &:hover {
-        background-color: ${getColor("green")};
+        background-color: ${Colors.green_700};
       }
     }
   }
@@ -160,11 +163,9 @@ function TypeAhead<
         map((e: any) => e.target.value.replace(/\n\t\s+/g, "").trim()),
         distinctUntilChanged(),
         switchMap((v) => {
-          console.log("value", v);
           setErrorMsg(null);
           return v.length
             ? onValueChange(v).catch((err) => {
-                console.log("error", err);
                 return [];
               })
             : Promise.resolve([]);
@@ -220,30 +221,48 @@ function TypeAhead<
           <input ref={inputRef} placeholder={placeholder} />
           {errorMsg && <small>{errorMsg}</small>}
         </FlexItem>
-        <Button
-          buttonText="+"
-          size="sm"
-          color="green"
-          onClick={handleAddFromInput}
-        />
+        <FlexItem>
+          <Spacer $paddingX="small">
+            <Button
+              buttonText="add"
+              size="sm"
+              color="green"
+              onClick={handleAddFromInput}
+            />
+          </Spacer>
+        </FlexItem>
       </FlexBox>
-      <ul
-        ref={ulRef}
-        onScroll={handleScroll}
-        className={`${canScrollLeft ? "canScrollLeft" : ""} ${canScrollRight ? "canScrollRight" : ""}`}
-      >
-        {results.map((r) =>
-          typeof r == "string" || typeof r == "number" ? (
-            <li onClick={() => handleItemClick(r)} key={r}>
-              {r}
+      {results.length === 0 ? (
+        <ul>
+          {inputRef.current?.value.trim().length ? (
+            <li style={{ backgroundColor: Colors.orange }}>
+              No results to show
             </li>
           ) : (
-            <li onClick={() => handleItemClick(r)} key={r.value}>
-              {r.displayText}
+            <li style={{ backgroundColor: Colors.blue }}>
+              Begin typing to search...
             </li>
-          ),
-        )}
-      </ul>
+          )}
+        </ul>
+      ) : (
+        <ul
+          ref={ulRef}
+          onScroll={handleScroll}
+          className={`${canScrollLeft ? "canScrollLeft" : ""} ${canScrollRight ? "canScrollRight" : ""}`}
+        >
+          {results.map((r) =>
+            typeof r == "string" || typeof r == "number" ? (
+              <li onClick={() => handleItemClick(r)} key={r}>
+                {r}
+              </li>
+            ) : (
+              <li onClick={() => handleItemClick(r)} key={r.value}>
+                {r.displayText}
+              </li>
+            ),
+          )}
+        </ul>
+      )}
     </StyledTypeAhead>
   );
 }

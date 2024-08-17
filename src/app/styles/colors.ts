@@ -39,13 +39,15 @@ type ColorWeights = {
 
 type ColorWeight = keyof ColorWeights;
 
-export type ColorName = `${BaseColorName}_${ColorWeight}`;
+export type ColorWeightName = `${BaseColorName}_${ColorWeight}`;
+
+export type ColorName = ColorWeightName | BaseColorName;
 
 type Colors = {
-  [key in ColorName | BaseColorName]: hexString;
+  [key in ColorName]: hexString;
 };
 
-export const colors: Colors = (
+export const Colors: Colors = (
   Object.keys(BaseColors) as BaseColorName[]
 ).reduce((acc: Colors, key: BaseColorName) => {
   acc[`${key}_100`] = tint(0.8, BaseColors[key]) as hexString;

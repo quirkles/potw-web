@@ -179,6 +179,9 @@ function Create() {
           </GridItem>
           <GridItem $lg={6}>
             <InviteUsers
+              onRemoveUser={(email) => {
+                setUsers((state) => state.filter((u) => u.email !== email));
+              }}
               emails={users.map((u) => u.email)}
               onAddUser={(user) => {
                 setUsers((state) => {
