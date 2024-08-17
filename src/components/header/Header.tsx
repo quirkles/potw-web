@@ -15,8 +15,8 @@ const StyledHeader = styled.header`
   padding: 0 2em;
   background-image: linear-gradient(
     to right top,
-    ${getColor("blue")},
-    ${getColor("green")}
+    ${getColor("navy")},
+    ${getColor("grey")}
   );
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
