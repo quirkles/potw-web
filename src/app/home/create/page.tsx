@@ -27,8 +27,11 @@ import { addTo } from "@/utils/date";
 import { getColor } from "@/utils/color";
 import { GridContainer, GridItem } from "@/components/layout/Grid";
 import InviteUsers from "@/app/home/create/InviteUsers";
+import { useResponsiveContext } from "@/app/providers/Responsive";
 
 const Styled = styled.div`
+  height: 100%;
+  overflow: auto;
   background-color: ${getColor("white")};
   color: ${getColor("black")};
 `;
@@ -52,9 +55,16 @@ function Create() {
   useEffect(() => {
     dispatch(updateNewGame({ name: getFakeGameName(), isPrivate: false }));
   }, [dispatch]);
+
+  const responsiveContext = useResponsiveContext();
+
+  useEffect(() => {
+    console.log(responsiveContext);
+  }, [responsiveContext]);
   return (
     <Styled>
-      <Spacer $padding="medium">
+      <Spacer $margin="medium">
+        <Heading variant="h1">Create New Game</Heading>
         <GridContainer>
           <GridItem $lg={6}>
             <div>
@@ -70,6 +80,7 @@ function Create() {
             <div>
               <P>I can sum up my game in a few words:</P>
               <TextArea
+                cols={responsiveContext?.isMobile ? 30 : 50}
                 value={newGame.description || ""}
                 onChange={(e) =>
                   dispatch(

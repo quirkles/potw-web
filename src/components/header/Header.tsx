@@ -69,14 +69,14 @@ export default function Header(props: HeaderProps) {
       <div className="middle"></div>
       <div className="right">
         <Button
-          buttonText="My games"
+          buttonText="games"
           color="blue"
           Icon={AlbumListSvg}
           route="/home/games"
           size={ButtonSize.sm}
         ></Button>
         <Button
-          buttonText="New Game"
+          buttonText="create"
           color="green"
           Icon={MusicSvg}
           route="/home/create"

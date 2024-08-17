@@ -25,15 +25,13 @@ const StyledMain = styled.main`
   flex-direction: column;
   > * {
     &:first-child {
+      flex-basis: 4em;
       height: 4em;
     }
     &:nth-child(2) {
       height: calc(100vh - 4em);
-      overflow: auto;
+      overflow: hidden;
     }
-  }
-  .router-outlet {
-    position: relative;
   }
 `;
 

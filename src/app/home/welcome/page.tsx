@@ -10,11 +10,8 @@ import { rubik } from "@/app/styles/fonts";
 import { useRouter } from "next/navigation";
 
 const Styled = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   height: 100%;
+  overflow: auto;
   color: black;
   background-image: linear-gradient(
     to right top,
@@ -104,7 +101,7 @@ function Home() {
   };
   return (
     <Styled>
-      <Spacer $padding="medium">
+      <Spacer $margin="medium">
         <Heading variant="h1">Welcome</Heading>
         <Heading variant="h2">What is Pick of the Week?</Heading>
         <P>
