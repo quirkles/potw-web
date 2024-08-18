@@ -40,7 +40,7 @@ function Games() {
         <GridContainer>
           {games &&
             games.filter(isFetchedGame).map((game) => (
-              <GridItem key={game.id} $sm={6}>
+              <GridItem key={game.id} $sm={6} $md={4}>
                 <GameSummary game={game} />
               </GridItem>
             ))}

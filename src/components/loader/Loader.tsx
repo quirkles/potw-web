@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {getColor} from "@/utils/color";
+import { getColor } from "@/utils/color";
 
 const Styles = styled.div`
     --speed-of-animation: 0.9s;
@@ -62,18 +62,18 @@ const Styles = styled.div`
 `;
 
 function Loader() {
-    return (
-        <Styles>
-            <div>
-                <span/>
-                <span/>
-                <span/>
-                <span/>
-                <span/>
-            </div>
-            <div>...Loading...hang tight...</div>
-        </Styles>
-    );
+  return (
+    <Styles>
+      <div>
+        <span />
+        <span />
+        <span />
+        <span />
+        <span />
+      </div>
+      <div>...Loading...hang tight...</div>
+    </Styles>
+  );
 }
 
 export default Loader;
