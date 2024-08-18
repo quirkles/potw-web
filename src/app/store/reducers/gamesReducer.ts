@@ -1,6 +1,7 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import {
   createGamePayloadSchema,
+  CreateGameResponse,
   FetchedGame,
 } from "@/app/services/schemas/game";
 import {
@@ -12,6 +13,7 @@ import { addTo, DateString, getDateString, isDateString } from "@/utils/date";
 import { RecordToEnum } from "@/utils/typeUtils";
 import { CreateUserResponse } from "@/app/services/schemas/user";
 import { ZodError } from "zod";
+import { getFakeGameName } from "@/utils/game";
 
 export const BasicPeriod = {
   daily: "daily",
@@ -116,7 +118,7 @@ export const gameSlice = createAppSlice({
             firestoreId: string | null;
           }[];
         },
-      ) => {
+      ): Promise<CreateGameResponse> => {
         if (createGamePayload.isOpenEnded) {
           createGamePayload.endDate = null;
         }
@@ -134,9 +136,9 @@ export const gameSlice = createAppSlice({
         pending: (state) => {
           state.newGame.status = "pendingCreate";
         },
-        fulfilled: (state, action) => {
+        fulfilled: (state) => {
           state.newGame = {
-            name: "",
+            name: getFakeGameName(),
             isPrivate: false,
             status: "unsaved",
             addAdminAsPlayer: true,
@@ -147,8 +149,9 @@ export const gameSlice = createAppSlice({
             endDate: null,
           };
         },
-        rejected: (state) => {
+        rejected: (state, action) => {
           state.newGame.status = "failed";
+          throw new Error(action.error.message);
         },
       },
     ),

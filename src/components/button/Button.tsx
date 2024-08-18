@@ -67,6 +67,10 @@ const StyledButton = styled.button<{
     ${(props) => getSizes(props.$size).horizontalPadding}em;
   cursor: pointer;
 
+  a {
+    text-decoration: none;
+  }
+
   .icon {
     color: ${(props) => hexToRgbA(getColor(props.$color), 0)};
     background: white;

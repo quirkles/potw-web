@@ -28,6 +28,10 @@ import { getColor } from "@/utils/color";
 import { GridContainer, GridItem } from "@/components/layout/Grid";
 import InviteUsers from "@/app/home/create/InviteUsers";
 import { useResponsiveContext } from "@/app/providers/Responsive";
+import { useNotificationsContext } from "@/app/providers/Notifications";
+import Link from "next/link";
+import { CreateGameResponse } from "@/app/services/schemas/game";
+import { getFakeGameName } from "@/utils/game";
 
 const Styled = styled.div`
   height: 100%;
@@ -36,17 +40,12 @@ const Styled = styled.div`
   color: ${getColor("black")};
 `;
 
-function getFakeGameName() {
-  return `${faker.color.human()}-${faker.commerce.product()}-${faker.science.chemicalElement().name}`
-    .toLowerCase()
-    .replace(/\s/g, "-")
-    .replace(/,/g, "");
-}
-
 function Create() {
   const dispatch = useAppDispatch();
   const newGame = useAppSelector(gameSelectors.getNewGame);
   const authUser = useAppSelector(authUserSelectors.getAuthUser);
+
+  const { dispatchNotification } = useNotificationsContext();
 
   const [users, setUsers] = useState<
     { email: string; firestoreId: string | null }[]
@@ -58,9 +57,6 @@ function Create() {
 
   const responsiveContext = useResponsiveContext();
 
-  useEffect(() => {
-    console.log(responsiveContext);
-  }, [responsiveContext]);
   return (
     <Styled>
       <Spacer $margin="medium">
@@ -216,10 +212,35 @@ function Create() {
                   adminId: authUser.sqlId,
                   players: users,
                 }),
-              ).then(() => {
-                setUsers([]);
-                dispatch(updateNewGame({ name: getFakeGameName() }));
-              })
+              )
+                .then((game) => {
+                  if (game.payload) {
+                    setUsers([]);
+                    dispatchNotification({
+                      durationMs: 10000,
+                      title: "Game Created",
+                      message: (
+                        <p>
+                          View your new game{" "}
+                          <Link
+                            href={`/home/games/${(game.payload as CreateGameResponse).id}`}
+                          >
+                            here
+                          </Link>
+                        </p>
+                      ),
+                      type: "SUCCESS",
+                    });
+                  }
+                })
+                .catch((e) => {
+                  dispatchNotification({
+                    durationMs: 10000,
+                    title: "Failed to create game",
+                    message: e.message,
+                    type: "ERROR",
+                  });
+                })
             }
           />
         </Spacer>

@@ -82,19 +82,19 @@ const variants: {
 } = {
   SUCCESS: {
     backgroundColor: getColor("green"),
-    color: getColor("green", "contrast"),
+    color: getColor("green", "font"),
   },
   INFO: {
     backgroundColor: getColor("blue"),
-    color: getColor("blue", "contrast"),
+    color: getColor("blue", "font"),
   },
   WARNING: {
     backgroundColor: getColor("yellow"),
-    color: getColor("yellow", "contrast"),
+    color: getColor("yellow", "font"),
   },
   ERROR: {
     backgroundColor: getColor("red"),
-    color: getColor("red", "contrast"),
+    color: getColor("red", "font"),
   },
 };
 
@@ -104,7 +104,7 @@ const StyledNotification = styled.li<{
   position: relative;
   padding: 0.5em 2em 0.5em 1em;
   margin: 0.5em 0;
-  font-size: x-small;
+  font-size: small;
   border: 1px solid ${(props) => variants[props.$type].color};
   color: ${(props) => variants[props.$type].color};
   background-color: ${(props) => variants[props.$type].backgroundColor};
@@ -134,7 +134,7 @@ export function Notification(props: NotificationProps) {
         X
       </div>
       {title && <Heading variant="h3">{title}</Heading>}
-      <P>{message}</P>
+      {typeof message === "string" ? <P>{message}</P> : message}
     </StyledNotification>
   );
 }

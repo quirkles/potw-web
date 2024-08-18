@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, ReactElement } from "react";
 import { Subject, Subscription } from "rxjs";
 import { v4 } from "uuid";
 
@@ -18,7 +18,7 @@ export interface INotification {
   id: string;
   type?: NotificationType;
   title?: string;
-  message: string;
+  message: string | ReactElement;
   durationMs?: number;
 }
 
@@ -72,7 +72,10 @@ type NotificationContext = {
   dispatchNotification: (notification: Omit<INotification, "id">) => void;
 };
 
-const NotificationContext = createContext<NotificationContext | null>(null);
+const NotificationContext = createContext<NotificationContext>({
+  subscribeToNotificationEvents: () => new Subscription(),
+  dispatchNotification: () => {},
+});
 
 export function NotificationProvider({ children }: { children: ReactNode }) {
   const notificationSubject = new Subject<Event<NotificationEventType>>();

@@ -20,7 +20,7 @@ type ResponsiveContext = {
 const ResponsiveContext = createContext<ResponsiveContext | null>(null);
 
 export function ResponsiveProvider({ children }: { children: ReactNode }) {
-  const [screenWidthPx, setScreenWidthPx] = useState(window.innerWidth);
+  const [screenWidthPx, setScreenWidthPx] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
@@ -46,6 +46,7 @@ export function ResponsiveProvider({ children }: { children: ReactNode }) {
   }, [screenWidthPx]);
 
   useEffect(() => {
+    setScreenWidthPx(window.innerWidth);
     const sub = fromEvent(window, "resize")
       .pipe(debounceTime(100))
       .subscribe((e) => {

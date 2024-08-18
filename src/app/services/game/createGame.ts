@@ -19,7 +19,7 @@ export async function createGameRequest(
   })
     .then((res) => {
       if (!res.ok) {
-        throw new Error("Failed to create game");
+        throw new Error(`Failed to create game: ${res.statusText}`);
       }
       return res.json();
     })
