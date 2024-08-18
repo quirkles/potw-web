@@ -17,6 +17,11 @@ const meta = {
       description: "The ID of the game.",
       type: "string",
     },
+    game_status: {
+      description: "The status of the game.",
+      type: "select",
+      options: ["fetched", "failed", "fetching"],
+    },
     game_name: {
       description: "The name of the game.",
       type: "string",
@@ -66,12 +71,8 @@ const meta = {
         endDate: args.game_endDate,
         period: args.game_period,
         players: [],
-        admin: {
-          sqlId: args.game_admin_id,
-          email: args.game_admin_email,
-          username: args.game_admin_username,
-          firestoreId: "firestore-id",
-        },
+        status: args.game_status,
+        admin: args.game_admin_id,
       },
     };
     return <GameSummary {...props} />;
