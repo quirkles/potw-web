@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import { selectGamesForUsers } from "@/app/store/selectors";
-import { gameSlice } from "@/app/store/reducers/gamesReducer";
+import { gameSlice, isFetchedGame } from "@/app/store/reducers/gamesReducer";
 
 import Spacer from "@/components/spacer/Spacer";
 
@@ -30,7 +30,7 @@ function Games() {
 
   useEffect(() => {
     if (authUser?.sqlId) {
-      dispatch(gameSlice.actions.fetchMyGames(authUser.sqlId as string));
+      dispatch(gameSlice.actions.fetchGamesForUser(authUser.sqlId as string));
     }
   }, [authUser?.sqlId, dispatch]);
 
@@ -39,7 +39,7 @@ function Games() {
       <Spacer $padding="medium">
         <GridContainer>
           {games &&
-            games.map((game) => (
+            games.filter(isFetchedGame).map((game) => (
               <GridItem key={game.id} $sm={6}>
                 <GameSummary game={game} />
               </GridItem>

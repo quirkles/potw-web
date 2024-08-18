@@ -1,6 +1,5 @@
 import { createAppSlice } from "@/app/store/createAppSlice";
 import { fetchUserByIdRequest } from "@/app/services/user/fetchUserById";
-import { fetchGame } from "@/app/services/game/createGame";
 import { gameSlice } from "@/app/store/reducers/gamesReducer";
 
 export type TUser = {
@@ -40,6 +39,27 @@ export const usersSlice = createAppSlice({
         }
       });
     });
+    builder.addCase(
+      gameSlice.actions.fetchGamesForUser.fulfilled,
+      (state, action) => {
+        for (const game of action.payload) {
+          if (game.admin) {
+            state.users[game.admin.sqlId] = {
+              ...state.users[game.admin.sqlId],
+              ...game.admin,
+            };
+          }
+          game.players.forEach((player) => {
+            if (player.sqlId) {
+              state.users[player.sqlId] = {
+                ...state.users[player.sqlId],
+                ...player,
+              };
+            }
+          });
+        }
+      },
+    );
   },
   reducers: (create) => ({
     fetchUserById: create.asyncThunk(

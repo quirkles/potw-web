@@ -13,6 +13,8 @@ import { getColor } from "@/utils/color";
 import { FlexBox, FlexItem } from "@/components/layout/Flexbox";
 import Spacer from "@/components/spacer/Spacer";
 import Link from "next/link";
+import { useAppSelector } from "@/app/store/hooks";
+import { usersSelectors } from "@/app/store/reducers/usersReducer";
 
 const StyledGameSummary = styled.div<{
   $color: BaseColorName;
@@ -51,8 +53,12 @@ export function GameSummary(props: IGameSummaryProps) {
     endDate,
     isPrivate,
     players,
-    admin,
   } = game;
+
+  const admin = useAppSelector((state) =>
+    usersSelectors.getUserBySqlId(state, game.admin),
+  );
+
   const hasGameStarted = new Date(startDate) < new Date();
   const doesGameEnd = !!endDate;
   const hasGameEnded = doesGameEnd && new Date(endDate) < new Date();
@@ -114,7 +120,7 @@ export function GameSummary(props: IGameSummaryProps) {
       <div className="divider" />
       <Spacer $marginY="small" />
       <P $fontSize="small" $color={contrastColor}>
-        Created by <Span> - admin details - </Span>.
+        Created by <Span> {admin?.email} </Span>.
       </P>
       <Spacer $marginY="small" />
       <P>

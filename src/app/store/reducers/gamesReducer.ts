@@ -6,7 +6,7 @@ import { createGamePayloadSchema, Game } from "@/app/services/schemas/game";
 import {
   createGameRequest,
   fetchGame,
-  fetchGamesForUser,
+  fetchGamesForUser as fetchGamesForUserRequest,
 } from "@/app/services/game";
 import { createAppSlice } from "@/app/store/createAppSlice";
 import { addTo, DateString, getDateString } from "@/utils/date";
@@ -188,7 +188,7 @@ export const gameSlice = createAppSlice({
         };
       },
     }),
-    fetchMyGames: create.asyncThunk(fetchGamesForUser, {
+    fetchGamesForUser: create.asyncThunk(fetchGamesForUserRequest, {
       fulfilled: (state, action) => {
         action.payload.forEach((game) => {
           state.games[game.id] = gameToStoreGame(game);
@@ -202,7 +202,8 @@ export const gameSlice = createAppSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { updateNewGame, createGame, fetchMyGames } = gameSlice.actions;
+export const { updateNewGame, createGame, fetchGamesForUser } =
+  gameSlice.actions;
 
 export default gameSlice.reducer;
 
