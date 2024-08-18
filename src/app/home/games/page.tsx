@@ -1,12 +1,11 @@
 "use client";
 
-import Link from "next/link";
-import { PropsWithChildren, useEffect } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import { selectGamesForUsers } from "@/app/store/selectors";
-import { gameSlice, StoreGame } from "@/app/store/reducers/gamesReducer";
+import { gameSlice } from "@/app/store/reducers/gamesReducer";
 
 import Spacer from "@/components/spacer/Spacer";
 

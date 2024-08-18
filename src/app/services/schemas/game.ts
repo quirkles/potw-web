@@ -1,5 +1,5 @@
 import z from "zod";
-import { createUserResponseSchema } from "@/app/services/schemas/user";
+import { userSchema } from "@/app/services/schemas/user";
 
 const periodSchema = z.union([
   z.literal("daily"),
@@ -45,27 +45,15 @@ export const createGamePayloadSchema = z.object({
 });
 export type CreateGamePayload = z.infer<typeof createGamePayloadSchema>;
 
-export const createGameResponseSchema = createGamePayloadSchema
-  .omit({ adminId: true, addAdminAsPlayer: true })
-  .merge(
-    z.object({
-      id: z.string(),
-      admin: createUserResponseSchema,
-    }),
-  );
-
-export type CreateGameResponse = z.infer<typeof createGameResponseSchema>;
-
-const fetchedGameSchema = createGameResponseSchema.omit({ admin: true }).merge(
-  z.object({
+export const gameSchema = createGamePayloadSchema
+  .omit({
+    adminId: true,
+    addAdminAsPlayer: true,
+  })
+  .extend({
     id: z.string(),
-    players: z.array(z.string()),
-    admin: createUserResponseSchema,
-  }),
-);
+    players: z.array(userSchema),
+    admin: userSchema,
+  });
 
-export type FetchedGame = z.infer<typeof fetchedGameSchema>;
-
-export const fetchGamesResponseSchema = z.object({
-  games: fetchedGameSchema.array(),
-});
+export type Game = z.infer<typeof gameSchema>;

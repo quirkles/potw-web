@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { StoreGame } from "@/app/store/reducers/gamesReducer";
+import { StoreFetchedGame } from "@/app/store/reducers/gamesReducer";
 import { BaseColorName, baseColors } from "@/app/styles/colors";
 import { getPseudoRandomFromArrayFromUid } from "@/utils/random";
 
@@ -31,7 +31,7 @@ const StyledGameSummary = styled.div<{
 `;
 
 interface IGameSummaryProps {
-  game: StoreGame;
+  game: StoreFetchedGame;
 }
 
 const excludedColors: BaseColorName[] = ["white", "black"];
@@ -53,7 +53,6 @@ export function GameSummary(props: IGameSummaryProps) {
     players,
     admin,
   } = game;
-  const { email: adminEmail, username: adminUsername, sqlId: adminId } = admin;
   const hasGameStarted = new Date(startDate) < new Date();
   const doesGameEnd = !!endDate;
   const hasGameEnded = doesGameEnd && new Date(endDate) < new Date();
@@ -115,7 +114,7 @@ export function GameSummary(props: IGameSummaryProps) {
       <div className="divider" />
       <Spacer $marginY="small" />
       <P $fontSize="small" $color={contrastColor}>
-        Created by <Span>{adminUsername || adminEmail}</Span>.
+        Created by <Span> - admin details - </Span>.
       </P>
       <Spacer $marginY="small" />
       <P>
@@ -125,8 +124,8 @@ export function GameSummary(props: IGameSummaryProps) {
             {getPeriodDisplayText(period)}
           </Span>
         </Span>
-        <Spacer $marginY="small" />
       </P>
+      <Spacer $marginY="small" />
       {description && (
         <Spacer $marginY="medium">
           <P $fontSize="small" $fontWeight="bold">

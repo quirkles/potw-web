@@ -1,19 +1,18 @@
 import { PayloadAction } from "@reduxjs/toolkit";
-import {
-  createGamePayloadSchema,
-  CreateGameResponse,
-  FetchedGame,
-} from "@/app/services/schemas/game";
+
+import { ZodError } from "zod";
+
+import { createGamePayloadSchema, Game } from "@/app/services/schemas/game";
 import {
   createGameRequest,
+  fetchGame,
   fetchGamesForUser,
-} from "@/app/services/game/createGame";
+} from "@/app/services/game";
 import { createAppSlice } from "@/app/store/createAppSlice";
-import { addTo, DateString, getDateString, isDateString } from "@/utils/date";
+import { addTo, DateString, getDateString } from "@/utils/date";
 import { RecordToEnum } from "@/utils/typeUtils";
-import { CreateUserResponse } from "@/app/services/schemas/user";
-import { ZodError } from "zod";
 import { getFakeGameName } from "@/utils/game";
+import { gameToStoreGame } from "@/app/services/game/transformers";
 
 export const BasicPeriod = {
   daily: "daily",
@@ -62,19 +61,33 @@ type CustomRecurring = {
 };
 export type GamePeriod = BasicPeriod | CustomPeriod | CustomRecurring;
 
-export type StoreGame = {
+export type StoreFetchedGame = {
+  status: "fetched";
   id: string;
   name: string;
   description: string | null;
   isPrivate: boolean;
-  admin: CreateUserResponse;
+  admin: string;
   startDate: DateString;
   endDate: DateString | null;
   period: GamePeriod;
   players: string[];
 };
+type StoreFetchingGame = {
+  status: "fetching";
+  id: string;
+};
+type StoreFailedGame = {
+  status: "failed";
+  id: string;
+  error: string;
+};
+export type StoreGame = StoreFetchedGame | StoreFetchingGame | StoreFailedGame;
 
-type StoreNewGame = Omit<StoreGame, "id" | "adminId" | "players" | "admin"> & {
+type StoreNewGame = Omit<
+  StoreFetchedGame,
+  "id" | "adminId" | "players" | "admin" | "status"
+> & {
   status: "unsaved" | "pendingCreate" | "failed";
   addAdminAsPlayer: boolean;
   isOpenEnded: boolean;
@@ -118,7 +131,7 @@ export const gameSlice = createAppSlice({
             firestoreId: string | null;
           }[];
         },
-      ): Promise<CreateGameResponse> => {
+      ): Promise<Game> => {
         if (createGamePayload.isOpenEnded) {
           createGamePayload.endDate = null;
         }
@@ -155,29 +168,36 @@ export const gameSlice = createAppSlice({
         },
       },
     ),
-    fetchMyGames: create.asyncThunk(
-      async (userId: string) => {
-        return fetchGamesForUser(userId);
+    fetchGame: create.asyncThunk(fetchGame, {
+      pending: (state, action) => {
+        state.games[action.meta.arg] = {
+          ...(state.games[action.meta.arg] || {}),
+          status: "fetching",
+          id: action.meta.arg,
+        };
       },
-      {
-        pending: (state) => {
-          console.log("fetchMyGames pending");
-        },
-        fulfilled: (state, action) => {
-          action.payload.forEach((game) => {
-            if (isFetchGameStoreGame(game)) {
-              state.games[game.id] = {
-                ...(state.games[game.id] || {}),
-                ...(game as StoreGame),
-              };
-            }
-          });
-        },
-        rejected: (state) => {
-          console.log("fetchMyGames rejected");
-        },
+      fulfilled: (state, action) => {
+        const game = action.payload;
+        state.games[game.id] = gameToStoreGame(game);
       },
-    ),
+      rejected: (state, action) => {
+        state.games[action.meta.arg] = {
+          status: "failed",
+          id: action.meta.arg,
+          error: action.error.message || "Unknown error",
+        };
+      },
+    }),
+    fetchMyGames: create.asyncThunk(fetchGamesForUser, {
+      fulfilled: (state, action) => {
+        action.payload.forEach((game) => {
+          state.games[game.id] = gameToStoreGame(game);
+        });
+      },
+      rejected: (state) => {
+        console.log("fetchMyGames rejected");
+      },
+    }),
   }),
 });
 
@@ -195,10 +215,16 @@ export const gameSelectors = {
   }): { [key: string]: StoreGame } => {
     return state.gameState.games;
   },
+  getGame: (
+    state: {
+      gameState: StoreGameState;
+    },
+    gameId: string,
+  ): StoreGame | null => {
+    return state.gameState.games[gameId] || null;
+  },
 } as const;
 
-function isFetchGameStoreGame(
-  game: FetchedGame | StoreGame,
-): game is StoreGame {
-  return isDateString(game.startDate);
+export function isFetchedGame(game: StoreGame): game is StoreFetchedGame {
+  return game.status === "fetched";
 }

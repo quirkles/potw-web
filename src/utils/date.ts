@@ -64,6 +64,16 @@ export function isDateString(date: string): date is DateString {
   return /^2\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(date);
 }
 
+export function stringAsDateString(dateStr?: string | null): DateString | null {
+  if (!dateStr) {
+    return null;
+  }
+  if (!isDateString(dateStr)) {
+    throw new Error("Invalid date string passed to toDateString: " + dateStr);
+  }
+  return dateStr;
+}
+
 export function getDateString(date?: string | number | Date): DateString {
   let startDate: Date;
   try {

@@ -30,11 +30,12 @@ import InviteUsers from "@/app/home/create/InviteUsers";
 import { useResponsiveContext } from "@/app/providers/Responsive";
 import { useNotificationsContext } from "@/app/providers/Notifications";
 import Link from "next/link";
-import { CreateGameResponse } from "@/app/services/schemas/game";
 import { getFakeGameName } from "@/utils/game";
+import { Game } from "@/app/services/schemas/game";
 
 const Styled = styled.div`
   height: 100%;
+  width: 100%;
   overflow: auto;
   background-color: ${getColor("white")};
   color: ${getColor("black")};
@@ -223,7 +224,7 @@ function Create() {
                         <p>
                           View your new game{" "}
                           <Link
-                            href={`/home/games/${(game.payload as CreateGameResponse).id}`}
+                            href={`/home/games/${(game.payload as Game).id}`}
                           >
                             here
                           </Link>

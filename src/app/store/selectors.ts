@@ -1,6 +1,9 @@
 import { createSelector } from "reselect";
 import { authUserSelectors } from "@/app/store/reducers/authUserReducer";
-import { gameSelectors } from "@/app/store/reducers/gamesReducer";
+import {
+  gameSelectors,
+  isFetchedGame,
+} from "@/app/store/reducers/gamesReducer";
 
 export const selectGamesForUsers = createSelector(
   [authUserSelectors.getAuthUser, gameSelectors.getGames],
@@ -8,9 +11,9 @@ export const selectGamesForUsers = createSelector(
     return authUser && Object.values(games).length
       ? Object.values(games).filter(
           (game) =>
-            game.players.includes(authUser?.sqlId || "NONE") ||
-            game.admin.sqlId === authUser?.sqlId ||
-            "NONE",
+            isFetchedGame(game) &&
+            (game.players.includes(authUser?.sqlId as string) ||
+              game.admin === authUser?.sqlId),
         )
       : null;
   },
