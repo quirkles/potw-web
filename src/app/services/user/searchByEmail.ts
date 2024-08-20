@@ -8,6 +8,7 @@ import {
   query,
   startAt,
 } from "@firebase/firestore";
+
 import { getFirebaseApp } from "@/firebase";
 
 export async function searchByEmail(email: string): Promise<

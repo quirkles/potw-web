@@ -1,6 +1,8 @@
 "use client";
 
-import styled from "styled-components";
+import { useEffect, useState } from "react";
+import { styled } from "styled-components";
+
 import {
   INotification,
   NotificationEventTypes,
@@ -8,9 +10,10 @@ import {
   NotificationTypes,
   useNotificationsContext,
 } from "@/app/providers/Notifications";
+
 import Heading from "@/components/heading/Heading";
 import P from "@/components/text/P";
-import { useEffect, useState } from "react";
+
 import { getColor } from "@/utils/color";
 
 const StyledNotifications = styled.div`

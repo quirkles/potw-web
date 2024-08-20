@@ -1,5 +1,7 @@
-import { Game } from "@/app/services/schemas/game";
 import { StoreFetchedGame } from "@/app/store/reducers/gamesReducer";
+
+import { Game } from "@/app/services/schemas/game";
+
 import { isDateString, stringAsDateString } from "@/utils/date";
 
 export function gameToStoreGame(game: Game): StoreFetchedGame {

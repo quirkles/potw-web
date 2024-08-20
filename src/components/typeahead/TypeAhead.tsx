@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import { F } from "@mobily/ts-belt";
 import { useEffect, useRef, useState } from "react";
 import {
   debounceTime,
@@ -8,12 +8,15 @@ import {
   switchMap,
   tap,
 } from "rxjs";
-import { getColor } from "@/utils/color";
-import { FlexBox, FlexItem } from "@/components/layout/Flexbox";
-import Button from "@/components/button/Button";
-import { F } from "@mobily/ts-belt";
-import Spacer from "@/components/spacer/Spacer";
+import { styled } from "styled-components";
+
 import { Colors } from "@/app/styles/colors";
+
+import Button from "@/components/button/Button";
+import { FlexBox, FlexItem } from "@/components/layout/Flexbox";
+import Spacer from "@/components/spacer/Spacer";
+
+import { getColor } from "@/utils/color";
 
 interface ITypeAheadProps<
   T extends

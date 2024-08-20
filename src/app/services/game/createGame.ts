@@ -1,9 +1,10 @@
+import { getConfig } from "@/config";
+
 import {
   CreateGamePayload,
   Game,
   gameSchema,
 } from "@/app/services/schemas/game";
-import { getConfig } from "@/config";
 
 export async function createGameRequest(
   input: CreateGamePayload,

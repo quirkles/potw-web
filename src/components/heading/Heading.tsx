@@ -1,5 +1,5 @@
-import styled from "styled-components";
 import { PropsWithChildren } from "react";
+import { styled } from "styled-components";
 
 const StyledHeading = styled.h1<{
   $color?: string;

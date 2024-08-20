@@ -1,20 +1,21 @@
-import styled from "styled-components";
+import Link from "next/link";
+import { styled } from "styled-components";
 
-import { StoreFetchedGame } from "@/app/store/reducers/gamesReducer";
 import { BaseColorName, baseColors } from "@/app/styles/colors";
-import { getPseudoRandomFromArrayFromUid } from "@/utils/random";
+
+import { useAppSelector } from "@/app/store/hooks";
+import { StoreFetchedGame } from "@/app/store/reducers/gamesReducer";
+import { selectUserBySqlId } from "@/app/store/selectors/users";
 
 import Heading from "@/components/heading/Heading";
+import { FlexBox, FlexItem } from "@/components/layout/Flexbox";
+import Spacer from "@/components/spacer/Spacer";
 import P from "@/components/text/P";
 import Span from "@/components/text/Span";
 
-import { getPeriodDisplayText } from "@/utils/date";
 import { getColor } from "@/utils/color";
-import { FlexBox, FlexItem } from "@/components/layout/Flexbox";
-import Spacer from "@/components/spacer/Spacer";
-import Link from "next/link";
-import { useAppSelector } from "@/app/store/hooks";
-import { usersSelectors } from "@/app/store/reducers/usersReducer";
+import { getPeriodDisplayText } from "@/utils/date";
+import { getPseudoRandomFromArrayFromUid } from "@/utils/random";
 
 const StyledGameSummary = styled.div<{
   $color: BaseColorName;
@@ -55,9 +56,7 @@ export function GameSummary(props: IGameSummaryProps) {
     players,
   } = game;
 
-  const admin = useAppSelector((state) =>
-    usersSelectors.getUserBySqlId(state, game.admin),
-  );
+  const admin = useAppSelector((state) => selectUserBySqlId(state, game.admin));
 
   const hasGameStarted = new Date(startDate) < new Date();
   const doesGameEnd = !!endDate;

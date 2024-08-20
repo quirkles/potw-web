@@ -1,13 +1,16 @@
 "use client";
 
-import styled from "styled-components";
+import { useRouter } from "next/navigation";
+import { styled } from "styled-components";
+
+import { rubik } from "@/app/styles/fonts";
+
 import Heading from "@/components/heading/Heading";
+import { GridContainer, GridItem } from "@/components/layout/Grid";
 import Spacer from "@/components/spacer/Spacer";
 import P from "@/components/text/P";
+
 import { getColor } from "@/utils/color";
-import { GridContainer, GridItem } from "@/components/layout/Grid";
-import { rubik } from "@/app/styles/fonts";
-import { useRouter } from "next/navigation";
 
 const Styled = styled.div`
   height: 100%;

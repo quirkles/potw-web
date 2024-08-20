@@ -1,37 +1,40 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import styled from "styled-components";
 import { faker } from "@faker-js/faker";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { styled } from "styled-components";
 
-import Spacer from "@/components/spacer/Spacer";
-import Heading from "@/components/heading/Heading";
-import TextEditable from "@/components/form/TextEditable";
-import Checkbox from "@/components/form/Checkbox";
-import { FlexBox } from "@/components/layout/Flexbox";
-import P from "@/components/text/P";
-import Button from "@/components/button/Button";
-import TextArea from "@/components/form/Textarea";
+import InviteUsers from "@/app/home/create/InviteUsers";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
+import { authUserSelectors } from "@/app/store/reducers/authUserReducer";
 import {
   createGame,
   gameSelectors,
   updateNewGame,
 } from "@/app/store/reducers/gamesReducer";
-import { authUserSelectors } from "@/app/store/reducers/authUserReducer";
+
+import { useNotificationsContext } from "@/app/providers/Notifications";
+import { useResponsiveContext } from "@/app/providers/Responsive";
+
+import { Game } from "@/app/services/schemas/game";
+
+import Button from "@/components/button/Button";
+import Checkbox from "@/components/form/Checkbox";
 import Datepicker from "@/components/form/Datepicker";
 import PeriodSelect from "@/components/form/PeriodSelect";
-
-import { addTo } from "@/utils/date";
-import { getColor } from "@/utils/color";
+import TextEditable from "@/components/form/TextEditable";
+import TextArea from "@/components/form/Textarea";
+import Heading from "@/components/heading/Heading";
+import { FlexBox } from "@/components/layout/Flexbox";
 import { GridContainer, GridItem } from "@/components/layout/Grid";
-import InviteUsers from "@/app/home/create/InviteUsers";
-import { useResponsiveContext } from "@/app/providers/Responsive";
-import { useNotificationsContext } from "@/app/providers/Notifications";
-import Link from "next/link";
+import Spacer from "@/components/spacer/Spacer";
+import P from "@/components/text/P";
+
+import { getColor } from "@/utils/color";
+import { addTo } from "@/utils/date";
 import { getFakeGameName } from "@/utils/game";
-import { Game } from "@/app/services/schemas/game";
 
 const Styled = styled.div`
   height: 100%;

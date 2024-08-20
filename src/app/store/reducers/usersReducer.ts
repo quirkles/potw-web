@@ -1,8 +1,9 @@
 import { createAppSlice } from "@/app/store/createAppSlice";
-import { fetchUserByIdRequest } from "@/app/services/user/fetchUserById";
 import { gameSlice } from "@/app/store/reducers/gamesReducer";
 
-export type TUser = {
+import { fetchUserByIdRequest } from "@/app/services/user/fetchUserById";
+
+export type StoreUser = {
   sqlId: string | null;
   firestoreId: string | null;
   email: string | null;
@@ -11,9 +12,9 @@ export type TUser = {
   error: string | null;
 };
 
-export type TUsersState = {
+export type StoreUsersState = {
   users: {
-    [sqlId: string]: TUser;
+    [sqlId: string]: StoreUser;
   };
 };
 
@@ -21,7 +22,7 @@ export const usersSlice = createAppSlice({
   name: "usersState",
   initialState: {
     users: {},
-  } as TUsersState,
+  } as StoreUsersState,
   extraReducers: (builder) => {
     builder.addCase(gameSlice.actions.fetchGame.fulfilled, (state, action) => {
       if (action.payload.admin) {
@@ -99,11 +100,13 @@ export const { fetchUserById } = usersSlice.actions;
 
 export default usersSlice.reducer;
 
+let run = 0;
 export const usersSelectors = {
   getUserBySqlId: (
-    state: { usersState: TUsersState },
+    state: { usersState: StoreUsersState },
     sqlId: string,
-  ): TUser | null => {
+  ): StoreUser | null => {
+    console.log("selector run", run++);
     return state.usersState.users[sqlId] || null;
   },
 } as const;

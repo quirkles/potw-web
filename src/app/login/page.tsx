@@ -1,22 +1,22 @@
 "use client";
 import { useGoogleLogin } from "@react-oauth/google";
-
+import { useSearchParams, useRouter } from "next/navigation";
+import { Suspense, useEffect, useRef, useState } from "react";
 import styles from "styled-components";
 
-import Button from "@/components/button/Button";
-import GoogleSvg from "@/components/icons/Google.svg";
-import SpotifySvg from "@/components/icons/Spotify.svg";
+import { useSpotifyAuth } from "@/app/login/hooks";
+import { getConfig } from "@/config";
 
 import BG from "@/components/background/Background";
-import { useSpotifyAuth } from "@/app/login/hooks";
-import { Suspense, useEffect, useRef, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
-import { safeGetLocalStorage } from "@/utils/localStorage";
-import StandaloneTextInput from "@/components/form/StandaloneTextInput";
+import Button from "@/components/button/Button";
 import IconButton from "@/components/button/IconButton";
+import StandaloneTextInput from "@/components/form/StandaloneTextInput";
+import GoogleSvg from "@/components/icons/Google.svg";
 import LoginSvg from "@/components/icons/Login.svg";
-import { getConfig } from "@/config";
+import SpotifySvg from "@/components/icons/Spotify.svg";
 import Loader from "@/components/loader/Loader";
+
+import { safeGetLocalStorage } from "@/utils/localStorage";
 
 const StyledLoginPage = styles.div`
     height: 100vh;

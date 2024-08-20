@@ -1,18 +1,17 @@
 "use client";
 
-import styled from "styled-components";
 import { useEffect } from "react";
-
-import Spacer from "@/components/spacer/Spacer";
+import { styled } from "styled-components";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import Loader from "@/components/loader/Loader";
-
 import {
   fetchUserById,
-  TUser,
+  StoreUser,
   usersSelectors,
 } from "@/app/store/reducers/usersReducer";
+
+import Loader from "@/components/loader/Loader";
+import Spacer from "@/components/spacer/Spacer";
 
 const StyledUserIdPage = styled.div`
   height: 100%;
@@ -34,7 +33,7 @@ function UserIdPage({ params }: { params: { id: string } }) {
   );
 }
 
-function Loaded(props: { user: TUser }) {
+function Loaded(props: { user: StoreUser }) {
   const { user } = props;
   return (
     <Spacer $padding="medium">

@@ -1,4 +1,5 @@
 import { it, expect, describe, jest, afterAll } from "@jest/globals";
+
 import * as random from "./random";
 
 describe("random.getPseudoRandomInRangeFromUid", () => {

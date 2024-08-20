@@ -1,17 +1,17 @@
-import styled from "styled-components";
-
-import { searchByEmail } from "@/app/services/user/searchByEmail";
+import { styled } from "styled-components";
 
 import { Colors } from "@/app/styles/colors";
 
+import { searchByEmail } from "@/app/services/user/searchByEmail";
+
+import Button, { ButtonSize } from "@/components/button/Button";
+import Divider from "@/components/divider/Divider";
 import Heading from "@/components/heading/Heading";
+import { FlexBox, FlexItem } from "@/components/layout/Flexbox";
 import P from "@/components/text/P";
 import TypeAhead from "@/components/typeahead/TypeAhead";
-import Button, { ButtonSize } from "@/components/button/Button";
-import { FlexBox, FlexItem } from "@/components/layout/Flexbox";
 
 import { isEmail } from "@/utils/string";
-import Divider from "@/components/divider/Divider";
 
 interface IManageUsersProps {
   onAddUser: (user: { email: string; firestoreId: string | null }) => void;

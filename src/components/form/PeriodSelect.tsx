@@ -1,12 +1,15 @@
-import styled from "styled-components";
 import { ChangeEvent, PropsWithChildren } from "react";
+import { styled } from "styled-components";
+
 import {
   BasicPeriod,
   DayOfWeek,
   GamePeriod,
   Recurrence,
 } from "@/app/store/reducers/gamesReducer";
+
 import ArrowDownCircle from "@/components/icons/ArrowDownCircle.svg";
+
 import { getColor, hexToRgbA } from "@/utils/color";
 
 interface PeriodSelectProps {

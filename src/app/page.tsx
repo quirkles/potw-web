@@ -1,12 +1,13 @@
 "use client";
 
+import { jwtDecode } from "jwt-decode";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { safeGetLocalStorage } from "@/utils/localStorage";
-import { useRouter } from "next/navigation";
-import { jwtDecode } from "jwt-decode";
 import { useAppDispatch } from "@/app/store/hooks";
 import { initializeAuthUser } from "@/app/store/reducers/authUserReducer";
+
+import { safeGetLocalStorage } from "@/utils/localStorage";
 
 export default function Home() {
   const [token, setToken] = useState<string | null>(

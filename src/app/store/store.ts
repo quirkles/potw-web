@@ -1,5 +1,6 @@
 import type { Action, ThunkAction } from "@reduxjs/toolkit";
 import { combineSlices, configureStore } from "@reduxjs/toolkit";
+
 import { authUserSlice } from "@/app/store/reducers/authUserReducer";
 import { gameSlice } from "@/app/store/reducers/gamesReducer";
 import { usersSlice } from "@/app/store/reducers/usersReducer";

@@ -1,7 +1,8 @@
-import styled from "styled-components";
 import { PropsWithChildren } from "react";
-import { baskerville, overpassMono, rubik } from "@/app/styles/fonts";
+import { styled } from "styled-components";
+
 import { hexString } from "@/app/styles/colors";
+import { baskerville, overpassMono, rubik } from "@/app/styles/fonts";
 
 interface SpanProps {
   $textTransform?: "capitalize" | "lowercase" | "uppercase" | "none";

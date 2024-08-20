@@ -1,4 +1,5 @@
 import { getConfig } from "@/config";
+
 import { Game, gameSchema } from "@/app/services/schemas/game";
 
 export async function fetchGame(gameId: string): Promise<Game> {

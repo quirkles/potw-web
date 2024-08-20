@@ -1,8 +1,10 @@
 "use client";
 
-import { safeGetLocalStorage, safeSetLocalStorage } from "@/utils/localStorage";
-import { getConfig } from "@/config";
 import { useState } from "react";
+
+import { getConfig } from "@/config";
+
+import { safeGetLocalStorage, safeSetLocalStorage } from "@/utils/localStorage";
 
 const generateRandomString = (length: number): string => {
   const possible =

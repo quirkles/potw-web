@@ -1,18 +1,19 @@
 import { PayloadAction } from "@reduxjs/toolkit";
-
 import { ZodError } from "zod";
 
-import { createGamePayloadSchema, Game } from "@/app/services/schemas/game";
+import { createAppSlice } from "@/app/store/createAppSlice";
+
 import {
   createGameRequest,
   fetchGame,
   fetchGamesForUser as fetchGamesForUserRequest,
 } from "@/app/services/game";
-import { createAppSlice } from "@/app/store/createAppSlice";
-import { addTo, DateString, getDateString } from "@/utils/date";
-import { RecordToEnum } from "@/utils/typeUtils";
-import { getFakeGameName } from "@/utils/game";
 import { gameToStoreGame } from "@/app/services/game/transformers";
+import { createGamePayloadSchema, Game } from "@/app/services/schemas/game";
+
+import { addTo, DateString, getDateString } from "@/utils/date";
+import { getFakeGameName } from "@/utils/game";
+import { RecordToEnum } from "@/utils/typeUtils";
 
 export const BasicPeriod = {
   daily: "daily",

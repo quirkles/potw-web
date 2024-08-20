@@ -1,17 +1,17 @@
 "use client";
 
 import { useEffect } from "react";
-import styled from "styled-components";
+import { styled } from "styled-components";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import { selectGamesForUsers } from "@/app/store/selectors";
 import { gameSlice, isFetchedGame } from "@/app/store/reducers/gamesReducer";
+import { selectGamesForUsers } from "@/app/store/selectors";
 
+import { GameSummary } from "@/components/gameSummary/GameSummary";
+import { GridContainer, GridItem } from "@/components/layout/Grid";
 import Spacer from "@/components/spacer/Spacer";
 
 import { getColor } from "@/utils/color";
-import { GameSummary } from "@/components/gameSummary/GameSummary";
-import { GridContainer, GridItem } from "@/components/layout/Grid";
 
 const StyledGames = styled.div`
   background-color: ${getColor("white")};

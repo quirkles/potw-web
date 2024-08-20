@@ -1,10 +1,9 @@
 "use client";
 
-import { PropsWithChildren, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-
 import { jwtDecode } from "jwt-decode";
-import styled from "styled-components";
+import { useRouter } from "next/navigation";
+import { PropsWithChildren, useEffect, useState } from "react";
+import { styled } from "styled-components";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import {
@@ -13,9 +12,9 @@ import {
 } from "@/app/store/reducers/authUserReducer";
 
 import Header from "@/components/header/Header";
+import { Notifications } from "@/components/notifications/Notifications";
 
 import { safeGetLocalStorage } from "@/utils/localStorage";
-import { Notifications } from "@/components/notifications/Notifications";
 
 const StyledMain = styled.main`
   height: 100vh;

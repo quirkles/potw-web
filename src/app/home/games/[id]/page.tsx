@@ -1,20 +1,20 @@
 "use client";
 
 import { useEffect } from "react";
-import styled from "styled-components";
+import { styled } from "styled-components";
 
+import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import {
   gameSelectors,
   gameSlice,
   StoreGame,
 } from "@/app/store/reducers/gamesReducer";
-import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 
 import Loader from "@/components/loader/Loader";
 import Spacer from "@/components/spacer/Spacer";
 
-import { getPseudoRandomFromArrayFromUid } from "@/utils/random";
 import { getColor } from "@/utils/color";
+import { getPseudoRandomFromArrayFromUid } from "@/utils/random";
 
 const Styled = styled.div<{
   $seed?: string;

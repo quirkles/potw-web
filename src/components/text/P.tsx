@@ -1,5 +1,6 @@
-import styled from "styled-components";
 import { PropsWithChildren } from "react";
+import { styled } from "styled-components";
+
 import { baskerville, overpassMono, rubik } from "@/app/styles/fonts";
 
 interface PProps {

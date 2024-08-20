@@ -1,5 +1,6 @@
-import styled from "styled-components";
 import { PropsWithChildren } from "react";
+import { styled } from "styled-components";
+
 import { ColorName, Colors } from "@/app/styles/colors";
 
 export const SIZE = {

@@ -1,10 +1,10 @@
-import styled from "styled-components";
 import Link from "next/link";
+import { styled } from "styled-components";
 
 import Button, { ButtonSize } from "@/components/button/Button";
 import { LogoutSvg, MusicSvg } from "@/components/icons";
-
 import AlbumListSvg from "@/components/icons/AlbumList.svg";
+
 import { getColor } from "@/utils/color";
 import { tint } from "@/utils/color.tint";
 

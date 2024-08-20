@@ -1,8 +1,8 @@
 "use client";
 
-import styled from "styled-components";
-
 import { PropsWithChildren } from "react";
+import { styled } from "styled-components";
+
 import { getColor } from "@/utils/color";
 
 const Styles = styled.main`

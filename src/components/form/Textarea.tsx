@@ -1,5 +1,6 @@
-import styled from "styled-components";
 import { ChangeEventHandler } from "react";
+import { styled } from "styled-components";
+
 import { getColor } from "@/utils/color";
 
 const StyledTextArea = styled.textarea`

@@ -1,5 +1,6 @@
-import styled from "styled-components";
 import { ComponentType } from "react";
+import { styled } from "styled-components";
+
 import { getColor } from "@/utils/color";
 
 const StyledIconButton = styled.button`
