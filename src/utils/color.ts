@@ -64,7 +64,7 @@ const colorConfig: {
   orange: {
     accentBaseColor: "red",
     baseColor: "orange",
-    contrastBaseColor: "yellow",
+    contrastBaseColor: "cyan_300",
     fontBaseColor: "white",
   },
   purple: {
@@ -76,7 +76,7 @@ const colorConfig: {
   red: {
     accentBaseColor: "orange",
     baseColor: "red",
-    contrastBaseColor: "blue",
+    contrastBaseColor: "blue_300",
     fontBaseColor: "white",
   },
   white: {
@@ -88,19 +88,19 @@ const colorConfig: {
   blue: {
     baseColor: "blue",
     accentBaseColor: "green",
-    contrastBaseColor: "yellow",
+    contrastBaseColor: "yellow_300",
     fontBaseColor: "white",
   },
   green: {
     baseColor: "green",
     accentBaseColor: "blue",
-    contrastBaseColor: "purple_700",
+    contrastBaseColor: "purple_300",
     fontBaseColor: "white",
   },
   yellow: {
     baseColor: "yellow",
     accentBaseColor: "red",
-    contrastBaseColor: "blue",
+    contrastBaseColor: "navy",
     fontBaseColor: "white",
   },
 };

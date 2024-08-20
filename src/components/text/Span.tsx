@@ -10,6 +10,7 @@ interface SpanProps {
   $fontWeight?: "light" | "normal" | "bold";
   $fontType?: "serif" | "sans" | "mono";
   $color?: hexString;
+  $noWrap?: boolean;
 }
 
 const StyledSpan = styled.span<SpanProps>`
@@ -51,6 +52,7 @@ const StyledSpan = styled.span<SpanProps>`
   }};
   text-transform: ${(props: SpanProps) => props.$textTransform || "none"};
   color: ${(props: SpanProps) => props.$color || "inherit"};
+  white-space: ${(props: SpanProps) => (props.$noWrap ? "nowrap" : "normal")};
 `;
 export default function Span(props: PropsWithChildren<SpanProps>) {
   return <StyledSpan {...props}>{props.children}</StyledSpan>;

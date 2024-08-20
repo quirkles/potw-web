@@ -1,10 +1,18 @@
 import { styled } from "styled-components";
 
-export const GridContainer = styled.div`
+const gaps = {
+  small: "1rem",
+  medium: "2rem",
+  large: "3rem",
+};
+
+export const GridContainer = styled.div<{
+  $gap?: keyof typeof gaps;
+}>`
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   width: 100%;
-  grid-gap: 1rem;
+  grid-gap: ${(props) => gaps[props.$gap || "medium"]};
 `;
 
 export const GridItem = styled.div<{

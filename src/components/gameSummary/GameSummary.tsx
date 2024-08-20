@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { styled } from "styled-components";
 
-import { BaseColorName, baseColors } from "@/app/styles/colors";
+import { BaseColorName } from "@/app/styles/colors";
 
 import { useAppSelector } from "@/app/store/hooks";
 import { StoreFetchedGame } from "@/app/store/reducers/gamesReducer";
@@ -15,36 +15,70 @@ import Span from "@/components/text/Span";
 
 import { getColor } from "@/utils/color";
 import { getPeriodDisplayText } from "@/utils/date";
-import { getPseudoRandomFromArrayFromUid } from "@/utils/random";
+import {
+  getPseudoRandomFromArrayFromUid,
+  getPseudoRandomInRangeFromUid,
+} from "@/utils/random";
 
 const StyledGameSummary = styled.div<{
   $color: BaseColorName;
+  $animationDelayMs: number;
 }>`
-  height: 100%;
-  background-color: ${(props) => getColor(props.$color, "base")};
-  padding: 1rem;
-  color: ${(props) => getColor(props.$color, "font")};
-  .divider {
-      width: 100%;
-      height: 2px;
-      background-color: ${(props) => getColor(props.$color, "base")};
-      margin: 1rem 0;
+    height: 100%;
+    background-color: ${(props) => getColor(props.$color, "base")};
+    padding: 1rem;
+    animation: 2s infinite ease-in-out skew;
+    animation-delay: -${(props) => props.$animationDelayMs}ms;
+    transition: all 2s ease-in-out;
+    z-index: 1;
+    transform: scale(1);
+    &:hover {
+        z-index: 2;
+        animation: none;
+        transform: scale(1.2) skew(0deg, 0deg);
     }
-  }
+
+    color: ${(props) => getColor(props.$color, "font")};
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    .divider {
+        width: 100%;
+        height: 2px;
+        background-color: ${(props) => getColor(props.$color, "base")};
+        margin: 1rem 0;
+    }
+}
+
+@keyframes skew {
+    0%, 100% {
+        transform: skew(-0.3deg,-0.3deg) scale(0.99);
+    }
+
+    50% {
+        transform: skew(0.3deg,0.3deg) scale(1.01);
+    }
+}
+
 `;
 
 interface IGameSummaryProps {
   game: StoreFetchedGame;
 }
 
-const excludedColors: BaseColorName[] = ["white", "black"];
+const includedColors: BaseColorName[] = [
+  "blue",
+  "green",
+  "orange",
+  "purple",
+  "red",
+  "yellow",
+  "navy",
+];
 
 export function GameSummary(props: IGameSummaryProps) {
   const { game } = props;
-  const colorName = getPseudoRandomFromArrayFromUid(
-    game.id,
-    baseColors.filter((c) => !excludedColors.includes(c)) as BaseColorName[],
-  );
+  const colorName = getPseudoRandomFromArrayFromUid(game.id, includedColors);
+  const getAnimationDelay = getPseudoRandomInRangeFromUid(game.id, 500, 0);
   const {
     id,
     name,
@@ -63,7 +97,7 @@ export function GameSummary(props: IGameSummaryProps) {
   const hasGameEnded = doesGameEnd && new Date(endDate) < new Date();
   let contrastColor = getColor(colorName, "contrast");
   return (
-    <StyledGameSummary $color={colorName}>
+    <StyledGameSummary $color={colorName} $animationDelayMs={getAnimationDelay}>
       <FlexBox>
         <FlexItem $grow={1}>
           <Heading
@@ -105,7 +139,7 @@ export function GameSummary(props: IGameSummaryProps) {
                   </Span>
                 </Span>
               ) : (
-                <Span>
+                <Span $noWrap>
                   No end date,{" "}
                   <Span $fontWeight="bold" $color={contrastColor}>
                     ongoing

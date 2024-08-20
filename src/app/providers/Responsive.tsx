@@ -8,13 +8,13 @@ import {
   useState,
 } from "react";
 import { debounceTime, fromEvent, Subject, Subscription } from "rxjs";
-import { v4 } from "uuid";
 
 type ResponsiveContext = {
   screenWidthPx: number;
   isMobile: boolean;
   isTablet: boolean;
   isDesktop: boolean;
+  screenSize: "mobile" | "tablet" | "desktop";
 };
 
 const ResponsiveContext = createContext<ResponsiveContext | null>(null);
@@ -24,20 +24,26 @@ export function ResponsiveProvider({ children }: { children: ReactNode }) {
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [screenSize, setScreenSize] = useState<"mobile" | "tablet" | "desktop">(
+    "mobile",
+  );
 
   const setFlags = (width: number) => {
     if (width < 768) {
       setIsMobile(true);
       setIsTablet(false);
       setIsDesktop(false);
+      setScreenSize("mobile");
     } else if (width < 1024) {
       setIsMobile(false);
       setIsTablet(true);
       setIsDesktop(false);
+      setScreenSize("tablet");
     } else {
       setIsMobile(false);
       setIsTablet(false);
       setIsDesktop(true);
+      setScreenSize("desktop");
     }
   };
 
@@ -48,7 +54,7 @@ export function ResponsiveProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setScreenWidthPx(window.innerWidth);
     const sub = fromEvent(window, "resize")
-      .pipe(debounceTime(100))
+      .pipe(debounceTime(50))
       .subscribe((e) => {
         const target = e.target as Window;
         setScreenWidthPx(target.innerWidth);
@@ -64,6 +70,7 @@ export function ResponsiveProvider({ children }: { children: ReactNode }) {
         isMobile,
         isTablet,
         isDesktop,
+        screenSize,
       }}
     >
       {children}
