@@ -3,7 +3,7 @@
 import { PropsWithChildren } from "react";
 import { styled } from "styled-components";
 
-import { getColor } from "@/utils/color";
+import { getColorVariant } from "@/utils/color";
 
 const Styles = styled.main`
   height: 100%;
@@ -12,8 +12,8 @@ const Styles = styled.main`
     animation: slide 3s ease-in-out infinite alternate;
     background-image: linear-gradient(
       -60deg,
-      ${getColor("green")} 50%,
-      ${getColor("blue")} 50%
+      ${getColorVariant("green")} 50%,
+      ${getColorVariant("blue")} 50%
     );
     bottom: 0;
     left: -50%;

@@ -1,6 +1,7 @@
 import { PropsWithChildren } from "react";
 import { styled } from "styled-components";
 
+import { ColorName, getColor } from "@/app/styles/colors";
 import { baskerville, overpassMono, rubik } from "@/app/styles/fonts";
 
 interface PProps {
@@ -8,7 +9,7 @@ interface PProps {
   $fontSize?: "small" | "medium" | "large";
   $fontWeight?: "light" | "normal" | "bold";
   $fontType?: "serif" | "sans" | "mono";
-  $color?: string;
+  $color?: ColorName;
 }
 
 const StyledP = styled.p<PProps>`
@@ -49,7 +50,8 @@ const StyledP = styled.p<PProps>`
     }
   }};
   text-transform: ${(props: PProps) => props.$textTransform || "none"};
-  color: ${(props: PProps) => props.$color || "inherit"};
+  color: ${(props: PProps) =>
+    props.$color ? getColor(props.$color) || "inherit" : "inherit"};
 `;
 function P(props: PropsWithChildren<PProps>) {
   return <StyledP {...props}>{props.children}</StyledP>;

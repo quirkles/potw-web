@@ -7,7 +7,7 @@ import { styled } from "styled-components";
 
 import { BaseColorName } from "@/app/styles/colors";
 
-import { getColor, hexToRgbA } from "@/utils/color";
+import { getColorVariant, hexToRgbA } from "@/utils/color";
 
 export const ButtonSize = {
   sm: "sm",
@@ -45,8 +45,8 @@ const StyledButton = styled.button<{
   $color: BaseColorName;
   $size: ButtonSize;
 }>`
-  background: ${(props) => getColor(props.$color)};
-  color: ${(props) => getColor(props.$color, "font")};
+  background: ${(props) => getColorVariant(props.$color)};
+  color: ${(props) => getColorVariant(props.$color, "font")};
   font-family: inherit;
   font-size: ${(props) => getSizes(props.$size).fontsize}px;
   font-weight: 500;
@@ -55,7 +55,7 @@ const StyledButton = styled.button<{
   letter-spacing: 0.05em;
   display: flex;
   align-items: center;
-  box-shadow: inset 0 0 1.6em -0.6em ${(props) => getColor(props.$color)};
+  box-shadow: inset 0 0 1.6em -0.6em ${(props) => getColorVariant(props.$color)};
   overflow: hidden;
   position: relative;
   height: ${(props) => getSizes(props.$size).height}em;
@@ -73,7 +73,7 @@ const StyledButton = styled.button<{
   }
 
   .icon {
-    color: ${(props) => hexToRgbA(getColor(props.$color), 0)};
+    color: ${(props) => hexToRgbA(getColorVariant(props.$color), 0)};
     background: white;
     margin-left: 1em;
     position: absolute;
@@ -84,7 +84,8 @@ const StyledButton = styled.button<{
     width: ${(props) =>
       props.$hasIcon ? getSizes(props.$size).iconWidth : 0}em;
     border-radius: 0.7em;
-    box-shadow: 0.1em 0.1em 0.6em 0.2em ${(props) => getColor(props.$color)};
+    box-shadow: 0.1em 0.1em 0.6em 0.2em
+      ${(props) => getColorVariant(props.$color)};
     right: 0.3em;
     transition: all 0.3s;
     padding: ${(props) =>
@@ -92,14 +93,14 @@ const StyledButton = styled.button<{
     svg {
       width: 1.1em;
       transition: transform 0.3s;
-      color: ${(props) => getColor(props.$color)};
+      color: ${(props) => getColorVariant(props.$color)};
     }
   }
 
   &:hover .icon {
     width: calc(100% - 0.6em);
     transform: translateX(${(props) => (props.$hasIcon ? 0.1 : 0)}em);
-    color: ${(props) => hexToRgbA(getColor(props.$color), 1)};
+    color: ${(props) => hexToRgbA(getColorVariant(props.$color), 1)};
     svg {
       transform: scale(1.5);
     }

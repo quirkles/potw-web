@@ -56,6 +56,7 @@ const widthValues: {
 };
 
 const DividerStyle = styled.div<DividerProps>`
+  width: 100%;
   padding-top: ${(props) =>
     spaceValues[
       props.$paddingTop || props.$paddingY || props.$padding || SIZE.none

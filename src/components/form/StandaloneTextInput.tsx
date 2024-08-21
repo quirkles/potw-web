@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 
-import { getColor } from "@/utils/color";
+import { getColorVariant } from "@/utils/color";
 
 const StyledTextInput = styled.div`
   position: relative;
@@ -34,7 +34,7 @@ const StyledTextInput = styled.div`
 
   input:valid ~ span,
   input:focus ~ span {
-    color: ${getColor("blue")};
+    color: ${getColorVariant("blue")};
     transform: translateX(-10px) translateY(-34px);
     font-size: 0.75em;
   }
@@ -45,7 +45,7 @@ const StyledTextInput = styled.div`
     bottom: 0;
     width: 100%;
     height: 2px;
-    background: ${getColor("blue")};
+    background: ${getColorVariant("blue")};
     border-radius: 4px;
     transition: 0.5s;
     pointer-events: none;

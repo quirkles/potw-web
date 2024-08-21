@@ -1,3 +1,5 @@
+import { F, S } from "@mobily/ts-belt";
+
 import { tint } from "@/utils/color.tint";
 
 export type hexString = `#${string}`;
@@ -62,3 +64,12 @@ export const Colors: Colors = (
   acc[`${key}_900`] = tint(-0.6, BaseColors[key]) as hexString;
   return acc;
 }, {} as Colors);
+
+function _getColor<T extends keyof Colors>(colorName: T): Colors[T] {
+  return Colors[colorName];
+}
+
+export const getColor = F.memoizeWithKey(
+  (colorName: keyof Colors) => colorName,
+  _getColor,
+);

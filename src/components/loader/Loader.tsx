@@ -1,15 +1,15 @@
 import { styled } from "styled-components";
 
-import { getColor } from "@/utils/color";
+import { getColorVariant } from "@/utils/color";
 
 const Styles = styled.div`
     --speed-of-animation: 0.9s;
     --gap: 6px;
-    --first-color: ${getColor("blue")};
-    --second-color: ${getColor("yellow")};
-    --third-color: ${getColor("purple")};
-    --fourth-color: ${getColor("red")};
-    --fifth-color: ${getColor("green")};
+    --first-color: ${getColorVariant("blue")};
+    --second-color: ${getColorVariant("yellow")};
+    --third-color: ${getColorVariant("purple")};
+    --fourth-color: ${getColorVariant("red")};
+    --fifth-color: ${getColorVariant("green")};
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -20,7 +20,7 @@ const Styles = styled.div`
         display: flex;
         flex-direction: row;
         gap: 1em;
-        background-color: ${getColor("black")};
+        background-color: ${getColorVariant("black")};
         padding: 4rem;
         border-radius: 1rem;
 

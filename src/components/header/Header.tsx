@@ -5,7 +5,7 @@ import Button, { ButtonSize } from "@/components/button/Button";
 import { LogoutSvg, MusicSvg } from "@/components/icons";
 import AlbumListSvg from "@/components/icons/AlbumList.svg";
 
-import { getColor } from "@/utils/color";
+import { getColorVariant } from "@/utils/color";
 import { tint } from "@/utils/color.tint";
 
 const StyledHeader = styled.header`
@@ -15,8 +15,8 @@ const StyledHeader = styled.header`
   padding: 0 2em;
   background-image: linear-gradient(
     to right top,
-    ${getColor("navy")},
-    ${getColor("grey")}
+    ${getColorVariant("navy")},
+    ${getColorVariant("grey")}
   );
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;

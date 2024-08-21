@@ -10,7 +10,7 @@ import { GridContainer, GridItem } from "@/components/layout/Grid";
 import Spacer from "@/components/spacer/Spacer";
 import P from "@/components/text/P";
 
-import { getColor } from "@/utils/color";
+import { getColorVariant } from "@/utils/color";
 
 const Styled = styled.div`
   height: 100%;
@@ -18,8 +18,8 @@ const Styled = styled.div`
   color: black;
   background-image: linear-gradient(
     to right top,
-    ${getColor("purple")},
-    ${getColor("red")}
+    ${getColorVariant("purple")},
+    ${getColorVariant("red")}
   );
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
@@ -71,8 +71,8 @@ const Styled = styled.div`
       color: black;
       background-image: linear-gradient(
         to right top,
-        ${getColor("cyan")},
-        ${getColor("white")}
+        ${getColorVariant("cyan")},
+        ${getColorVariant("white")}
       );
       border: 4px dashed black;
     }
@@ -80,8 +80,8 @@ const Styled = styled.div`
       color: black;
       background-image: linear-gradient(
         to right top,
-        ${getColor("yellow")},
-        ${getColor("white")}
+        ${getColorVariant("yellow")},
+        ${getColorVariant("white")}
       );
       border: 4px dashed black;
     }
@@ -89,8 +89,8 @@ const Styled = styled.div`
       color: black;
       background-image: linear-gradient(
         to right top,
-        ${getColor("green")},
-        ${getColor("white")}
+        ${getColorVariant("green")},
+        ${getColorVariant("white")}
       );
       border: 4px dashed black;
     }

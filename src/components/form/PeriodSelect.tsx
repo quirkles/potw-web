@@ -10,7 +10,7 @@ import {
 
 import ArrowDownCircle from "@/components/icons/ArrowDownCircle.svg";
 
-import { getColor, hexToRgbA } from "@/utils/color";
+import { getColorVariant, hexToRgbA } from "@/utils/color";
 
 interface PeriodSelectProps {
   selectedPeriod: GamePeriod;
@@ -75,8 +75,8 @@ const Styled = styled.div`
     position: relative;
     overflow: hidden;
     align-items: center;
-    background-color: ${getColor("black")};
-    color: ${getColor("white")};
+    background-color: ${getColorVariant("black")};
+    color: ${getColorVariant("white")};
     height: 2.8em;
     padding: 0.35em 0em 0.35em 1.2em;
     border-radius: 0.9em;
@@ -96,7 +96,7 @@ const Styled = styled.div`
     }
 
     .icon {
-      color: ${(props) => hexToRgbA(getColor("white"), 0)};
+      color: ${(props) => hexToRgbA(getColorVariant("white"), 0)};
       display: flex;
       align-items: center;
       justify-content: center;
@@ -109,7 +109,7 @@ const Styled = styled.div`
       svg {
         transition: all 0.5s;
         width: 1.1em;
-        stroke: ${getColor("white")};
+        stroke: ${getColorVariant("white")};
       }
     }
   }

@@ -16,7 +16,7 @@ import Button from "@/components/button/Button";
 import { FlexBox, FlexItem } from "@/components/layout/Flexbox";
 import Spacer from "@/components/spacer/Spacer";
 
-import { getColor } from "@/utils/color";
+import { getColorVariant } from "@/utils/color";
 
 interface ITypeAheadProps<
   T extends
@@ -42,14 +42,14 @@ const StyledTypeAhead = styled.div`
   input {
     width: 100%;
     padding: 0.5rem;
-    color: ${getColor("black")};
-    background-color: ${getColor("white")};
+    color: ${getColorVariant("black")};
+    background-color: ${getColorVariant("white")};
     &::placeholder {
-      color: ${getColor("grey")};
+      color: ${getColorVariant("grey")};
     }
   }
   small {
-    color: ${getColor("red")};
+    color: ${getColorVariant("red")};
   }
   ul {
     margin-top: 1rem;
@@ -82,8 +82,8 @@ const StyledTypeAhead = styled.div`
       font-size: x-small;
       padding: 0.5rem;
       border-radius: 0.5rem;
-      background-color: ${getColor("green")};
-      color: ${getColor("green", "font")};
+      background-color: ${getColorVariant("green")};
+      color: ${getColorVariant("green", "font")};
       cursor: pointer;
       white-space: nowrap;
       &:hover {

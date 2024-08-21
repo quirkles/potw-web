@@ -32,7 +32,7 @@ import { GridContainer, GridItem } from "@/components/layout/Grid";
 import Spacer from "@/components/spacer/Spacer";
 import P from "@/components/text/P";
 
-import { getColor } from "@/utils/color";
+import { getColorVariant } from "@/utils/color";
 import { addTo } from "@/utils/date";
 import { getFakeGameName } from "@/utils/game";
 
@@ -40,8 +40,8 @@ const Styled = styled.div`
   height: 100%;
   width: 100%;
   overflow: auto;
-  background-color: ${getColor("white")};
-  color: ${getColor("black")};
+  background-color: ${getColorVariant("white")};
+  color: ${getColorVariant("black")};
 `;
 
 function Create() {

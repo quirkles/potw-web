@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 import { styled } from "styled-components";
 
-import { hexString } from "@/app/styles/colors";
+import { ColorName, Colors, getColor, hexString } from "@/app/styles/colors";
 import { baskerville, overpassMono, rubik } from "@/app/styles/fonts";
 
 interface SpanProps {
@@ -9,7 +9,7 @@ interface SpanProps {
   $fontSize?: "small" | "medium" | "large";
   $fontWeight?: "light" | "normal" | "bold";
   $fontType?: "serif" | "sans" | "mono";
-  $color?: hexString;
+  $color?: ColorName;
   $noWrap?: boolean;
 }
 
@@ -51,7 +51,8 @@ const StyledSpan = styled.span<SpanProps>`
     }
   }};
   text-transform: ${(props: SpanProps) => props.$textTransform || "none"};
-  color: ${(props: SpanProps) => props.$color || "inherit"};
+  color: ${(props: SpanProps) =>
+    props.$color ? getColor(props.$color) || "inherit" : "inherit"};
   white-space: ${(props: SpanProps) => (props.$noWrap ? "nowrap" : "normal")};
 `;
 export default function Span(props: PropsWithChildren<SpanProps>) {

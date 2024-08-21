@@ -1,6 +1,8 @@
 import { PropsWithChildren } from "react";
 import { styled } from "styled-components";
 
+import { baskerville, overpassMono, rubik } from "@/app/styles/fonts";
+
 const StyledHeading = styled.h1<{
   $color?: string;
   $textTransform?: string;
@@ -15,16 +17,30 @@ interface HeadingProps {
   variant: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   $textTransform?: string;
   $color?: string;
+  $font?: "mono" | "sans" | "serif";
 }
 
-function Heading(headingProps: PropsWithChildren<HeadingProps>) {
+function Heading({
+  variant,
+  $textTransform,
+  $color,
+  $font = "mono",
+  children,
+}: PropsWithChildren<HeadingProps>) {
+  const fontClassname =
+    $font === "mono"
+      ? overpassMono.className
+      : $font === "sans"
+        ? rubik.className
+        : baskerville.className;
   return (
     <StyledHeading
-      as={headingProps.variant}
-      $color={headingProps.$color}
-      $textTransform={headingProps.$textTransform}
+      as={variant}
+      $color={$color}
+      $textTransform={$textTransform}
+      className={fontClassname}
     >
-      {headingProps.children}
+      {children}
     </StyledHeading>
   );
 }

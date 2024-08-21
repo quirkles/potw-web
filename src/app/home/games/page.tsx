@@ -13,11 +13,11 @@ import { GameSummary } from "@/components/gameSummary/GameSummary";
 import { GridContainer, GridItem } from "@/components/layout/Grid";
 import Spacer from "@/components/spacer/Spacer";
 
-import { getColor } from "@/utils/color";
+import { getColorVariant } from "@/utils/color";
 
 const StyledGames = styled.div`
-  background-color: ${getColor("white")};
-  color: ${getColor("black")};
+  background-color: ${getColorVariant("white")};
+  color: ${getColorVariant("black")};
   max-height: 100%;
   height: 100%;
   overflow-y: auto;

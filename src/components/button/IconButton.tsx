@@ -1,12 +1,12 @@
 import { ComponentType } from "react";
 import { styled } from "styled-components";
 
-import { getColor } from "@/utils/color";
+import { getColorVariant } from "@/utils/color";
 
 const StyledIconButton = styled.button`
   font-family: inherit;
   font-size: 20px;
-  background: ${getColor("blue")};
+  background: ${getColorVariant("blue")};
   color: white;
   padding: 0.5em 0.8em;
   display: flex;

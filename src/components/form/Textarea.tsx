@@ -1,21 +1,21 @@
 import { ChangeEventHandler } from "react";
 import { styled } from "styled-components";
 
-import { getColor } from "@/utils/color";
+import { getColorVariant } from "@/utils/color";
 
 const StyledTextArea = styled.textarea`
   outline: none;
   background-image: linear-gradient(
     to right top,
-    ${getColor("yellow")},
-    ${getColor("white")}
+    ${getColorVariant("yellow")},
+    ${getColorVariant("white")}
   );
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
   padding: 0.5em;
-  color: ${getColor("black")};
+  color: ${getColorVariant("black")};
   &::placeholder {
-    color: ${getColor("blue")};
+    color: ${getColorVariant("blue")};
   }
 `;
 

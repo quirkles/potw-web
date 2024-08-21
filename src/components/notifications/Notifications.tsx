@@ -14,7 +14,7 @@ import {
 import Heading from "@/components/heading/Heading";
 import P from "@/components/text/P";
 
-import { getColor } from "@/utils/color";
+import { getColorVariant } from "@/utils/color";
 
 const StyledNotifications = styled.div`
   height: 0;
@@ -84,20 +84,20 @@ const variants: {
   };
 } = {
   SUCCESS: {
-    backgroundColor: getColor("green"),
-    color: getColor("green", "font"),
+    backgroundColor: getColorVariant("green"),
+    color: getColorVariant("green", "font"),
   },
   INFO: {
-    backgroundColor: getColor("blue"),
-    color: getColor("blue", "font"),
+    backgroundColor: getColorVariant("blue"),
+    color: getColorVariant("blue", "font"),
   },
   WARNING: {
-    backgroundColor: getColor("yellow"),
-    color: getColor("yellow", "font"),
+    backgroundColor: getColorVariant("yellow"),
+    color: getColorVariant("yellow", "font"),
   },
   ERROR: {
-    backgroundColor: getColor("red"),
-    color: getColor("red", "font"),
+    backgroundColor: getColorVariant("red"),
+    color: getColorVariant("red", "font"),
   },
 };
 

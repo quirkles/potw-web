@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
 
-import { getColor } from "@/utils/color";
+import { getColorVariant } from "@/utils/color";
 
 const StyledWrapper = styled.div<{
   $isEditing: boolean;
@@ -12,7 +12,7 @@ const StyledWrapper = styled.div<{
   position: relative;
   line-height: 1em;
   border-bottom: 1px dashed
-    ${(props) => getColor(props.$isEditing ? "green" : "blue")};
+    ${(props) => getColorVariant(props.$isEditing ? "green" : "blue")};
   > * {
     font-size: 1em;
     line-height: 1em;

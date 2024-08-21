@@ -110,10 +110,10 @@ export const getColorConfig = F.memoizeWithKey(
   (baseColor: BaseColorName) => colorConfig[baseColor],
 );
 
-export const getColor = (
+function _getColor(
   baseColor: BaseColorName,
   variant: "base" | "accent" | "contrast" | "font" = "base",
-): hexString => {
+): hexString {
   const color = getColorConfig(baseColor);
   const colorKey:
     | "baseColor"
@@ -129,4 +129,12 @@ export const getColor = (
           : "contrastBaseColor";
   const colorVariant = color[colorKey];
   return Colors[colorVariant] as hexString;
-};
+}
+
+export const getColorVariant = F.memoizeWithKey(
+  (
+    baseColor: BaseColorName,
+    variant: "base" | "accent" | "contrast" | "font" = "base",
+  ) => `${baseColor}_${variant}`,
+  _getColor,
+);

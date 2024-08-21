@@ -13,7 +13,7 @@ import {
 import Loader from "@/components/loader/Loader";
 import Spacer from "@/components/spacer/Spacer";
 
-import { getColor } from "@/utils/color";
+import { getColorVariant } from "@/utils/color";
 import { getPseudoRandomFromArrayFromUid } from "@/utils/random";
 
 const Styled = styled.div<{
@@ -25,11 +25,11 @@ const Styled = styled.div<{
   background-color: ${(props) =>
     props.$seed
       ? getPseudoRandomFromArrayFromUid(props.$seed, [
-          getColor("red"),
-          getColor("blue"),
-          getColor("green"),
-          getColor("cyan"),
-          getColor("yellow"),
+          getColorVariant("red"),
+          getColorVariant("blue"),
+          getColorVariant("green"),
+          getColorVariant("cyan"),
+          getColorVariant("yellow"),
         ])
       : "black"};
     }
