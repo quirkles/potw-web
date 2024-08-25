@@ -3,36 +3,31 @@
 import { useEffect } from "react";
 import { styled } from "styled-components";
 
+import AdminBox from "@/app/home/games/[id]/partials/AdminBox";
+import { gameColors, getColor } from "@/app/styles/colors";
+
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import {
   gameSelectors,
   gameSlice,
+  StoreFetchedGame,
   StoreGame,
 } from "@/app/store/reducers/gamesReducer";
+import { selectUserBySqlId } from "@/app/store/selectors/users";
 
+import Heading from "@/components/heading/Heading";
+import { GridContainer, GridItem } from "@/components/layout/Grid";
 import Loader from "@/components/loader/Loader";
 import Spacer from "@/components/spacer/Spacer";
 
-import { getColorVariant } from "@/utils/color";
 import { getPseudoRandomFromArrayFromUid } from "@/utils/random";
 
-const Styled = styled.div<{
-  $seed?: string;
-}>`
-    max-height: 100%;
-    height: 100%;
-    width: 100%;
-  background-color: ${(props) =>
-    props.$seed
-      ? getPseudoRandomFromArrayFromUid(props.$seed, [
-          getColorVariant("red"),
-          getColorVariant("blue"),
-          getColorVariant("green"),
-          getColorVariant("cyan"),
-          getColorVariant("yellow"),
-        ])
-      : "black"};
-    }
+const Styled = styled.div`
+  max-height: 100%;
+  height: 100%;
+  width: 100%;
+  background-color: ${getColor("white")};
+  color: ${getColor("black")};
 `;
 
 function GamePage({ params }: { params: { id: string } }) {
@@ -48,18 +43,39 @@ function GamePage({ params }: { params: { id: string } }) {
     }
   }, [gameId, dispatch]);
   return (
-    <Styled $seed={game?.id}>
+    <Styled>
       <Spacer $padding={game?.status === "fetching" ? "xLarge" : "medium"}>
         {game?.status === "fetching" && <Loader />}
         {game?.status === "failed" && <h1>Error</h1>}
-        {game?.status === "fetched" && (
-          <>
-            <h1>{game.name}</h1>
-          </>
-        )}
+        {game?.status === "fetched" && <FetchedGame game={game} />}
       </Spacer>
     </Styled>
   );
 }
 
 export default GamePage;
+
+const StyledGame = styled.div<{
+  $color: string;
+}>``;
+
+function FetchedGame({ game }: { game: StoreFetchedGame }) {
+  const gameColor = getPseudoRandomFromArrayFromUid(game.id, gameColors);
+  const admin = useAppSelector((state) => selectUserBySqlId(state, game.admin));
+
+  return (
+    <StyledGame $color={gameColor}>
+      <Heading variant="h1" $color={gameColor} $underline>
+        {game.name}
+      </Heading>
+      <GridContainer>
+        <GridItem $md={4}>
+          {admin && <AdminBox admin={admin} color={gameColor} game={game} />}
+        </GridItem>
+        <GridItem $md={8}>
+          {game.description && <p>{game.description}</p>}
+        </GridItem>
+      </GridContainer>
+    </StyledGame>
+  );
+}

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { styled } from "styled-components";
 
-import { BaseColorName } from "@/app/styles/colors";
+import { BaseColorName, gameColors } from "@/app/styles/colors";
 
 import { useAppSelector } from "@/app/store/hooks";
 import { StoreFetchedGame } from "@/app/store/reducers/gamesReducer";
@@ -75,20 +75,10 @@ interface IGameSummaryProps {
   game: StoreFetchedGame;
 }
 
-const includedColors: BaseColorName[] = [
-  "blue",
-  "green",
-  "orange",
-  "purple",
-  "red",
-  "yellow",
-  "navy",
-];
-
 export function GameSummary(props: IGameSummaryProps) {
   const { game } = props;
   const responsive = useResponsiveContext();
-  const colorName = getPseudoRandomFromArrayFromUid(game.id, includedColors);
+  const colorName = getPseudoRandomFromArrayFromUid(game.id, gameColors);
   const getAnimationDelay = getPseudoRandomInRangeFromUid(game.id, 500, 0);
   const {
     id,
@@ -174,8 +164,8 @@ export function GameSummary(props: IGameSummaryProps) {
                 </>
               )}
               <P>
-                <Span $color={colorName}>{players.length}</Span> Player{players.length === 1 ? "" : "s"} in this
-                game
+                <Span $color={colorName}>{players.length}</Span> Player
+                {players.length === 1 ? "" : "s"} in this game
               </P>
               <P>
                 <Span>

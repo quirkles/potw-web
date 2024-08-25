@@ -10,7 +10,7 @@ export const BaseColors = {
   red: "#E73E2C",
   green: "#1CA075",
   yellow: "#F19C13",
-  purple: "#cc99cc",
+  purple: "#5A1E49",
   orange: "#F35E47",
   cyan: "#69BFD7",
   white: "#F9F9F3",
@@ -49,19 +49,20 @@ type Colors = {
   [key in ColorName]: hexString;
 };
 
+const useLinear: boolean = false;
 export const Colors: Colors = (
   Object.keys(BaseColors) as BaseColorName[]
 ).reduce((acc: Colors, key: BaseColorName) => {
-  acc[`${key}_100`] = tint(0.8, BaseColors[key]) as hexString;
-  acc[`${key}_200`] = tint(0.6, BaseColors[key]) as hexString;
-  acc[`${key}_300`] = tint(0.4, BaseColors[key]) as hexString;
-  acc[`${key}_400`] = tint(0.2, BaseColors[key]) as hexString;
+  acc[`${key}_100`] = tint(0.8, BaseColors[key], { useLinear }) as hexString;
+  acc[`${key}_200`] = tint(0.6, BaseColors[key], { useLinear }) as hexString;
+  acc[`${key}_300`] = tint(0.4, BaseColors[key], { useLinear }) as hexString;
+  acc[`${key}_400`] = tint(0.2, BaseColors[key], { useLinear }) as hexString;
   acc[`${key}_500`] = BaseColors[key];
   acc[`${key}`] = BaseColors[key];
-  acc[`${key}_600`] = tint(-0.2, BaseColors[key]) as hexString;
-  acc[`${key}_700`] = tint(-0.4, BaseColors[key]) as hexString;
-  acc[`${key}_800`] = tint(-0.6, BaseColors[key]) as hexString;
-  acc[`${key}_900`] = tint(-0.6, BaseColors[key]) as hexString;
+  acc[`${key}_600`] = tint(-0.2, BaseColors[key], { useLinear }) as hexString;
+  acc[`${key}_700`] = tint(-0.4, BaseColors[key], { useLinear }) as hexString;
+  acc[`${key}_800`] = tint(-0.6, BaseColors[key], { useLinear }) as hexString;
+  acc[`${key}_900`] = tint(-0.6, BaseColors[key], { useLinear }) as hexString;
   return acc;
 }, {} as Colors);
 
@@ -73,3 +74,13 @@ export const getColor = F.memoizeWithKey(
   (colorName: keyof Colors) => colorName,
   _getColor,
 );
+
+export const gameColors: ColorName[] = [
+  "blue",
+  "green",
+  "orange",
+  "purple",
+  "red",
+  "yellow",
+  "navy",
+];
