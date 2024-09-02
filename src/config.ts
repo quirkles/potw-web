@@ -13,6 +13,7 @@ const configSchema = z.object({
     appId: z.string(),
     measurementId: z.string(),
   }),
+  recaptchaSiteKey: z.string(),
 });
 
 type Config = z.infer<typeof configSchema>;
@@ -36,6 +37,7 @@ export function getConfig(): Config {
       appId: process.env.NEXT_PUBLIC_APPID as string,
       measurementId: process.env.NEXT_PUBLIC_MEASUREMENTID as string,
     },
+    recaptchaSiteKey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string,
   };
   try {
     config = configSchema.parse(maybeConfig);

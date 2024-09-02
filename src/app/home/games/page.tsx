@@ -49,7 +49,7 @@ function Games() {
         <GridContainer $gap={gap}>
           {games &&
             games.filter(isFetchedGame).map((game) => (
-              <GridItem key={game.id} $sm={6} $md={4}>
+              <GridItem key={game.id} $smCol={6} $mdCol={4}>
                 <GameSummary game={game} />
               </GridItem>
             ))}

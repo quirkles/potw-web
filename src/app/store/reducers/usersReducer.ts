@@ -1,13 +1,10 @@
 import { createAppSlice } from "@/app/store/createAppSlice";
 import { gameSlice } from "@/app/store/reducers/gamesReducer";
 
+import { User } from "@/app/services/schemas/user";
 import { fetchUserByIdRequest } from "@/app/services/user/fetchUserById";
 
-export type StoreUser = {
-  sqlId: string | null;
-  firestoreId: string | null;
-  email: string | null;
-  username: string | null;
+export type StoreUser = User & {
   isFetching: boolean | null;
   error: string | null;
 };
@@ -100,13 +97,11 @@ export const { fetchUserById } = usersSlice.actions;
 
 export default usersSlice.reducer;
 
-let run = 0;
 export const usersSelectors = {
   getUserBySqlId: (
     state: { usersState: StoreUsersState },
     sqlId: string,
   ): StoreUser | null => {
-    console.log("selector run", run++);
     return state.usersState.users[sqlId] || null;
   },
 } as const;

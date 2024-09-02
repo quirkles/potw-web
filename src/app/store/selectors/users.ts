@@ -11,3 +11,10 @@ export const selectUserBySqlId = createSelector(
     return usersState.users[sqlId] || null;
   },
 );
+
+export const selectUsersBySqlIds = createSelector(
+  [usersSelector, (_, sqlIds: string[]) => sqlIds],
+  (usersState, sqlIds): StoreUser[] => {
+    return sqlIds.map((sqlId) => usersState.users[sqlId]);
+  },
+);

@@ -79,6 +79,7 @@ export function GameSummary(props: IGameSummaryProps) {
   const { game } = props;
   const responsive = useResponsiveContext();
   const colorName = getPseudoRandomFromArrayFromUid(game.id, gameColors);
+  console.log("colorName", colorName);
   const getAnimationDelay = getPseudoRandomInRangeFromUid(game.id, 500, 0);
   const {
     id,
@@ -107,7 +108,7 @@ export function GameSummary(props: IGameSummaryProps) {
         <FlexItem className="body">
           <FlexBox $direction="column" $gap="medium" $alignItems="stretch">
             <FlexItem>
-              <FlexBox>
+              <FlexBox $wrap="wrap" $rowGap="medium">
                 <FlexItem>
                   <FlexBox $direction="column" $gap="medium">
                     <Avatar

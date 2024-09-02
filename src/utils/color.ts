@@ -39,7 +39,7 @@ const colorConfig: {
   },
   navy: {
     accentBaseColor: "blue",
-    baseColor: "black",
+    baseColor: "navy",
     contrastBaseColor: "cyan",
     fontBaseColor: "white",
   },

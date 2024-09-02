@@ -171,11 +171,12 @@ export const gameSlice = createAppSlice({
     ),
     fetchGame: create.asyncThunk(fetchGame, {
       pending: (state, action) => {
+        const existing = state.games[action.meta.arg];
         state.games[action.meta.arg] = {
-          ...(state.games[action.meta.arg] || {}),
-          status: "fetching",
+          ...(existing || {}),
+          status: existing?.status || "fetching",
           id: action.meta.arg,
-        };
+        } as StoreFetchedGame | StoreFetchingGame;
       },
       fulfilled: (state, action) => {
         const game = action.payload;

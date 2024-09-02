@@ -75,7 +75,7 @@ export const getColor = F.memoizeWithKey(
   _getColor,
 );
 
-export const gameColors: ColorName[] = [
+export const gameColors: BaseColorName[] = [
   "blue",
   "green",
   "orange",

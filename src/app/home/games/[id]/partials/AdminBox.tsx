@@ -2,6 +2,7 @@ import { styled } from "styled-components";
 
 import { ColorName, getColor } from "@/app/styles/colors";
 
+import { StoreFetchedGame } from "@/app/store/reducers/gamesReducer";
 import { StoreUser } from "@/app/store/reducers/usersReducer";
 
 import { useResponsiveContext } from "@/app/providers/Responsive";
@@ -9,7 +10,7 @@ import { useResponsiveContext } from "@/app/providers/Responsive";
 import { Avatar } from "@/components/avatar/Avatar";
 import Heading from "@/components/heading/Heading";
 import { FlexBox } from "@/components/layout/Flexbox";
-import { StoreFetchedGame } from "@/app/store/reducers/gamesReducer";
+import P from "@/components/text/P";
 
 const Styled = styled(FlexBox)<{
   $color: ColorName;
@@ -17,6 +18,7 @@ const Styled = styled(FlexBox)<{
   padding: 2rem;
   border: 2px solid ${(props) => getColor(props.$color)};
   color: ${(props) => getColor(props.$color)};
+    height: 100%;
 `;
 
 type AdminBoxParams = {
@@ -24,7 +26,7 @@ type AdminBoxParams = {
   color: ColorName;
   game: StoreFetchedGame;
 };
-export default function AdminBox({ admin, color }: AdminBoxParams) {
+export default function AdminBox({ admin, game, color }: AdminBoxParams) {
   const responsive = useResponsiveContext();
   return (
     <Styled
@@ -40,6 +42,10 @@ export default function AdminBox({ admin, color }: AdminBoxParams) {
       <Heading variant="h4">
         Game Admin: {admin.username || admin.email}
       </Heading>
+      <P>
+        Admin is {game.players.includes(admin.sqlId) ? "playing " : "not "}in
+        this game
+      </P>
     </Styled>
   );
 }

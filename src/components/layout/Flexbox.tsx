@@ -12,6 +12,8 @@ interface FlexParentProps {
   $alignItems?: "flex-start" | "flex-end" | "center" | "baseline" | "stretch";
   $wrap?: "nowrap" | "wrap" | "wrap-reverse";
   $gap?: "small" | "medium" | "large";
+  $rowGap?: "small" | "medium" | "large";
+  $columnGap?: "small" | "medium" | "large";
 }
 
 const FlexBox = styled.div<FlexParentProps>`
@@ -20,14 +22,35 @@ const FlexBox = styled.div<FlexParentProps>`
   justify-content: ${(props) => props.$justifyContent || "flex-start"};
   align-items: ${(props) => props.$alignItems || "flex-start"};
   flex-wrap: ${(props) => props.$wrap || "nowrap"};
-  gap: ${(props) =>
-    props.$gap === "small"
+
+  row-gap: ${(props) =>
+    props.$rowGap === "small"
       ? "0.5em"
-      : props.$gap === "medium"
+      : props.$rowGap === "medium"
         ? "1em"
-        : props.$gap === "large"
+        : props.$rowGap === "large"
           ? "2em"
-          : "0"};
+          : props.$gap === "small"
+            ? "0.5em"
+            : props.$gap === "medium"
+              ? "1em"
+              : props.$gap === "large"
+                ? "2em"
+                : "0"};
+  column-gap: ${(props) =>
+    props.$columnGap === "small"
+      ? "0.5em"
+      : props.$columnGap === "medium"
+        ? "1em"
+        : props.$columnGap === "large"
+          ? "2em"
+          : props.$gap === "small"
+            ? "0.5em"
+            : props.$gap === "medium"
+              ? "1em"
+              : props.$gap === "large"
+                ? "2em"
+                : "0"};
 `;
 
 interface FlexChildProps {
