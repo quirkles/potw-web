@@ -47,9 +47,3 @@ export const authUserSlice = createSlice({
 export const { initializeAuthUser, setAuthUserField } = authUserSlice.actions;
 
 export default authUserSlice.reducer;
-
-export const authUserSelectors = {
-  getAuthUser: (state: { authUser: IAuthUser }): IAuthUser => {
-    return state.authUser;
-  },
-} as const;

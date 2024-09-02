@@ -64,7 +64,7 @@ const meta = {
   render: (args: any) => {
     const props = {
       game: {
-        id: args.game_id,
+        sqlId: args.game_id,
         name: args.game_name,
         description: args.game_description,
         isPrivate: args.game_isPrivate,

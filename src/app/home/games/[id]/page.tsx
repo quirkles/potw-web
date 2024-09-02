@@ -76,8 +76,7 @@ const StyledGame = styled.div<{
 `;
 
 function FetchedGame({ game }: { game: StoreFetchedGame }) {
-  const gameColor = getPseudoRandomFromArrayFromUid(game.id, gameColors);
-  console.log("gamecolor", gameColor);
+  const gameColor = getPseudoRandomFromArrayFromUid(game.sqlId, gameColors);
   const admin = useAppSelector((state) => selectUserBySqlId(state, game.admin));
 
   return (

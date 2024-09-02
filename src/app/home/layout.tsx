@@ -6,10 +6,8 @@ import { PropsWithChildren, useEffect, useState } from "react";
 import { styled } from "styled-components";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import {
-  authUserSelectors,
-  initializeAuthUser,
-} from "@/app/store/reducers/authUserReducer";
+import { initializeAuthUser } from "@/app/store/reducers/authUserReducer";
+import { authUserSelector } from "@/app/store/selectors/authUser";
 
 import Header from "@/components/header/Header";
 import { Notifications } from "@/components/notifications/Notifications";
@@ -41,7 +39,7 @@ function Home(props: PropsWithChildren<{}>) {
   const [decoded, setDecoded] = useState<Record<string, string> | null>(null);
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const authUser = useAppSelector(authUserSelectors.getAuthUser);
+  const authUser = useAppSelector(authUserSelector);
   useEffect(() => {
     if (token) {
       const decoded = jwtDecode<{ email: string }>(token);

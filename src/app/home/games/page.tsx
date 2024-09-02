@@ -5,7 +5,7 @@ import { styled } from "styled-components";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import { gameSlice, isFetchedGame } from "@/app/store/reducers/gamesReducer";
-import { selectGamesForUsers } from "@/app/store/selectors";
+import { selectGamesForUsers } from "@/app/store/selectors/games";
 
 import { useResponsiveContext } from "@/app/providers/Responsive";
 
@@ -49,7 +49,7 @@ function Games() {
         <GridContainer $gap={gap}>
           {games &&
             games.filter(isFetchedGame).map((game) => (
-              <GridItem key={game.id} $smCol={6} $mdCol={4}>
+              <GridItem key={game.sqlId} $smCol={6} $mdCol={4}>
                 <GameSummary game={game} />
               </GridItem>
             ))}

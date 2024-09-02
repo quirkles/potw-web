@@ -64,7 +64,7 @@ export type GamePeriod = BasicPeriod | CustomPeriod | CustomRecurring;
 
 export type StoreFetchedGame = {
   status: "fetched";
-  id: string;
+  sqlId: string;
   name: string;
   description: string | null;
   isPrivate: boolean;
@@ -87,7 +87,7 @@ export type StoreGame = StoreFetchedGame | StoreFetchingGame | StoreFailedGame;
 
 type StoreNewGame = Omit<
   StoreFetchedGame,
-  "id" | "adminId" | "players" | "admin" | "status"
+  "sqlId" | "adminId" | "players" | "admin" | "status"
 > & {
   status: "unsaved" | "pendingCreate" | "failed";
   addAdminAsPlayer: boolean;

@@ -1,13 +1,13 @@
 import { createSelector } from "reselect";
 
-import { authUserSelectors } from "@/app/store/reducers/authUserReducer";
 import {
   gameSelectors,
   isFetchedGame,
 } from "@/app/store/reducers/gamesReducer";
+import { authUserSelector } from "@/app/store/selectors/authUser";
 
 export const selectGamesForUsers = createSelector(
-  [authUserSelectors.getAuthUser, gameSelectors.getGames],
+  [authUserSelector, gameSelectors.getGames],
   (authUser, games) => {
     return authUser && Object.values(games).length
       ? Object.values(games).filter(

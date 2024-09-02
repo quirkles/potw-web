@@ -12,6 +12,7 @@ export function gameToStoreGame(game: Game): StoreFetchedGame {
   }
   return {
     ...game,
+    sqlId: game.id,
     status: "fetched",
     startDate: game.startDate,
     endDate: stringAsDateString(game.endDate),

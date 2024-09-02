@@ -78,11 +78,11 @@ interface IGameSummaryProps {
 export function GameSummary(props: IGameSummaryProps) {
   const { game } = props;
   const responsive = useResponsiveContext();
-  const colorName = getPseudoRandomFromArrayFromUid(game.id, gameColors);
+  const colorName = getPseudoRandomFromArrayFromUid(game.sqlId, gameColors);
   console.log("colorName", colorName);
-  const getAnimationDelay = getPseudoRandomInRangeFromUid(game.id, 500, 0);
+  const getAnimationDelay = getPseudoRandomInRangeFromUid(game.sqlId, 500, 0);
   const {
-    id,
+    sqlId,
     name,
     description,
     period,
@@ -102,7 +102,7 @@ export function GameSummary(props: IGameSummaryProps) {
       <FlexBox $direction="column" $alignItems="stretch">
         <FlexItem className="header" $grow={1}>
           <Heading variant="h3" $textTransform="capitalize" $font="sans">
-            <Link href={`/home/games/${id}`}>{name}</Link>
+            <Link href={`/home/games/${sqlId}`}>{name}</Link>
           </Heading>
         </FlexItem>
         <FlexItem className="body">

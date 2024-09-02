@@ -7,12 +7,12 @@ import { styled } from "styled-components";
 import InviteUsers from "@/app/home/create/InviteUsers";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import { authUserSelectors } from "@/app/store/reducers/authUserReducer";
 import {
   createGame,
   gameSelectors,
   updateNewGame,
 } from "@/app/store/reducers/gamesReducer";
+import { authUserSelector } from "@/app/store/selectors/authUser";
 
 import { useNotificationsContext } from "@/app/providers/Notifications";
 import { useResponsiveContext } from "@/app/providers/Responsive";
@@ -46,7 +46,7 @@ const Styled = styled.div`
 function Create() {
   const dispatch = useAppDispatch();
   const newGame = useAppSelector(gameSelectors.getNewGame);
-  const authUser = useAppSelector(authUserSelectors.getAuthUser);
+  const authUser = useAppSelector(authUserSelector);
 
   const { dispatchNotification } = useNotificationsContext();
 
