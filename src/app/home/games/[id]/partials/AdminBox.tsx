@@ -18,7 +18,7 @@ const Styled = styled(FlexBox)<{
   padding: 2rem;
   border: 2px solid ${(props) => getColor(props.$color)};
   color: ${(props) => getColor(props.$color)};
-    height: 100%;
+  height: 100%;
 `;
 
 type AdminBoxParams = {
