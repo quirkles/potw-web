@@ -122,17 +122,17 @@ function Home() {
         <Spacer $marginY="medium" />
         <Heading variant="h3">How do I get involved?</Heading>
         <GridContainer>
-          <GridItem $sm={6} $lg={4} onClick={redirect("/home/create")}>
+          <GridItem $smCol={6} $lgCol={4} onClick={redirect("/home/create")}>
             <div className={`cta create `}>
               <Heading variant="h3">Create a game</Heading>
             </div>
           </GridItem>
-          <GridItem $sm={6} $lg={4} onClick={redirect("/home/invite")}>
+          <GridItem $smCol={6} $lgCol={4} onClick={redirect("/home/invite")}>
             <div className={`cta invite `}>
               <Heading variant="h3">Invite your friends</Heading>
             </div>
           </GridItem>
-          <GridItem $sm={6} $lg={4} onClick={redirect("/home/join")}>
+          <GridItem $smCol={6} $lgCol={4} onClick={redirect("/home/join")}>
             <div className={`cta join `}>
               <Heading variant="h3">Join a public game</Heading>
             </div>

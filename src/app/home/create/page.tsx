@@ -1,6 +1,5 @@
 "use client";
 
-import { faker } from "@faker-js/faker";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { styled } from "styled-components";
@@ -66,7 +65,7 @@ function Create() {
       <Spacer $margin="medium">
         <Heading variant="h1">Create New Game</Heading>
         <GridContainer>
-          <GridItem $lg={6}>
+          <GridItem $lgCol={6}>
             <div>
               My new game will be called{" "}
               <TextEditable
@@ -188,7 +187,7 @@ function Create() {
             />
             <Spacer $paddingY="small" />
           </GridItem>
-          <GridItem $lg={6}>
+          <GridItem $lgCol={6}>
             <InviteUsers
               onRemoveUser={(email) => {
                 setUsers((state) => state.filter((u) => u.email !== email));
