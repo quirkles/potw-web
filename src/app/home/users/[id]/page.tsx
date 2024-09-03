@@ -16,6 +16,8 @@ import { authUserSelector } from "@/app/store/selectors/authUser";
 import Loader from "@/components/loader/Loader";
 
 import { getPseudoRandomFromArrayFromUid } from "@/utils/random";
+import Header from "@/components/header/Header";
+import Heading from "@/components/heading/Heading";
 
 const StyledUserIdPage = styled.div`
   height: 100%;
@@ -46,7 +48,7 @@ const StyledFetchedUser = styled.div<{
 
   padding: 2rem;
 
-  color: ${getColor("white")};
+  background-color: ${getColor("white")};
   color: ${(props) => getColor(props.$color)};
 `;
 
@@ -56,7 +58,8 @@ function FetchedUser(props: { user: StoreUser }) {
   const authUser = useAppSelector(authUserSelector);
   return (
     <StyledFetchedUser $color={userColor}>
-      <h1>{user.username}</h1>
+      <Heading variant="h1">{user.username}</Heading>
+      <Heading variant="h3">joine {user}</Heading>
     </StyledFetchedUser>
   );
 }
