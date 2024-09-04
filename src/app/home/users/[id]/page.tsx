@@ -13,15 +13,19 @@ import {
 } from "@/app/store/reducers/usersReducer";
 import { authUserSelector } from "@/app/store/selectors/authUser";
 
+import Heading from "@/components/heading/Heading";
 import Loader from "@/components/loader/Loader";
 
+import { formatDateTime } from "@/utils/date";
 import { getPseudoRandomFromArrayFromUid } from "@/utils/random";
-import Header from "@/components/header/Header";
-import Heading from "@/components/heading/Heading";
 
 const StyledUserIdPage = styled.div`
   height: 100%;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 function UserIdPage({ params }: { params: { id: string } }) {
@@ -29,14 +33,35 @@ function UserIdPage({ params }: { params: { id: string } }) {
     usersSelectors.getUserBySqlId(state, params.id),
   );
   const dispatch = useAppDispatch();
+
+  const userFetchState = user?.fetchState || "idle";
+
   useEffect(() => {
-    dispatch(fetchUserById(params.id));
-  }, [dispatch, params.id]);
-  return (
-    <StyledUserIdPage>
-      {user && !user.isFetching ? <FetchedUser user={user} /> : <Loader />}
-    </StyledUserIdPage>
-  );
+    if (userFetchState === "idle") {
+      dispatch(fetchUserById(params.id));
+    }
+    return;
+  }, [dispatch, params.id, userFetchState]);
+
+  switch (userFetchState) {
+    case "rejected":
+      return (
+        <StyledUserIdPage>
+          <Heading variant="h1">Error fetching User!</Heading>
+          <Heading variant={"h3"}>Please try again later.</Heading>
+        </StyledUserIdPage>
+      );
+    case "fulfilled":
+      return <FetchedUser user={user as StoreUser} />;
+    case "idle":
+    case "pending":
+    default:
+      return (
+        <StyledUserIdPage>
+          <Loader />
+        </StyledUserIdPage>
+      );
+  }
 }
 
 const StyledFetchedUser = styled.div<{
@@ -59,7 +84,9 @@ function FetchedUser(props: { user: StoreUser }) {
   return (
     <StyledFetchedUser $color={userColor}>
       <Heading variant="h1">{user.username}</Heading>
-      <Heading variant="h3">joine {user}</Heading>
+      <Heading variant="h3">
+        joined: {formatDateTime(user.createdAt, "short")}
+      </Heading>
     </StyledFetchedUser>
   );
 }

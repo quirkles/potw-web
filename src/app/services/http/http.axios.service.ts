@@ -3,6 +3,7 @@ import axios, { Axios, AxiosError } from "axios";
 import { v4 } from "uuid";
 import { ZodError, ZodSchema, ZodType } from "zod";
 
+import { getConfig } from "@/config";
 import { getFirebaseAppCheck } from "@/firebase";
 
 import {
@@ -14,6 +15,7 @@ import {
 import { ILogger } from "@/utils/logger";
 
 export class HttpAxiosService implements HttpService {
+  private delay = getConfig().env === "local" ? 2000 : 0;
   private interceptors: (Interceptor<"get" | "put" | "post" | "delete"> & {
     id: string;
   })[] = [];
@@ -63,6 +65,8 @@ export class HttpAxiosService implements HttpService {
         headers["X-Firebase-AppCheck"] = appCheckTokenResponse.token;
       }
 
+      await new Promise((resolve) => setTimeout(resolve, this.delay));
+
       let response = await this.axiosInstance.get(url, { headers });
       let transformedResponse = response.data;
       for (const interceptor of this.interceptors) {
@@ -94,6 +98,8 @@ export class HttpAxiosService implements HttpService {
       }
 
       const { url, headers = {} } = transformedParams;
+
+      await new Promise((resolve) => setTimeout(resolve, this.delay));
 
       let response = await this.axiosInstance.post(url, body, { headers });
 
@@ -130,6 +136,8 @@ export class HttpAxiosService implements HttpService {
 
       const { url, headers = {} } = transformedParams;
 
+      await new Promise((resolve) => setTimeout(resolve, this.delay));
+
       let response = await this.axiosInstance.put(url, body, { headers });
 
       let transformedResponse = response.data;
@@ -163,7 +171,10 @@ export class HttpAxiosService implements HttpService {
 
       const { url, headers = {} } = transformedParams;
 
+      await new Promise((resolve) => setTimeout(resolve, this.delay));
+
       let response = await this.axiosInstance.delete(url, { headers });
+
       let transformedResponse = response.data;
       for (const interceptor of this.interceptors) {
         if (

@@ -5,7 +5,7 @@ import { User } from "@/app/services/schemas/user";
 import { fetchUserByIdRequest } from "@/app/services/user/fetchUserById";
 
 export type StoreUser = User & {
-  isFetching: boolean | null;
+  fetchState: "idle" | "pending" | "fulfilled" | "rejected";
   error: string | null;
 };
 
@@ -68,7 +68,7 @@ export const usersSlice = createAppSlice({
         pending: (state, action) => {
           state.users[action.meta.arg] = {
             ...(state.users[action.meta.arg] || {}),
-            isFetching: true,
+            fetchState: "pending",
             error: null,
           };
         },
@@ -76,14 +76,14 @@ export const usersSlice = createAppSlice({
           state.users[action.payload.sqlId] = {
             ...([action.payload.sqlId] || {}),
             ...action.payload,
-            isFetching: false,
+            fetchState: "fulfilled",
             error: null,
           };
         },
         rejected: (state, action) => {
           state.users[action.meta.arg] = {
             ...(state.users[action.meta.arg] || {}),
-            isFetching: false,
+            fetchState: "rejected",
             error: action.error.message || "Unknown error",
           };
         },

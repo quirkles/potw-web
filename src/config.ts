@@ -1,6 +1,7 @@
 import z, { ZodError } from "zod";
 
 const configSchema = z.object({
+  env: z.enum(["local", "dev", "production"]),
   spotifyClientId: z.string(),
   oauthRedirectUrl: z.string(),
   functionsUrl: z.string(),
@@ -38,6 +39,7 @@ export function getConfig(): Config {
       measurementId: process.env.NEXT_PUBLIC_MEASUREMENTID as string,
     },
     recaptchaSiteKey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string,
+    env: process.env.NEXT_PUBLIC_ENV as "local" | "dev" | "production",
   };
   try {
     config = configSchema.parse(maybeConfig);

@@ -1,3 +1,5 @@
+import { format as formatFn } from "date-fns";
+
 import { GamePeriod } from "@/app/store/reducers/gamesReducer";
 
 type Year =
@@ -182,4 +184,29 @@ export function getPeriodDisplayText(period: GamePeriod): string {
     case "everyOther":
       return `Every other ${period.dayOfWeek}`;
   }
+}
+
+const formats = {
+  short: "MMM d, ''yy",
+  long: "MMMM dd, yyyy",
+};
+
+export function formatDateTime(
+  input: Date | string,
+  format: keyof typeof formats,
+): string {
+  let date: Date;
+  try {
+    if (typeof input === "string") {
+      date = new Date(input);
+    } else {
+      date = input;
+    }
+  } catch (e) {
+    return "Invalid date";
+  }
+  if (isNaN(date.getTime())) {
+    return "Invalid date";
+  }
+  return formatFn(date, formats[format]);
 }
