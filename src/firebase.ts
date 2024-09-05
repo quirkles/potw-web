@@ -23,8 +23,6 @@ let analytics: Analytics;
 
 export function getFirebaseApp(): FirebaseApp {
   if (!app) {
-    console.log("Initializing Firebase app");
-    console.log(firebaseConfig);
     app = initializeApp(firebaseConfig);
     appCheck = initializeAppCheck(app, {
       provider: new ReCaptchaEnterpriseProvider(getConfig().recaptchaSiteKey),

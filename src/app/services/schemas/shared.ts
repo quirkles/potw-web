@@ -1,6 +1,6 @@
-import z from "zod";
+import { validDateTimeString } from "@/app/services/schemas/utils";
 
 export const withDates = {
-  createdAt: z.string(),
-  updatedAt: z.string(),
+  createdAt: validDateTimeString(),
+  updatedAt: validDateTimeString(),
 };

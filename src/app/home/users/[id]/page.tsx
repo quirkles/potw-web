@@ -9,12 +9,20 @@ import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import {
   fetchUserById,
   StoreUser,
+  updateUserField,
   usersSelectors,
 } from "@/app/store/reducers/usersReducer";
 import { authUserSelector } from "@/app/store/selectors/authUser";
 
+import { useNotificationsContext } from "@/app/providers/Notifications";
+
+import { User, UserUpdate } from "@/app/services/schemas/user";
+import { updateUserRequest } from "@/app/services/user/fetchUserById";
+
+import TextEditable from "@/components/form/TextEditable";
 import Heading from "@/components/heading/Heading";
 import Loader from "@/components/loader/Loader";
+import P from "@/components/text/P";
 
 import { formatDateTime } from "@/utils/date";
 import { getPseudoRandomFromArrayFromUid } from "@/utils/random";
@@ -79,11 +87,45 @@ const StyledFetchedUser = styled.div<{
 
 function FetchedUser(props: { user: StoreUser }) {
   const { user } = props;
-  const userColor = getPseudoRandomFromArrayFromUid(user.sqlId, gameColors);
+  const dispatch = useAppDispatch();
   const authUser = useAppSelector(authUserSelector);
+
+  const { dispatchNotification } = useNotificationsContext();
+
+  const canEdit = authUser?.sqlId === user.sqlId;
+  const userColor = getPseudoRandomFromArrayFromUid(user.sqlId, gameColors);
+
+  const handleTextFieldChange =
+    (fieldName: keyof UserUpdate) => (text: string) => {
+      dispatch(
+        updateUserField({ userId: user.sqlId, field: fieldName, value: text }),
+      ).then((result) => {
+        if (result.meta.requestStatus === "rejected") {
+          dispatchNotification({
+            message: "Update failed",
+            type: "ERROR",
+          });
+        }
+        if (result.meta.requestStatus === "fulfilled") {
+          dispatchNotification({
+            message: "Updated!",
+            type: "SUCCESS",
+          });
+        }
+      });
+    };
   return (
     <StyledFetchedUser $color={userColor}>
-      <Heading variant="h1">{user.username}</Heading>
+      <Heading variant="h1">
+        {canEdit ? (
+          <TextEditable
+            text={user.username || user.email}
+            onChange={handleTextFieldChange("username")}
+          />
+        ) : (
+          <P>{user.username || user.email}</P>
+        )}
+      </Heading>
       <Heading variant="h3">
         joined: {formatDateTime(user.createdAt, "short")}
       </Heading>

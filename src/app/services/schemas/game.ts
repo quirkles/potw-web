@@ -1,6 +1,11 @@
 import z from "zod";
 
+import { withDates } from "@/app/services/schemas/shared";
 import { userSchema } from "@/app/services/schemas/user";
+import {
+  validDateString,
+  validDateTimeString,
+} from "@/app/services/schemas/utils";
 
 const periodSchema = z.union([
   z.literal("daily"),
@@ -30,11 +35,8 @@ export const createGamePayloadSchema = z.object({
   description: z.string().or(z.null()),
   isPrivate: z.boolean(),
   adminId: z.string(),
-  startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  endDate: z
-    .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/)
-    .or(z.null()),
+  startDate: validDateTimeString(),
+  endDate: validDateString().or(z.null()),
   addAdminAsPlayer: z.boolean(),
   period: periodSchema,
   players: z.array(
@@ -55,6 +57,7 @@ export const gameSchema = createGamePayloadSchema
     id: z.string(),
     players: z.array(userSchema),
     admin: userSchema,
+    ...withDates,
   });
 
 export type Game = z.infer<typeof gameSchema>;

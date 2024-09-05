@@ -39,20 +39,6 @@ export class HttpAxiosService implements HttpService {
         ...transformedParams
       } = params;
 
-      let appCheckTokenResponse;
-      try {
-        appCheckTokenResponse = await getToken(
-          getFirebaseAppCheck(),
-          /* forceRefresh= */ false,
-        );
-      } catch (err) {
-        // Handle any errors if the token was not retrieved.
-        this.logger.error({
-          message: "app check token error",
-          error: err as Error,
-        });
-      }
-
       for (const interceptor of this.interceptors) {
         if (interceptor.method === "get" && interceptor.requestInterceptor) {
           transformedParams = interceptor.requestInterceptor(transformedParams);
@@ -61,8 +47,25 @@ export class HttpAxiosService implements HttpService {
 
       const { url, headers = {} } = transformedParams;
 
-      if (useAppCheck && appCheckTokenResponse) {
-        headers["X-Firebase-AppCheck"] = appCheckTokenResponse.token;
+      const token = localStorage?.getItem("token") || null;
+      if (!token) {
+        headers["authorization"] = `Bearer ${token}`;
+      }
+
+      if (useAppCheck) {
+        try {
+          const appCheckTokenResponse = await getToken(
+            getFirebaseAppCheck(),
+            /* forceRefresh= */ false,
+          );
+          headers["X-Firebase-AppCheck"] = appCheckTokenResponse.token;
+        } catch (err) {
+          // Handle any errors if the token was not retrieved.
+          this.logger.error({
+            message: "app check token error",
+            error: err as Error,
+          });
+        }
       }
 
       await new Promise((resolve) => setTimeout(resolve, this.delay));
@@ -89,7 +92,7 @@ export class HttpAxiosService implements HttpService {
     useAppCheck?: boolean;
   }): Promise<T> {
     try {
-      let { responseSchema, body, ...transformedParams } = params;
+      let { responseSchema, body, useAppCheck, ...transformedParams } = params;
 
       for (const interceptor of this.interceptors) {
         if (interceptor.method === "post" && interceptor.requestInterceptor) {
@@ -98,6 +101,27 @@ export class HttpAxiosService implements HttpService {
       }
 
       const { url, headers = {} } = transformedParams;
+
+      const token = localStorage?.getItem("token") || null;
+      if (token) {
+        headers["authorization"] = `Bearer ${token}`;
+      }
+
+      if (useAppCheck) {
+        try {
+          const appCheckTokenResponse = await getToken(
+            getFirebaseAppCheck(),
+            /* forceRefresh= */ false,
+          );
+          headers["X-Firebase-AppCheck"] = appCheckTokenResponse.token;
+        } catch (err) {
+          // Handle any errors if the token was not retrieved.
+          this.logger.error({
+            message: "app check token error",
+            error: err as Error,
+          });
+        }
+      }
 
       await new Promise((resolve) => setTimeout(resolve, this.delay));
 
@@ -126,7 +150,7 @@ export class HttpAxiosService implements HttpService {
     useAppCheck?: boolean;
   }): Promise<T> {
     try {
-      let { responseSchema, body, ...transformedParams } = params;
+      let { responseSchema, body, useAppCheck, ...transformedParams } = params;
 
       for (const interceptor of this.interceptors) {
         if (interceptor.method === "put" && interceptor.requestInterceptor) {
@@ -141,6 +165,27 @@ export class HttpAxiosService implements HttpService {
       let response = await this.axiosInstance.put(url, body, { headers });
 
       let transformedResponse = response.data;
+
+      const token = localStorage?.getItem("token") || null;
+      if (!token) {
+        headers["authorization"] = `Bearer ${token}`;
+      }
+
+      if (useAppCheck) {
+        try {
+          const appCheckTokenResponse = await getToken(
+            getFirebaseAppCheck(),
+            /* forceRefresh= */ false,
+          );
+          headers["X-Firebase-AppCheck"] = appCheckTokenResponse.token;
+        } catch (err) {
+          // Handle any errors if the token was not retrieved.
+          this.logger.error({
+            message: "app check token error",
+            error: err as Error,
+          });
+        }
+      }
 
       for (const interceptor of this.interceptors) {
         if (interceptor.method === "put" && interceptor.responseInterceptor) {
@@ -161,7 +206,7 @@ export class HttpAxiosService implements HttpService {
     useAppCheck?: boolean;
   }): Promise<T> {
     try {
-      let { responseSchema, ...transformedParams } = params;
+      let { responseSchema, useAppCheck, ...transformedParams } = params;
 
       for (const interceptor of this.interceptors) {
         if (interceptor.method === "delete" && interceptor.requestInterceptor) {
@@ -176,6 +221,28 @@ export class HttpAxiosService implements HttpService {
       let response = await this.axiosInstance.delete(url, { headers });
 
       let transformedResponse = response.data;
+
+      const token = localStorage?.getItem("token") || null;
+      if (!token) {
+        headers["authorization"] = `Bearer ${token}`;
+      }
+
+      if (useAppCheck) {
+        try {
+          const appCheckTokenResponse = await getToken(
+            getFirebaseAppCheck(),
+            /* forceRefresh= */ false,
+          );
+          headers["X-Firebase-AppCheck"] = appCheckTokenResponse.token;
+        } catch (err) {
+          // Handle any errors if the token was not retrieved.
+          this.logger.error({
+            message: "app check token error",
+            error: err as Error,
+          });
+        }
+      }
+
       for (const interceptor of this.interceptors) {
         if (
           interceptor.method === "delete" &&

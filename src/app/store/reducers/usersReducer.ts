@@ -2,7 +2,10 @@ import { createAppSlice } from "@/app/store/createAppSlice";
 import { gameSlice } from "@/app/store/reducers/gamesReducer";
 
 import { User } from "@/app/services/schemas/user";
-import { fetchUserByIdRequest } from "@/app/services/user/fetchUserById";
+import {
+  fetchUserByIdRequest,
+  updateUserRequest,
+} from "@/app/services/user/fetchUserById";
 
 export type StoreUser = User & {
   fetchState: "idle" | "pending" | "fulfilled" | "rejected";
@@ -89,11 +92,35 @@ export const usersSlice = createAppSlice({
         },
       },
     ),
+    updateUserField: create.asyncThunk(
+      async <T extends keyof User>(params: {
+        userId: string;
+        field: T;
+        value: User[T];
+      }) => {
+        return updateUserRequest({
+          sqlId: params.userId,
+          [params.field]: params.value,
+        });
+      },
+      {
+        pending: (state, action) => {},
+        fulfilled: (state, action) => {
+          if (state.users[action.meta.arg.userId]) {
+            state.users[action.meta.arg.userId] = {
+              ...state.users[action.meta.arg.userId],
+              ...action.payload,
+            };
+          }
+        },
+        rejected: (state, action) => {},
+      },
+    ),
   }),
 });
 
 // Action creators are generated for each case reducer function
-export const { fetchUserById } = usersSlice.actions;
+export const { fetchUserById, updateUserField } = usersSlice.actions;
 
 export default usersSlice.reducer;
 
