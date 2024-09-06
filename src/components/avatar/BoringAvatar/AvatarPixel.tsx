@@ -1,13 +1,13 @@
 import { useId } from "react";
 
-import { AvatarProps, VariantProps } from "@/components/avatar/BoringAvatar/Avatar";
+import { VariantProps } from "@/components/avatar/BoringAvatar/Avatar";
 
 import { getRandomColor, hashCode } from "./utilities";
 
 const ELEMENTS = 64;
 const SIZE = 80;
 
-function generateColors(name: string, colors: string[]): string[] {
+function generateColors(name: string, colors: readonly string[]): string[] {
   const numFromName = hashCode(name);
   const range = colors && colors.length;
 
