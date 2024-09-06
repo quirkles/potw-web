@@ -1,5 +1,7 @@
 import { styled } from "styled-components";
 
+import { breakpoints } from "@/app/styles/consts";
+
 const gaps = {
   small: "1rem",
   medium: "2rem",
@@ -17,6 +19,8 @@ export const GridContainer = styled.div<{
   grid-gap: ${(props) => gaps[props.$gap || "medium"]};
 `;
 
+const { xs, sm, md, lg } = breakpoints;
+
 export const GridItem = styled.div<{
   $xsCol?: number;
   $xsRow?: number;
@@ -31,17 +35,17 @@ export const GridItem = styled.div<{
 }>`
   grid-column: span ${(props) => props.$xsCol || 12};
   grid-row: span ${(props) => props.$xsRow || 1};
-  @media (min-width: 768px) {
+  @media (min-width: ${xs}px) {
     grid-column: span ${(props) => props.$smCol || props.$xsCol || 12};
     grid-row: span ${(props) => props.$smRow || props.$xsRow || 1};
   }
-  @media (min-width: 992px) {
+  @media (min-width: ${sm}px) {
     grid-column: span
       ${(props) => props.$mdCol || props.$smCol || props.$xsCol || 12};
     grid-row: span
       ${(props) => props.$mdRow || props.$smRow || props.$xsRow || 1};
   }
-  @media (min-width: 1200px) {
+  @media (min-width: ${md}px) {
     grid-column: span
       ${(props) =>
         props.$lgCol || props.$mdCol || props.$smCol || props.$xsCol || 12};
@@ -49,7 +53,7 @@ export const GridItem = styled.div<{
       ${(props) =>
         props.$lgRow || props.$mdRow || props.$smRow || props.$xsRow || 1};
   }
-  @media (min-width: 1400px) {
+  @media (min-width: ${lg}px) {
     grid-column: span
       ${(props) =>
         props.$xlCol ||

@@ -12,3 +12,9 @@ export type RecordToEnum<
     string | number | symbol | boolean
   >,
 > = T[keyof T];
+
+type Required<T> = {
+  [P in keyof T]-?: T[P];
+};
+
+export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;

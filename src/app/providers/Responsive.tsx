@@ -7,7 +7,9 @@ import {
   useEffect,
   useState,
 } from "react";
-import { debounceTime, fromEvent, Subject, Subscription } from "rxjs";
+import { fromEvent, throttleTime } from "rxjs";
+
+import { breakpoints } from "@/app/styles/consts";
 
 type ResponsiveContext = {
   screenWidthPx: number;
@@ -29,12 +31,12 @@ export function ResponsiveProvider({ children }: { children: ReactNode }) {
   );
 
   const setFlags = (width: number) => {
-    if (width < 768) {
+    if (width < breakpoints.xs) {
       setIsMobile(true);
       setIsTablet(false);
       setIsDesktop(false);
       setScreenSize("mobile");
-    } else if (width < 1024) {
+    } else if (width < breakpoints.sm) {
       setIsMobile(false);
       setIsTablet(true);
       setIsDesktop(false);
@@ -54,7 +56,7 @@ export function ResponsiveProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setScreenWidthPx(window.innerWidth);
     const sub = fromEvent(window, "resize")
-      .pipe(debounceTime(50))
+      .pipe(throttleTime(50))
       .subscribe((e) => {
         const target = e.target as Window;
         setScreenWidthPx(target.innerWidth);

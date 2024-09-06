@@ -15,12 +15,15 @@ import {
 import { authUserSelector } from "@/app/store/selectors/authUser";
 
 import { useNotificationsContext } from "@/app/providers/Notifications";
+import { useResponsiveContext } from "@/app/providers/Responsive";
 
 import { User, UserUpdate } from "@/app/services/schemas/user";
 import { updateUserRequest } from "@/app/services/user/fetchUserById";
 
+import { Avatar } from "@/components/avatar/Avatar";
 import TextEditable from "@/components/form/TextEditable";
 import Heading from "@/components/heading/Heading";
+import { GridContainer, GridItem } from "@/components/layout/Grid";
 import Loader from "@/components/loader/Loader";
 import P from "@/components/text/P";
 
@@ -92,6 +95,8 @@ function FetchedUser(props: { user: StoreUser }) {
 
   const { dispatchNotification } = useNotificationsContext();
 
+  const responsive = useResponsiveContext();
+
   const canEdit = authUser?.sqlId === user.sqlId;
   const userColor = getPseudoRandomFromArrayFromUid(user.sqlId, gameColors);
 
@@ -116,19 +121,33 @@ function FetchedUser(props: { user: StoreUser }) {
     };
   return (
     <StyledFetchedUser $color={userColor}>
-      <Heading variant="h1">
-        {canEdit ? (
-          <TextEditable
-            text={user.username || user.email}
-            onChange={handleTextFieldChange("username")}
+      <GridContainer>
+        <GridItem $mdCol={1}>
+          <Avatar
+            value={user.email || ""}
+            size={responsive?.isDesktop ? "xLarge" : "large"}
+            canEdit={canEdit}
+            userId={user.sqlId}
           />
-        ) : (
-          <P>{user.username || user.email}</P>
-        )}
-      </Heading>
-      <Heading variant="h3">
-        joined: {formatDateTime(user.createdAt, "short")}
-      </Heading>
+        </GridItem>
+        <GridItem $mdCol={11}>
+          <Heading variant="h1">
+            {canEdit ? (
+              <TextEditable
+                text={user.username || user.email}
+                onBlur={handleTextFieldChange("username")}
+              />
+            ) : (
+              <P>{user.username || user.email}</P>
+            )}
+          </Heading>
+        </GridItem>
+        <GridItem>
+          <Heading variant="h3">
+            joined: {formatDateTime(user.createdAt, "long")}
+          </Heading>
+        </GridItem>
+      </GridContainer>
     </StyledFetchedUser>
   );
 }
