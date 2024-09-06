@@ -1,22 +1,22 @@
 import { StoreFetchedGame } from "@/app/store/reducers/gamesReducer";
 
-import { Game } from "@/app/services/schemas/game";
+import { GameWithRelations } from "@/app/services/schemas/withRelations";
 
 import { isDateString, stringAsDateString } from "@/utils/date";
 
-export function gameToStoreGame(game: Game): StoreFetchedGame {
+export function gameToStoreGame(game: GameWithRelations): StoreFetchedGame {
   if (!isDateString(game.startDate)) {
     throw new Error(
       "Invalid date string in gameToStoreGame: " + game.startDate,
     );
   }
+  console.log("gameToStoreGame", game);
   return {
     ...game,
-    sqlId: game.id,
     status: "fetched",
     startDate: game.startDate,
     endDate: stringAsDateString(game.endDate),
-    admin: game.admin.sqlId,
-    players: game.players.map((player) => player.sqlId),
+    admin: game.admin?.sqlId || "N/A",
+    players: game.players?.map((player) => player.sqlId || "N/A") || [],
   };
 }

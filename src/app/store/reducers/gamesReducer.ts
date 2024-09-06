@@ -5,11 +5,16 @@ import { createAppSlice } from "@/app/store/createAppSlice";
 
 import {
   createGameRequest,
-  fetchGame,
+  fetchGame as fetchGameRequest,
   fetchGamesForUser as fetchGamesForUserRequest,
+  fetchGames as fetchGamesRequest,
 } from "@/app/services/game";
 import { gameToStoreGame } from "@/app/services/game/transformers";
-import { createGamePayloadSchema, Game } from "@/app/services/schemas/game";
+import {
+  createGamePayloadSchema,
+  Game,
+  PeriodString,
+} from "@/app/services/schemas/game";
 
 import { addTo, DateString, getDateString } from "@/utils/date";
 import { getFakeGameName } from "@/utils/game";
@@ -71,7 +76,7 @@ export type StoreFetchedGame = {
   admin: string;
   startDate: DateString;
   endDate: DateString | null;
-  period: GamePeriod;
+  period: PeriodString;
   players: string[];
 };
 type StoreFetchingGame = {
@@ -169,7 +174,7 @@ export const gameSlice = createAppSlice({
         },
       },
     ),
-    fetchGame: create.asyncThunk(fetchGame, {
+    fetchGame: create.asyncThunk(fetchGameRequest, {
       pending: (state, action) => {
         const existing = state.games[action.meta.arg];
         state.games[action.meta.arg] = {
@@ -180,7 +185,7 @@ export const gameSlice = createAppSlice({
       },
       fulfilled: (state, action) => {
         const game = action.payload;
-        state.games[game.id] = gameToStoreGame(game);
+        state.games[game.sqlId] = gameToStoreGame(game);
       },
       rejected: (state, action) => {
         state.games[action.meta.arg] = {
@@ -193,7 +198,17 @@ export const gameSlice = createAppSlice({
     fetchGamesForUser: create.asyncThunk(fetchGamesForUserRequest, {
       fulfilled: (state, action) => {
         action.payload.forEach((game) => {
-          state.games[game.id] = gameToStoreGame(game);
+          state.games[game.sqlId] = gameToStoreGame(game);
+        });
+      },
+      rejected: (state) => {
+        console.log("fetchMyGames rejected");
+      },
+    }),
+    fetchGames: create.asyncThunk(() => fetchGamesRequest(), {
+      fulfilled: (state, action) => {
+        action.payload.forEach((game) => {
+          state.games[game.sqlId] = gameToStoreGame(game);
         });
       },
       rejected: (state) => {
@@ -204,7 +219,7 @@ export const gameSlice = createAppSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { updateNewGame, createGame, fetchGamesForUser } =
+export const { updateNewGame, createGame, fetchGamesForUser, fetchGames } =
   gameSlice.actions;
 
 export default gameSlice.reducer;

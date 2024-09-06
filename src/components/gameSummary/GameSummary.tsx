@@ -18,7 +18,7 @@ import P from "@/components/text/P";
 import Span from "@/components/text/Span";
 
 import { getColorVariant } from "@/utils/color";
-import { getPeriodDisplayText } from "@/utils/date";
+import { getPeriodDisplayTextFromPeriodString } from "@/utils/period";
 import {
   getPseudoRandomFromArrayFromUid,
   getPseudoRandomInRangeFromUid,
@@ -33,6 +33,7 @@ const StyledGameSummary = styled.div<{
     z-index: 1;
     transform: scale(1);
     position: relative;
+    background-color: ${getColorVariant("white", "base")};
     &:hover {
         opacity: 1;
         z-index: 2;
@@ -55,7 +56,6 @@ const StyledGameSummary = styled.div<{
         color: ${(props) => getColorVariant(props.$color, "font")};
     }
     .body {
-        background-color: ${getColorVariant("white", "base")};
     }
 }
 
@@ -79,7 +79,6 @@ export function GameSummary(props: IGameSummaryProps) {
   const { game } = props;
   const responsive = useResponsiveContext();
   const colorName = getPseudoRandomFromArrayFromUid(game.sqlId, gameColors);
-  console.log("colorName", colorName);
   const getAnimationDelay = getPseudoRandomInRangeFromUid(game.sqlId, 500, 0);
   const {
     sqlId,
@@ -172,7 +171,7 @@ export function GameSummary(props: IGameSummaryProps) {
                 <Span>
                   Game is played{" "}
                   <Span $fontWeight="bold" $color={colorName}>
-                    {getPeriodDisplayText(period)}
+                    {getPeriodDisplayTextFromPeriodString(period)}
                   </Span>
                 </Span>
               </P>

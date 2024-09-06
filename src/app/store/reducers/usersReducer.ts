@@ -31,7 +31,7 @@ export const usersSlice = createAppSlice({
           ...action.payload.admin,
         };
       }
-      action.payload.players.forEach((player) => {
+      (action.payload.players || []).forEach((player) => {
         if (player.sqlId) {
           state.users[player.sqlId] = {
             ...state.users[player.sqlId],
@@ -50,7 +50,7 @@ export const usersSlice = createAppSlice({
               ...game.admin,
             };
           }
-          game.players.forEach((player) => {
+          (game.players || []).forEach((player) => {
             if (player.sqlId) {
               state.users[player.sqlId] = {
                 ...state.users[player.sqlId],
@@ -61,6 +61,24 @@ export const usersSlice = createAppSlice({
         }
       },
     );
+    builder.addCase(gameSlice.actions.fetchGames.fulfilled, (state, action) => {
+      for (const game of action.payload) {
+        if (game.admin) {
+          state.users[game.admin.sqlId] = {
+            ...state.users[game.admin.sqlId],
+            ...game.admin,
+          };
+        }
+        (game.players || []).forEach((player) => {
+          if (player.sqlId) {
+            state.users[player.sqlId] = {
+              ...state.users[player.sqlId],
+              ...player,
+            };
+          }
+        });
+      }
+    });
   },
   reducers: (create) => ({
     fetchUserById: create.asyncThunk(

@@ -5,7 +5,7 @@ import { styled } from "styled-components";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import { gameSlice, isFetchedGame } from "@/app/store/reducers/gamesReducer";
-import { selectGamesForUsers } from "@/app/store/selectors/games";
+import { selectGames } from "@/app/store/selectors/games";
 
 import { useResponsiveContext } from "@/app/providers/Responsive";
 
@@ -28,12 +28,12 @@ const StyledGames = styled.div`
 function Games() {
   const dispatch = useAppDispatch();
   const authUser = useAppSelector((state) => state.authUser);
-  const games = useAppSelector(selectGamesForUsers);
+  const games = useAppSelector(selectGames);
   const responsiveContext = useResponsiveContext();
 
   useEffect(() => {
     if (authUser?.sqlId) {
-      dispatch(gameSlice.actions.fetchGamesForUser(authUser.sqlId as string));
+      dispatch(gameSlice.actions.fetchGames(null));
     }
   }, [authUser?.sqlId, dispatch]);
 

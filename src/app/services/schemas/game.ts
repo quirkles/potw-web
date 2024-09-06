@@ -30,6 +30,35 @@ const periodSchema = z.union([
   }),
 ]);
 
+export type Period = z.infer<typeof periodSchema>;
+
+export const allPeriodStrings = [
+  "daily",
+  "biWeekly",
+  "weekly",
+  "monthly",
+  "every-sunday",
+  "every-monday",
+  "every-tuesday",
+  "every-wednesday",
+  "every-thursday",
+  "every-friday",
+  "every-saturday",
+  "everyOther-sunday",
+  "everyOther-monday",
+  "everyOther-tuesday",
+  "everyOther-wednesday",
+  "everyOther-thursday",
+  "everyOther-friday",
+  "everyOther-saturday",
+] as const;
+export const periodStringSchema = z.union([
+  z.enum(allPeriodStrings),
+  z.string().regex(/^[0-9]+-(day|week|month)$/),
+]);
+
+export type PeriodString = z.infer<typeof periodStringSchema>;
+
 export const createGamePayloadSchema = z.object({
   name: z.string(),
   description: z.string().or(z.null()),
@@ -38,7 +67,7 @@ export const createGamePayloadSchema = z.object({
   startDate: validDateTimeString(),
   endDate: validDateString().or(z.null()),
   addAdminAsPlayer: z.boolean(),
-  period: periodSchema,
+  period: periodStringSchema,
   players: z.array(
     z.object({
       email: z.string(),
@@ -48,16 +77,17 @@ export const createGamePayloadSchema = z.object({
 });
 export type CreateGamePayload = z.infer<typeof createGamePayloadSchema>;
 
-export const gameSchema = createGamePayloadSchema
-  .omit({
-    adminId: true,
-    addAdminAsPlayer: true,
+export const gameSchema = z
+  .object({
+    sqlId: z.string(),
+    name: z.string(),
+    description: z.string().nullable(),
+    startDate: z.string(),
+    endDate: z.string().nullable(),
+    regularScheduledStartTimeUtc: z.string(),
+    period: periodStringSchema,
+    isPrivate: z.boolean(),
   })
-  .extend({
-    id: z.string(),
-    players: z.array(userSchema),
-    admin: userSchema,
-    ...withDates,
-  });
+  .extend(withDates);
 
 export type Game = z.infer<typeof gameSchema>;
