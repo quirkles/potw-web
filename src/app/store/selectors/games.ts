@@ -5,13 +5,34 @@ import {
   isFetchedGame,
 } from "@/app/store/reducers/gamesReducer";
 import { authUserSelector } from "@/app/store/selectors/authUser";
+import { RootState } from "@/app/store/store";
 
-export const selectGames = createSelector([gameSelectors.getGames], (games) => {
-  return Object.values(games).filter(isFetchedGame);
-});
+export const selectGameState = (state: RootState) => state.gameState;
+
+export const selectGames = createSelector(
+  [selectGameState, (_, sqlId?: string) => sqlId],
+  (gameState, userId) => {
+    return Object.values(gameState.games).filter((game) => {
+      if (!userId) {
+        return isFetchedGame(game);
+      }
+      return (
+        isFetchedGame(game) &&
+        (game.players.includes(userId) || game.admin === userId)
+      );
+    });
+  },
+);
+
+export const selectFetchingGameIds = createSelector(
+  [selectGameState],
+  (gameState) => {
+    return gameState.fetchingGamesForUserIds;
+  },
+);
 
 export const selectGamesForAuthUser = createSelector(
-  [authUserSelector, gameSelectors.getGames],
+  [authUserSelector, selectGames],
   (authUser, games) => {
     return authUser && Object.values(games).length
       ? Object.values(games).filter(

@@ -17,8 +17,7 @@ import { authUserSelector } from "@/app/store/selectors/authUser";
 import { useNotificationsContext } from "@/app/providers/Notifications";
 import { useResponsiveContext } from "@/app/providers/Responsive";
 
-import { User, UserUpdate } from "@/app/services/schemas/user";
-import { updateUserRequest } from "@/app/services/user/fetchUserById";
+import { UserUpdate } from "@/app/services/schemas/user";
 
 import { Avatar } from "@/components/avatar/Avatar";
 import TextEditable from "@/components/form/TextEditable";
@@ -58,8 +57,8 @@ function UserIdPage({ params }: { params: { id: string } }) {
     case "rejected":
       return (
         <StyledUserIdPage>
-          <Heading variant="h1">Error fetching User!</Heading>
-          <Heading variant={"h3"}>Please try again later.</Heading>
+          <Heading $variant="h1">Error fetching User!</Heading>
+          <Heading $variant={"h3"}>Please try again later.</Heading>
         </StyledUserIdPage>
       );
     case "fulfilled":
@@ -76,7 +75,7 @@ function UserIdPage({ params }: { params: { id: string } }) {
 }
 
 const StyledFetchedUser = styled.div<{
- $color: BaseColorName;
+  $color: BaseColorName;
 }>`
   max-height: 100%;
   height: 100%;
@@ -85,7 +84,7 @@ const StyledFetchedUser = styled.div<{
   padding: 2rem;
 
   background-color: ${getColor("white")};
-  color: ${(props) => getColor(props$color)};
+  color: ${(props) => getColor(props.$color)};
 `;
 
 function FetchedUser(props: { user: StoreUser }) {
@@ -131,7 +130,7 @@ function FetchedUser(props: { user: StoreUser }) {
           />
         </GridItem>
         <GridItem $mdCol={11}>
-          <Heading variant="h1">
+          <Heading $variant="h1">
             {canEdit ? (
               <TextEditable
                 text={user.username || user.email}
@@ -143,7 +142,7 @@ function FetchedUser(props: { user: StoreUser }) {
           </Heading>
         </GridItem>
         <GridItem>
-          <Heading variant="h3">
+          <Heading $variant="h3">
             joined: {formatDateTime(user.createdAt, "long")}
           </Heading>
         </GridItem>

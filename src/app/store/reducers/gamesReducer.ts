@@ -103,6 +103,7 @@ type StoreGameState = {
   games: {
     [gameId: string]: StoreGame;
   };
+  fetchingGamesForUserIds: string[];
   newGame: StoreNewGame;
 };
 
@@ -110,6 +111,7 @@ export const gameSlice = createAppSlice({
   name: "gameState",
   initialState: {
     games: {},
+    fetchingGamesForUserIds: [],
     newGame: {
       name: "",
       isPrivate: false,
@@ -195,23 +197,46 @@ export const gameSlice = createAppSlice({
         };
       },
     }),
-    fetchGamesForUser: create.asyncThunk(fetchGamesForUserRequest, {
-      fulfilled: (state, action) => {
-        action.payload.forEach((game) => {
-          state.games[game.sqlId] = gameToStoreGame(game);
-        });
+    fetchGamesForUser: create.asyncThunk(
+      (sqlId: string) => {
+        return fetchGamesForUserRequest(sqlId);
       },
-      rejected: (state) => {
-        console.log("fetchMyGames rejected");
+      {
+        pending: (state, action) => {
+          state.fetchingGamesForUserIds.push(action.meta.arg);
+        },
+        fulfilled: (state, action) => {
+          state.fetchingGamesForUserIds = state.fetchingGamesForUserIds.filter(
+            (id) => id !== action.meta.arg,
+          );
+          action.payload.forEach((game) => {
+            state.games[game.sqlId] = gameToStoreGame(game);
+          });
+        },
+        rejected: (state, action) => {
+          state.fetchingGamesForUserIds = state.fetchingGamesForUserIds.filter(
+            (id) => id !== action.meta.arg,
+          );
+          console.log("fetchMyGames rejected");
+        },
       },
-    }),
+    ),
     fetchGames: create.asyncThunk(() => fetchGamesRequest(), {
+      pending: (state) => {
+        state.fetchingGamesForUserIds.push("all");
+      },
       fulfilled: (state, action) => {
+        state.fetchingGamesForUserIds = state.fetchingGamesForUserIds.filter(
+          (id) => id !== "all",
+        );
         action.payload.forEach((game) => {
           state.games[game.sqlId] = gameToStoreGame(game);
         });
       },
       rejected: (state) => {
+        state.fetchingGamesForUserIds = state.fetchingGamesForUserIds.filter(
+          (id) => id !== "all",
+        );
         console.log("fetchMyGames rejected");
       },
     }),

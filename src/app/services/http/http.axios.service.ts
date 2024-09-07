@@ -15,7 +15,7 @@ import {
 import { ILogger } from "@/utils/logger";
 
 export class HttpAxiosService implements HttpService {
-  private delay = getConfig().env === "local" ? 2000 : 0;
+  private delay = getConfig().env === "local" ? 1500 : 0;
   private interceptors: (Interceptor<"get" | "put" | "post" | "delete"> & {
     id: string;
   })[] = [];

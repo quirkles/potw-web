@@ -6,7 +6,7 @@ import { styled } from "styled-components";
 import { getColorVariant } from "@/utils/color";
 
 const StyledWrapper = styled.div<{
- $isEditing: boolean;
+  $isEditing: boolean;
 }>`
   display: inline-block;
   position: relative;

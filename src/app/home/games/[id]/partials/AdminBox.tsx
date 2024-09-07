@@ -13,11 +13,11 @@ import { FlexContainer } from "@/components/layout/FlexContainer";
 import P from "@/components/text/P";
 
 const Styled = styled(FlexContainer)<{
- $color: ColorName;
+  $color: ColorName;
 }>`
   padding: 2rem;
-  border: 2px solid ${(props) => getColor(props$color)};
-  color: ${(props) => getColor(props$color)};
+  border: 2px solid ${(props) => getColor(props.$color)};
+  color: ${(props) => getColor(props.$color)};
   height: 100%;
 `;
 
@@ -39,7 +39,7 @@ export default function AdminBox({ admin, game, color }: AdminBoxParams) {
         value={admin.email || ""}
         size={responsive?.isDesktop ? "xLarge" : "large"}
       />
-      <Heading variant="h4">
+      <Heading $variant="h4">
         Game Admin: {admin.username || admin.email}
       </Heading>
       <P>

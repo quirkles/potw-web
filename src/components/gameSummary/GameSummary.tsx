@@ -1,4 +1,6 @@
+import { Icons } from "@storybook/components";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { styled } from "styled-components";
 
 import { BaseColorName, gameColors } from "@/app/styles/colors";
@@ -12,6 +14,7 @@ import { useResponsiveContext } from "@/app/providers/Responsive";
 import { Avatar } from "@/components/avatar/Avatar";
 import Divider from "@/components/divider/Divider";
 import Heading from "@/components/heading/Heading";
+import Icon from "@/components/icons";
 import { FlexContainer, FlexItem } from "@/components/layout/FlexContainer";
 import Spacer from "@/components/spacer/Spacer";
 import P from "@/components/text/P";
@@ -79,6 +82,7 @@ export function GameSummary(props: IGameSummaryProps) {
   const { game } = props;
   const responsive = useResponsiveContext();
   const colorName = getPseudoRandomFromArrayFromUid(game.sqlId, gameColors);
+  const router = useRouter();
   const getAnimationDelay = getPseudoRandomInRangeFromUid(game.sqlId, 500, 0);
   const {
     sqlId,
@@ -96,6 +100,9 @@ export function GameSummary(props: IGameSummaryProps) {
   const hasGameStarted = new Date(startDate) < new Date();
   const doesGameEnd = !!endDate;
   const hasGameEnded = doesGameEnd && new Date(endDate) < new Date();
+  const navigateToUserPage = (userId: string) => {
+    router.push(`/home/users/${userId}`);
+  };
   return (
     <StyledGameSummary $color={colorName} $animationDelayMs={getAnimationDelay}>
       <FlexContainer $direction="column" $alignItems="stretch">
@@ -117,9 +124,15 @@ export function GameSummary(props: IGameSummaryProps) {
                     <Avatar
                       value={admin.email || ""}
                       size={responsive?.isDesktop ? "xLarge" : "large"}
+                      onClick={() => {
+                        navigateToUserPage(admin.sqlId);
+                      }}
                     />
                     <P>
-                      Created by <Span>{admin?.email}</Span>
+                      Created by{" "}
+                      <Link href={`/home/users/${admin.sqlId}`}>
+                        {admin?.email}
+                      </Link>
                     </P>
                   </FlexContainer>
                 </FlexItem>
@@ -167,25 +180,35 @@ export function GameSummary(props: IGameSummaryProps) {
                   <P>{description}</P>
                 </>
               )}
-              <P>
-                <Span $color={colorName}>{players.length}</Span> Player
-                {players.length === 1 ? "" : "s"} in this game
-              </P>
-              <P>
-                <Span>
-                  Game is played{" "}
-                  <Span $fontWeight="bold" $color={colorName}>
-                    {getPeriodDisplayTextFromPeriodString(period)}
+              <FlexContainer $gap="small" $alignItems="center">
+                <Icon iconType="Community" size="small"></Icon>
+                <P>
+                  <Span $color={colorName}>{players.length}</Span> Player
+                  {players.length === 1 ? "" : "s"} in this game
+                </P>
+              </FlexContainer>
+              <FlexContainer $gap="small" $alignItems="center">
+                <Icon iconType="Calendar" size="small"></Icon>
+                <P>
+                  <Span>
+                    Game is played{" "}
+                    <Span $fontWeight="bold" $color={colorName}>
+                      {getPeriodDisplayTextFromPeriodString(period)}
+                    </Span>
                   </Span>
-                </Span>
-              </P>
-              <P>
-                This game is{" "}
-                <Span $fontWeight="bold" $color={"green"}>
+                </P>
+              </FlexContainer>
+              <FlexContainer $gap="small" $alignItems="center">
+                <Icon
+                  iconType={isPrivate ? "UserX" : "UserPlus"}
+                  size="small"
+                ></Icon>
+                <P>This game is </P>
+                <Span $fontWeight="bold" $color={isPrivate ? "red" : "green"}>
                   {isPrivate ? "private" : "open"}
                 </Span>
-              </P>
-              <Spacer $marginY="small" />
+                <Spacer $marginY="small" />
+              </FlexContainer>
             </FlexItem>
           </FlexContainer>
         </FlexItem>

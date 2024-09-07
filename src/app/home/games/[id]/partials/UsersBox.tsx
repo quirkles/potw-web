@@ -11,10 +11,10 @@ import { RootState } from "@/app/store/store";
 import { FlexContainer, FlexItem } from "@/components/layout/FlexContainer";
 
 const Styled = styled(FlexContainer)<{
- $color: ColorName;
+  $color: ColorName;
 }>`
-  border: 2px solid ${(props) => getColor(props$color)};
-  color: ${(props) => getColor(props$color)};
+  border: 2px solid ${(props) => getColor(props.$color)};
+  color: ${(props) => getColor(props.$color)};
   > * {
     padding: 1rem 2rem;
     &:nth-child(odd) {

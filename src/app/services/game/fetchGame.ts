@@ -3,7 +3,7 @@ import { getConfig } from "@/config";
 import { Game, gameSchema } from "@/app/services/schemas/game";
 import {
   GameWithRelations,
-  gameWithRelationsSchema
+  gameWithRelationsSchema,
 } from "@/app/services/schemas/withRelations";
 
 export async function fetchGame(gameId: string): Promise<GameWithRelations> {

@@ -41,6 +41,7 @@ const values: {
 };
 
 const SpacerStyle = styled.div<SpacerProps>`
+  max-height: 100%;
   padding-top: ${(props) =>
     values[
       props.$paddingTop || props.$paddingY || props.$padding || SIZE.none

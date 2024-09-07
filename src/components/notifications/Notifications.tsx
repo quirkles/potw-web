@@ -102,7 +102,7 @@ const variants: {
 };
 
 const StyledNotification = styled.li<{
- $type: NotificationType;
+  $type: NotificationType;
 }>`
   position: relative;
   padding: 0.5em 2em 0.5em 1em;

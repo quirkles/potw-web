@@ -2,11 +2,10 @@ import Link from "next/link";
 import { styled } from "styled-components";
 
 import Button, { ButtonSize } from "@/components/button/Button";
-import { LogoutSvg, MusicSvg } from "@/components/icons";
+import { Icons } from "@/components/icons";
 import AlbumListSvg from "@/components/icons/AlbumList.svg";
 
 import { getColorVariant } from "@/utils/color";
-import { tint } from "@/utils/color.tint";
 
 const StyledHeader = styled.header`
   display: flex;
@@ -78,14 +77,14 @@ export default function Header(props: HeaderProps) {
         <Button
           buttonText="create"
           color="green"
-          Icon={MusicSvg}
+          Icon={Icons.MusicSvg}
           route="/home/create"
           size={ButtonSize.sm}
         ></Button>
         <Button
           buttonText={"Logout"}
           onClick={props.handleLogout}
-          Icon={LogoutSvg}
+          Icon={Icons.LogoutSvg}
           size={ButtonSize.sm}
         ></Button>
       </div>

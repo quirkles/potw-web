@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, MouseEvent } from "react";
 import { styled } from "styled-components";
 
 import { BoringAvatar } from "@/components/avatar/BoringAvatar/Avatar";
@@ -11,7 +11,7 @@ const sizes = {
 } as const;
 
 const Styled = styled.div<{
- $size: keyof typeof sizes;
+  $size: keyof typeof sizes;
 }>`
   display: inline-block;
   cursor: pointer;
@@ -19,8 +19,8 @@ const Styled = styled.div<{
     display: none;
   }
   img {
-    width: ${(props) => sizes[props._size]}px;
-    height: ${(props) => sizes[props._size]}px;
+    width: ${(props) => sizes[props.$size]}px;
+    height: ${(props) => sizes[props.$size]}px;
     border-radius: 50%;
   }
 `;
@@ -29,6 +29,7 @@ type IAvatarProps = {
   size?: keyof typeof sizes;
   canEdit?: boolean;
   userId?: string;
+  onClick?: (e?: MouseEvent) => void;
 } & (
   | {
       url: string;
@@ -40,7 +41,7 @@ type IAvatarProps = {
 );
 
 export function Avatar(props: IAvatarProps) {
-  const { size = "small" } = props;
+  const { size = "small", onClick } = props;
   let sizePx = sizes[size];
   const inputRef = useRef<HTMLInputElement>(null);
   const openFileSelect = () => {
@@ -58,22 +59,24 @@ export function Avatar(props: IAvatarProps) {
   };
   return (
     <Styled $size={size} onClick={openFileSelect}>
-      <input
-        type="file"
-        accept="image/*"
-        ref={inputRef}
-        onChange={handleUpload}
-      />
-      {"url" in props ? (
-        <Image src={props.url} width={sizePx} height={sizePx} alt="User" />
-      ) : (
-        <BoringAvatar
-          name={props.value}
-          size={sizePx}
-          variant="beam"
-          square={false}
+      <div onClick={onClick}>
+        <input
+          type="file"
+          accept="image/*"
+          ref={inputRef}
+          onChange={handleUpload}
         />
-      )}
+        {"url" in props ? (
+          <Image src={props.url} width={sizePx} height={sizePx} alt="User" />
+        ) : (
+          <BoringAvatar
+            name={props.value}
+            size={sizePx}
+            variant="beam"
+            square={false}
+          />
+        )}
+      </div>
     </Styled>
   );
 }
