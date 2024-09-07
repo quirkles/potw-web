@@ -8,13 +8,13 @@ import { StoreUser } from "@/app/store/reducers/usersReducer";
 import { selectUsersBySqlIds } from "@/app/store/selectors/users";
 import { RootState } from "@/app/store/store";
 
-import { FlexBox, FlexItem } from "@/components/layout/Flexbox";
+import { FlexContainer, FlexItem } from "@/components/layout/FlexContainer";
 
-const Styled = styled(FlexBox)<{
-  $color: ColorName;
+const Styled = styled(FlexContainer)<{
+ $color: ColorName;
 }>`
-  border: 2px solid ${(props) => getColor(props.$color)};
-  color: ${(props) => getColor(props.$color)};
+  border: 2px solid ${(props) => getColor(props$color)};
+  color: ${(props) => getColor(props$color)};
   > * {
     padding: 1rem 2rem;
     &:nth-child(odd) {

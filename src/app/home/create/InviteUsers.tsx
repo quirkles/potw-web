@@ -7,7 +7,7 @@ import { searchByEmail } from "@/app/services/user/searchByEmail";
 import Button, { ButtonSize } from "@/components/button/Button";
 import Divider from "@/components/divider/Divider";
 import Heading from "@/components/heading/Heading";
-import { FlexBox, FlexItem } from "@/components/layout/Flexbox";
+import { FlexContainer, FlexItem } from "@/components/layout/FlexContainer";
 import P from "@/components/text/P";
 import TypeAhead from "@/components/typeahead/TypeAhead";
 
@@ -35,7 +35,7 @@ function InviteUsers(props: IManageUsersProps) {
   const { onAddUser, emails } = props;
   return (
     <StyledManageUsers>
-      <Heading variant="h2">Invite users</Heading>
+      <Heading $variant="h2">Invite users</Heading>
       <P>
         Invite users to this game by email. New users will be invited to the
         platform
@@ -58,7 +58,7 @@ function InviteUsers(props: IManageUsersProps) {
         validate={(value) => (isEmail(value) ? null : "Invalid email")}
       />
       <Divider $marginY="small" $width="xSmall" />
-      <FlexBox $direction="column" $gap="small">
+      <FlexContainer $direction="column" $gap="small">
         {emails.map((email) => (
           <UserListItem
             key={email}
@@ -68,12 +68,12 @@ function InviteUsers(props: IManageUsersProps) {
             }}
           />
         ))}
-      </FlexBox>
+      </FlexContainer>
     </StyledManageUsers>
   );
 }
 
-const StyledUserListItem = styled(FlexBox)`
+const StyledUserListItem = styled(FlexContainer)`
     width: 100%;
     padding: 0.5rem 1rem;
     &:nth-child(even) {

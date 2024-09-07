@@ -11,7 +11,7 @@ const sizes = {
 } as const;
 
 const Styled = styled.div<{
-  $size: keyof typeof sizes;
+ $size: keyof typeof sizes;
 }>`
   display: inline-block;
   cursor: pointer;
@@ -19,8 +19,8 @@ const Styled = styled.div<{
     display: none;
   }
   img {
-    width: ${(props) => sizes[props.$size]}px;
-    height: ${(props) => sizes[props.$size]}px;
+    width: ${(props) => sizes[props._size]}px;
+    height: ${(props) => sizes[props._size]}px;
     border-radius: 50%;
   }
 `;

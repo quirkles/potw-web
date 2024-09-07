@@ -12,7 +12,7 @@ import { useResponsiveContext } from "@/app/providers/Responsive";
 import { Avatar } from "@/components/avatar/Avatar";
 import Divider from "@/components/divider/Divider";
 import Heading from "@/components/heading/Heading";
-import { FlexBox, FlexItem } from "@/components/layout/Flexbox";
+import { FlexContainer, FlexItem } from "@/components/layout/FlexContainer";
 import Spacer from "@/components/spacer/Spacer";
 import P from "@/components/text/P";
 import Span from "@/components/text/Span";
@@ -98,18 +98,22 @@ export function GameSummary(props: IGameSummaryProps) {
   const hasGameEnded = doesGameEnd && new Date(endDate) < new Date();
   return (
     <StyledGameSummary $color={colorName} $animationDelayMs={getAnimationDelay}>
-      <FlexBox $direction="column" $alignItems="stretch">
+      <FlexContainer $direction="column" $alignItems="stretch">
         <FlexItem className="header" $grow={1}>
-          <Heading variant="h3" $textTransform="capitalize" $font="sans">
+          <Heading $variant="h3" $textTransform="capitalize" $font="sans">
             <Link href={`/home/games/${sqlId}`}>{name}</Link>
           </Heading>
         </FlexItem>
         <FlexItem className="body">
-          <FlexBox $direction="column" $gap="medium" $alignItems="stretch">
+          <FlexContainer
+            $direction="column"
+            $gap="medium"
+            $alignItems="stretch"
+          >
             <FlexItem>
-              <FlexBox $wrap="wrap" $rowGap="medium">
+              <FlexContainer $wrap="wrap" $rowGap="medium">
                 <FlexItem>
-                  <FlexBox $direction="column" $gap="medium">
+                  <FlexContainer $direction="column" $gap="medium">
                     <Avatar
                       value={admin.email || ""}
                       size={responsive?.isDesktop ? "xLarge" : "large"}
@@ -117,7 +121,7 @@ export function GameSummary(props: IGameSummaryProps) {
                     <P>
                       Created by <Span>{admin?.email}</Span>
                     </P>
-                  </FlexBox>
+                  </FlexContainer>
                 </FlexItem>
                 <FlexItem>
                   <P $textTransform="capitalize" $fontSize="small">
@@ -151,7 +155,7 @@ export function GameSummary(props: IGameSummaryProps) {
                     )}
                   </P>
                 </FlexItem>
-              </FlexBox>
+              </FlexContainer>
             </FlexItem>
             <FlexItem>
               <Divider $color={colorName} />
@@ -183,9 +187,9 @@ export function GameSummary(props: IGameSummaryProps) {
               </P>
               <Spacer $marginY="small" />
             </FlexItem>
-          </FlexBox>
+          </FlexContainer>
         </FlexItem>
-      </FlexBox>
+      </FlexContainer>
     </StyledGameSummary>
   );
 }

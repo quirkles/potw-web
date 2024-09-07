@@ -8,13 +8,16 @@ import {
   Recurrence,
 } from "@/app/store/reducers/gamesReducer";
 
+import { PeriodString } from "@/app/services/schemas/game";
+
 import ArrowDownCircle from "@/components/icons/ArrowDownCircle.svg";
 
 import { getColorVariant, hexToRgbA } from "@/utils/color";
+import { periodStringToPeriod, periodToPeriodString } from "@/utils/period";
 
 interface PeriodSelectProps {
-  selectedPeriod: GamePeriod;
-  onChange?: (period: GamePeriod) => void;
+  selectedPeriod: PeriodString;
+  onChange?: (period: PeriodString) => void;
 }
 
 interface PeriodOptionProps {
@@ -130,7 +133,7 @@ function PeriodSelect(props: PropsWithChildren<PeriodSelectProps>) {
   const { onChange = () => null, selectedPeriod } = props;
 
   const selectedOption = options.find((option) =>
-    isEqual(option.period, selectedPeriod),
+    isEqual(option.period, periodStringToPeriod(selectedPeriod)),
   );
 
   function handlePeriodChange(event: ChangeEvent<HTMLSelectElement>) {
@@ -142,7 +145,7 @@ function PeriodSelect(props: PropsWithChildren<PeriodSelectProps>) {
         `Could not find period with value: ${event.target.value}`,
       );
     }
-    onChange(selectedPeriod?.period);
+    onChange(periodToPeriodString(selectedPeriod?.period));
   }
 
   return (

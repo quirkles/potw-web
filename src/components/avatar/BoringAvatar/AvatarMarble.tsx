@@ -107,7 +107,7 @@ const AvatarMarble = (props: VariantProps) => {
         >
           <feFlood floodOpacity={0} result="BackgroundImageFix" />
           <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
-          <feGaussianBlur stdDeviation={7} result="effect1_foregroundBlur" />
+          <feGaussianBlur stdDeviation={7} result="effect$foregroundBlur" />
         </filter>
       </defs>
     </svg>

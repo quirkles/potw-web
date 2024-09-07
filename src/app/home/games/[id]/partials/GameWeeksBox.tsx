@@ -9,15 +9,15 @@ import { useResponsiveContext } from "@/app/providers/Responsive";
 
 import { Avatar } from "@/components/avatar/Avatar";
 import Heading from "@/components/heading/Heading";
-import { FlexBox } from "@/components/layout/Flexbox";
+import { FlexContainer } from "@/components/layout/FlexContainer";
 import P from "@/components/text/P";
 
-const Styled = styled(FlexBox)<{
-  $color: ColorName;
+const Styled = styled(FlexContainer)<{
+ $color: ColorName;
 }>`
   padding: 2rem;
-  border: 2px solid ${(props) => getColor(props.$color)};
-  color: ${(props) => getColor(props.$color)};
+  border: 2px solid ${(props) => getColor(props$color)};
+  color: ${(props) => getColor(props$color)};
   height: 100%;
 `;
 

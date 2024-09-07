@@ -26,7 +26,7 @@ import PeriodSelect from "@/components/form/PeriodSelect";
 import TextEditable from "@/components/form/TextEditable";
 import TextArea from "@/components/form/Textarea";
 import Heading from "@/components/heading/Heading";
-import { FlexBox } from "@/components/layout/Flexbox";
+import { FlexContainer } from "@/components/layout/FlexContainer";
 import { GridContainer, GridItem } from "@/components/layout/Grid";
 import Spacer from "@/components/spacer/Spacer";
 import P from "@/components/text/P";
@@ -63,7 +63,7 @@ function Create() {
   return (
     <Styled>
       <Spacer $margin="medium">
-        <Heading variant="h1">Create New Game</Heading>
+        <Heading $variant="h1">Create New Game</Heading>
         <GridContainer>
           <GridItem $lgCol={6}>
             <div>
@@ -93,7 +93,7 @@ function Create() {
             </div>
             <Spacer $paddingY="small" />
             <div>
-              <FlexBox $alignItems="center" $gap="small">
+              <FlexContainer $alignItems="center" $gap="small">
                 <Checkbox
                   checked={newGame.isPrivate}
                   onChange={(e) => {
@@ -103,7 +103,7 @@ function Create() {
                 <P $fontWeight="bold">
                   {newGame.isPrivate ? "Private" : "Public"} Game
                 </P>
-              </FlexBox>
+              </FlexContainer>
             </div>
             <small>
               The game will be {newGame.isPrivate ? "private" : "public"},{" "}
@@ -113,7 +113,7 @@ function Create() {
             </small>
             <Spacer $paddingY="small" />
             <div>
-              <FlexBox $alignItems="center" $gap="small">
+              <FlexContainer $alignItems="center" $gap="small">
                 <Checkbox
                   checked={newGame.addAdminAsPlayer}
                   onChange={(e) => {
@@ -123,14 +123,14 @@ function Create() {
                 <P $fontWeight="bold">
                   {newGame.addAdminAsPlayer ? "Include me" : "Don't include me"}
                 </P>
-              </FlexBox>
+              </FlexContainer>
             </div>
             <small>
               {newGame.addAdminAsPlayer ? "A" : "Don't a"}dd me as a player to
               this game.
             </small>
             <Spacer $paddingY="small" />
-            <Heading variant="h4">Start Date</Heading>
+            <Heading $variant="h4">Start Date</Heading>
             <P>My game will start on:</P>
             <Datepicker
               initialDate={newGame.startDate}
@@ -140,8 +140,8 @@ function Create() {
             />
             <Spacer $paddingY="small" />
             <div>
-              <Heading variant="h4">End Date</Heading>
-              <FlexBox $alignItems="center" $gap="small">
+              <Heading $variant="h4">End Date</Heading>
+              <FlexContainer $alignItems="center" $gap="small">
                 <Checkbox
                   checked={newGame.isOpenEnded}
                   onChange={(e) => {
@@ -151,7 +151,7 @@ function Create() {
                 <P $fontWeight="bold">
                   {newGame.isOpenEnded ? "Open ended game" : "Game has an end"}
                 </P>
-              </FlexBox>
+              </FlexContainer>
               <Spacer $paddingY="xSmall" />
               {newGame.isOpenEnded ? (
                 <P>
@@ -172,7 +172,7 @@ function Create() {
               )}
             </div>
             <Spacer $paddingY="small" />
-            <Heading variant="h4">Frequency</Heading>
+            <Heading $variant="h4">Frequency</Heading>
             <P>My game will repeat:</P>
             <Spacer $paddingY="xSmall" />
             <PeriodSelect
@@ -226,7 +226,7 @@ function Create() {
                         <p>
                           View your new game{" "}
                           <Link
-                            href={`/home/games/${(game.payload as Game).id}`}
+                            href={`/home/games/${(game.payload as Game).sqlId}`}
                           >
                             here
                           </Link>

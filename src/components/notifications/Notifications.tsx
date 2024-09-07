@@ -102,18 +102,18 @@ const variants: {
 };
 
 const StyledNotification = styled.li<{
-  $type: NotificationType;
+ $type: NotificationType;
 }>`
   position: relative;
   padding: 0.5em 2em 0.5em 1em;
   margin: 0.5em 0;
   font-size: small;
-  border: 1px solid ${(props) => variants[props.$type].color};
-  color: ${(props) => variants[props.$type].color};
-  background-color: ${(props) => variants[props.$type].backgroundColor};
+  border: 1px solid ${(props) => variants[props._type].color};
+  color: ${(props) => variants[props._type].color};
+  background-color: ${(props) => variants[props._type].backgroundColor};
   h3 {
     text-decoration: none;
-    border-bottom: 1px solid ${(props) => variants[props.$type].color};
+    border-bottom: 1px solid ${(props) => variants[props._type].color};
   }
   .dismiss {
     position: absolute;

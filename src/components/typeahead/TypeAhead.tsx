@@ -13,7 +13,7 @@ import { styled } from "styled-components";
 import { Colors } from "@/app/styles/colors";
 
 import Button from "@/components/button/Button";
-import { FlexBox, FlexItem } from "@/components/layout/Flexbox";
+import { FlexContainer, FlexItem } from "@/components/layout/FlexContainer";
 import Spacer from "@/components/spacer/Spacer";
 
 import { getColorVariant } from "@/utils/color";
@@ -219,7 +219,7 @@ function TypeAhead<
 
   return (
     <StyledTypeAhead>
-      <FlexBox $gap="small" $alignItems="baseline">
+      <FlexContainer $gap="small" $alignItems="baseline">
         <FlexItem $grow={1}>
           <input ref={inputRef} placeholder={placeholder} />
           {errorMsg && <small>{errorMsg}</small>}
@@ -234,7 +234,7 @@ function TypeAhead<
             />
           </Spacer>
         </FlexItem>
-      </FlexBox>
+      </FlexContainer>
       {results.length === 0 ? (
         <ul>
           {inputRef.current?.value.trim().length ? (

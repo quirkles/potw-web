@@ -1,4 +1,3 @@
-import { PropsWithChildren } from "react";
 import { styled } from "styled-components";
 
 interface FlexParentProps {
@@ -16,7 +15,7 @@ interface FlexParentProps {
   $columnGap?: "small" | "medium" | "large";
 }
 
-const FlexBox = styled.div<FlexParentProps>`
+const FlexContainer = styled.div<FlexParentProps>`
   display: flex;
   flex-direction: ${(props) => props.$direction || "row"};
   justify-content: ${(props) => props.$justifyContent || "flex-start"};
@@ -73,4 +72,4 @@ const FlexItem = styled.div<FlexChildProps>`
   align-self: ${(props) => props.$alignSelf || "auto"};
 `;
 
-export { FlexBox, FlexItem };
+export { FlexContainer, FlexItem };

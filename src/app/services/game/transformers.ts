@@ -10,7 +10,6 @@ export function gameToStoreGame(game: GameWithRelations): StoreFetchedGame {
       "Invalid date string in gameToStoreGame: " + game.startDate,
     );
   }
-  console.log("gameToStoreGame", game);
   return {
     ...game,
     status: "fetched",

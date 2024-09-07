@@ -76,7 +76,7 @@ function UserIdPage({ params }: { params: { id: string } }) {
 }
 
 const StyledFetchedUser = styled.div<{
-  $color: BaseColorName;
+ $color: BaseColorName;
 }>`
   max-height: 100%;
   height: 100%;
@@ -85,7 +85,7 @@ const StyledFetchedUser = styled.div<{
   padding: 2rem;
 
   background-color: ${getColor("white")};
-  color: ${(props) => getColor(props.$color)};
+  color: ${(props) => getColor(props$color)};
 `;
 
 function FetchedUser(props: { user: StoreUser }) {

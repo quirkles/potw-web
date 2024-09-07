@@ -17,7 +17,7 @@ const StyledHeading = styled.h1<{
 `;
 
 interface HeadingProps {
-  variant: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  $variant: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   $textTransform?: string;
   $color?: ColorName;
   $font?: "mono" | "sans" | "serif";
@@ -25,7 +25,7 @@ interface HeadingProps {
 }
 
 function Heading({
-  variant,
+  $variant,
   $textTransform,
   $color,
   $font = "mono",
@@ -40,7 +40,7 @@ function Heading({
         : baskerville.className;
   return (
     <StyledHeading
-      as={variant}
+      as={$variant}
       $color={$color}
       $textTransform={$textTransform}
       className={fontClassname}
