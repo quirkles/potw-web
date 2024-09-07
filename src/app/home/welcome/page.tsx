@@ -105,36 +105,36 @@ function Home() {
   return (
     <Styled>
       <Spacer $margin="medium">
-        <Heading variant="h1">Welcome</Heading>
-        <Heading variant="h2">What is Pick of the Week?</Heading>
+        <Heading $variant="h1">Welcome</Heading>
+        <Heading $variant="h2">What is Pick of the Week?</Heading>
         <P>
           Pick of the week is a weekly (but you can change that!) recurring
           social club where people get together to talk about music, or vote on
           favourite songs, or just listen to music together.
         </P>
         <Spacer $marginY="small" />
-        <Heading variant="h3">Why do I need an app for that?</Heading>
+        <Heading $variant="h3">Why do I need an app for that?</Heading>
         <P>
           You don&apos;t! But if you want to keep track of the songs you&apos;ve
           listened to, keep track of who picked what, or have a recurring
           meeting, this app can handle that kind of thing for you.
         </P>
         <Spacer $marginY="medium" />
-        <Heading variant="h3">How do I get involved?</Heading>
+        <Heading $variant="h3">How do I get involved?</Heading>
         <GridContainer>
           <GridItem $smCol={6} $lgCol={4} onClick={redirect("/home/create")}>
             <div className={`cta create `}>
-              <Heading variant="h3">Create a game</Heading>
+              <Heading $variant="h3">Create a game</Heading>
             </div>
           </GridItem>
           <GridItem $smCol={6} $lgCol={4} onClick={redirect("/home/invite")}>
             <div className={`cta invite `}>
-              <Heading variant="h3">Invite your friends</Heading>
+              <Heading $variant="h3">Invite your friends</Heading>
             </div>
           </GridItem>
           <GridItem $smCol={6} $lgCol={4} onClick={redirect("/home/join")}>
             <div className={`cta join `}>
-              <Heading variant="h3">Join a public game</Heading>
+              <Heading $variant="h3">Join a public game</Heading>
             </div>
           </GridItem>
         </GridContainer>

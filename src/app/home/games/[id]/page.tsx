@@ -83,7 +83,7 @@ function FetchedGame({ game }: { game: StoreFetchedGame }) {
     <StyledGame $color={gameColor}>
       <GridContainer>
         <GridItem $xsCol={12}>
-          <Heading variant="h1" $color={gameColor} $underline>
+          <Heading $variant="h1" $color={gameColor} $underline>
             {game.name}
           </Heading>
           {game.description && <P>{game.description}</P>}

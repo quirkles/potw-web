@@ -12,7 +12,7 @@ const StyledWrapper = styled.div<{
   position: relative;
   line-height: 1em;
   border-bottom: 1px dashed
-    ${(props) => getColorVariant(props$isEditing ? "green" : "blue")};
+    ${(props) => getColorVariant(props.$isEditing ? "green" : "blue")};
   > * {
     font-size: 1em;
     line-height: 1em;

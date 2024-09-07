@@ -108,12 +108,12 @@ const StyledNotification = styled.li<{
   padding: 0.5em 2em 0.5em 1em;
   margin: 0.5em 0;
   font-size: small;
-  border: 1px solid ${(props) => variants[props._type].color};
-  color: ${(props) => variants[props._type].color};
-  background-color: ${(props) => variants[props._type].backgroundColor};
+  border: 1px solid ${(props) => variants[props.$type].color};
+  color: ${(props) => variants[props.$type].color};
+  background-color: ${(props) => variants[props.$type].backgroundColor};
   h3 {
     text-decoration: none;
-    border-bottom: 1px solid ${(props) => variants[props._type].color};
+    border-bottom: 1px solid ${(props) => variants[props.$type].color};
   }
   .dismiss {
     position: absolute;
@@ -136,7 +136,7 @@ export function Notification(props: NotificationProps) {
       <div className="dismiss" onClick={() => onDismiss(id)}>
         X
       </div>
-      {title && <Heading variant="h3">{title}</Heading>}
+      {title && <Heading $variant="h3">{title}</Heading>}
       {typeof message === "string" ? <P>{message}</P> : message}
     </StyledNotification>
   );
