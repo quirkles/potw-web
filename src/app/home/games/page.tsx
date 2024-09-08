@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import { gameSlice, isFetchedGame } from "@/app/store/reducers/gamesReducer";
 import {
   selectFetchingGameIds,
-  selectGames,
+  selectGamesForUser,
 } from "@/app/store/selectors/games";
 
 import { useResponsiveContext } from "@/app/providers/Responsive";
@@ -46,7 +46,7 @@ function Games() {
   const [isShowingAllGames, setIsShowingAllGames] = useState<boolean>(true);
 
   const games = useAppSelector((state) =>
-    selectGames(state, isShowingAllGames ? undefined : authUser?.sqlId),
+    selectGamesForUser(state, isShowingAllGames ? undefined : authUser?.sqlId),
   );
 
   const handleToggleShowAllGames = (checked: boolean) => {

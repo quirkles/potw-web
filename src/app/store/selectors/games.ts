@@ -9,7 +9,7 @@ import { RootState } from "@/app/store/store";
 
 export const selectGameState = (state: RootState) => state.gameState;
 
-export const selectGames = createSelector(
+export const selectGamesForUser = createSelector(
   [selectGameState, (_, sqlId?: string) => sqlId],
   (gameState, userId) => {
     return Object.values(gameState.games).filter((game) => {
@@ -32,7 +32,7 @@ export const selectFetchingGameIds = createSelector(
 );
 
 export const selectGamesForAuthUser = createSelector(
-  [authUserSelector, selectGames],
+  [authUserSelector, selectGamesForUser],
   (authUser, games) => {
     return authUser && Object.values(games).length
       ? Object.values(games).filter(

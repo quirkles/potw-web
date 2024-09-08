@@ -17,6 +17,9 @@ const StyledTextArea = styled.textarea`
   &::placeholder {
     color: ${getColorVariant("blue")};
   }
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 6rem;
 `;
 
 interface TextareaProps {
@@ -24,15 +27,11 @@ interface TextareaProps {
   placeholder?: string;
   onChange: ChangeEventHandler<HTMLTextAreaElement>;
   onBlur?: FocusEventHandler<HTMLTextAreaElement>;
-  rows?: number;
-  cols?: number;
 }
 
 function TextArea(props: TextareaProps) {
   return (
     <StyledTextArea
-      rows={props.rows || 5}
-      cols={props.cols || 50}
       value={props.value}
       onChange={props.onChange}
       onBlur={props.onBlur}

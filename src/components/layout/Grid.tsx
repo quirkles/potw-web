@@ -3,9 +3,9 @@ import { styled } from "styled-components";
 import { breakpoints } from "@/app/styles/consts";
 
 const gaps = {
-  small: "1rem",
-  medium: "2rem",
-  large: "3rem",
+  small: "0.5rem",
+  medium: "1rem",
+  large: "2rem",
 };
 
 export const GridContainer = styled.div<{
@@ -13,10 +13,18 @@ export const GridContainer = styled.div<{
 }>`
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(8, minmax(min-content, 1fr));
+  //grid-auto-rows: minmax(min-content, max-content);
+  grid-auto-rows: max-content;
+  //grid-template-rows: repeat(8, minmax(min-content, 1fr));
   width: 100%;
   height: 100%;
-  grid-gap: ${(props) => gaps[props.$gap || "medium"]};
+  max-height: 100%;
+  overflow: auto;
+  grid-gap: ${(props) => gaps[props.$gap || "small"]};
+  > * {
+    max-height: 100%;
+    overflow: auto;
+  }
 `;
 
 const { xs, sm, md, lg } = breakpoints;

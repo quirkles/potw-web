@@ -41,7 +41,7 @@ const StyledGameSummary = styled.div<{
         opacity: 1;
         z-index: 2;
         animation: none;
-        transform: scale(1.3) skew(0deg, 0deg);
+        transform: scale(1.05) skew(0deg, 0deg);
     }
 
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
