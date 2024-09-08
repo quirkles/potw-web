@@ -30,18 +30,13 @@ type IAvatarProps = {
   canEdit?: boolean;
   userId?: string;
   onClick?: (e?: MouseEvent) => void;
-} & (
-  | {
-      url: string;
-    }
-  | {
-      initials?: string;
-      value: string;
-    }
-);
+  onFileChange?: (file: File) => void;
+  value: string;
+  url?: string;
+};
 
 export function Avatar(props: IAvatarProps) {
-  const { size = "small", onClick } = props;
+  const { size = "small", onClick, onFileChange } = props;
   let sizePx = sizes[size];
   const inputRef = useRef<HTMLInputElement>(null);
   const openFileSelect = () => {
@@ -55,7 +50,9 @@ export function Avatar(props: IAvatarProps) {
       return;
     }
     const file = e.target.files![0];
-    console.log("File selected", file);
+    if (onFileChange) {
+      onFileChange(file);
+    }
   };
   return (
     <Styled $size={size} onClick={openFileSelect}>
@@ -66,7 +63,7 @@ export function Avatar(props: IAvatarProps) {
           ref={inputRef}
           onChange={handleUpload}
         />
-        {"url" in props ? (
+        {"url" in props && props.url ? (
           <Image src={props.url} width={sizePx} height={sizePx} alt="User" />
         ) : (
           <BoringAvatar

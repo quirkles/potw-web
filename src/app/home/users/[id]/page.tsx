@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 
 import { BaseColorName, gameColors, getColor } from "@/app/styles/colors";
@@ -17,10 +17,12 @@ import { authUserSelector } from "@/app/store/selectors/authUser";
 import { useNotificationsContext } from "@/app/providers/Notifications";
 import { useResponsiveContext } from "@/app/providers/Responsive";
 
+import { uploadFile } from "@/app/services/file/upload";
 import { UserUpdate } from "@/app/services/schemas/user";
 
 import { Avatar } from "@/components/avatar/Avatar";
 import TextEditable from "@/components/form/TextEditable";
+import TextArea from "@/components/form/Textarea";
 import Heading from "@/components/heading/Heading";
 import { GridContainer, GridItem } from "@/components/layout/Grid";
 import Loader from "@/components/loader/Loader";
@@ -91,6 +93,8 @@ function FetchedUser(props: { user: StoreUser }) {
   const { user } = props;
   const dispatch = useAppDispatch();
   const authUser = useAppSelector(authUserSelector);
+  const responsiveContext = useResponsiveContext();
+  const [aboutMe, setAboutMe] = useState(user.aboutMe || "");
 
   const { dispatchNotification } = useNotificationsContext();
 
@@ -103,20 +107,27 @@ function FetchedUser(props: { user: StoreUser }) {
     (fieldName: keyof UserUpdate) => (text: string) => {
       dispatch(
         updateUserField({ userId: user.sqlId, field: fieldName, value: text }),
-      ).then((result) => {
-        if (result.meta.requestStatus === "rejected") {
+      )
+        .then((result) => {
+          if (result.meta.requestStatus === "rejected") {
+            dispatchNotification({
+              message: "Update failed",
+              type: "ERROR",
+            });
+          }
+          if (result.meta.requestStatus === "fulfilled") {
+            dispatchNotification({
+              message: "Updated!",
+              type: "SUCCESS",
+            });
+          }
+        })
+        .catch((e) => {
           dispatchNotification({
             message: "Update failed",
             type: "ERROR",
           });
-        }
-        if (result.meta.requestStatus === "fulfilled") {
-          dispatchNotification({
-            message: "Updated!",
-            type: "SUCCESS",
-          });
-        }
-      });
+        });
     };
   return (
     <StyledFetchedUser $color={userColor}>
@@ -124,9 +135,19 @@ function FetchedUser(props: { user: StoreUser }) {
         <GridItem $mdCol={1}>
           <Avatar
             value={user.email || ""}
+            url={user.avatarUrl || undefined}
             size={responsive?.isDesktop ? "xLarge" : "large"}
             canEdit={canEdit}
             userId={user.sqlId}
+            onFileChange={(file) => {
+              const extension = file.type.split("/")[1];
+              uploadFile(
+                file,
+                `user_files/${user.sqlId}_avatar.${extension}`,
+              ).then((url) => {
+                handleTextFieldChange("avatarUrl")(url);
+              });
+            }}
           />
         </GridItem>
         <GridItem $mdCol={11}>
@@ -145,6 +166,24 @@ function FetchedUser(props: { user: StoreUser }) {
           <Heading $variant="h3">
             joined: {formatDateTime(user.createdAt, "long")}
           </Heading>
+        </GridItem>
+        <GridItem>
+          <Heading $variant="h3">{user.aboutMe}</Heading>
+          {canEdit ? (
+            <TextArea
+              cols={responsiveContext?.isMobile ? 30 : 50}
+              value={aboutMe}
+              onChange={(e) => setAboutMe(e.target.value)}
+              onBlur={() => {
+                if (user.aboutMe !== aboutMe) {
+                  handleTextFieldChange("aboutMe")(aboutMe);
+                }
+              }}
+              placeholder="Tell the world about yourself!"
+            />
+          ) : (
+            <P>{user.aboutMe || "No bio yet"}</P>
+          )}
         </GridItem>
       </GridContainer>
     </StyledFetchedUser>

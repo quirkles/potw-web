@@ -15,6 +15,7 @@ const configSchema = z.object({
     measurementId: z.string(),
   }),
   recaptchaSiteKey: z.string(),
+  storageBucket: z.string(),
 });
 
 type Config = z.infer<typeof configSchema>;
@@ -40,6 +41,7 @@ export function getConfig(): Config {
     },
     recaptchaSiteKey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string,
     env: process.env.NEXT_PUBLIC_ENV as "local" | "dev" | "production",
+    storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET as string,
   };
   try {
     config = configSchema.parse(maybeConfig);

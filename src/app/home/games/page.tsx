@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 
@@ -19,6 +20,7 @@ import { FlexContainer, FlexItem } from "@/components/layout/FlexContainer";
 import { GridContainer, GridItem } from "@/components/layout/Grid";
 import Loader from "@/components/loader/Loader";
 import Spacer from "@/components/spacer/Spacer";
+import P from "@/components/text/P";
 import Span from "@/components/text/Span";
 
 import { getColorVariant } from "@/utils/color";
@@ -117,7 +119,17 @@ function Games() {
               ) ? (
                 <Loader />
               ) : (
-                <Span>No games found.</Span>
+                <FlexContainer
+                  $justifyContent="center"
+                  $direction="column"
+                  $alignItems="center"
+                  $gap="large"
+                >
+                  <Span>No games found.</Span>
+                  <P>
+                    You should <Link href="/home/create">Create one</Link>
+                  </P>
+                </FlexContainer>
               )}
             </GridItem>
           )}
