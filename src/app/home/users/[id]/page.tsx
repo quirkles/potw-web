@@ -31,6 +31,7 @@ import TextArea from "@/components/form/Textarea";
 import { GameSummary } from "@/components/gameSummary/GameSummary";
 import Heading from "@/components/heading/Heading";
 import { FlexContainer, FlexItem } from "@/components/layout/FlexContainer";
+import { GridContainer, GridItem } from "@/components/layout/Grid";
 import Loader from "@/components/loader/Loader";
 import Spacer from "@/components/spacer/Spacer";
 import P from "@/components/text/P";
@@ -95,12 +96,12 @@ const StyledFetchedUser = styled.div<{
 
   background-color: ${getColor("white")};
   color: ${(props) => getColor(props.$color)};
+
   > * {
     height: 100%;
-    max-height: 100%;
+    overflow: auto;
     > * {
       height: 100%;
-      max-height: 100%;
       overflow: auto;
     }
   }
@@ -127,7 +128,7 @@ function FetchedUser(props: { user: StoreUser }) {
     if (user.sqlId) {
       dispatch(fetchGamesForUser(user.sqlId));
     }
-  }, [user.sqlId, dispatch()]);
+  }, [user.sqlId, dispatch]);
 
   const handleTextFieldChange =
     (fieldName: keyof UserUpdate) => (text: string) => {
@@ -157,57 +158,59 @@ function FetchedUser(props: { user: StoreUser }) {
     };
   return (
     <StyledFetchedUser $color={userColor}>
-      <FlexContainer $gap="small">
-        <FlexItem $basis="50%">
-          <FlexContainer $direction="column">
-            <Avatar
-              value={user.email || ""}
-              url={user.avatarUrl || undefined}
-              size={responsive?.isDesktop ? "xLarge" : "large"}
-              canEdit={canEdit}
-              userId={user.sqlId}
-              onFileChange={(file) => {
-                const extension = file.type.split("/")[1];
-                uploadFile(
-                  file,
-                  `user_files/${user.sqlId}_avatar.${extension}`,
-                ).then((url) => {
-                  handleTextFieldChange("avatarUrl")(url);
-                });
-              }}
-            />
-            <Heading $variant="h2">
+      <GridContainer $gap="small">
+        <GridItem $mdCol={6}>
+          <Spacer $paddingX="small">
+            <FlexContainer $direction="column">
+              <Avatar
+                value={user.email || ""}
+                url={user.avatarUrl || undefined}
+                size={responsive?.isDesktop ? "xLarge" : "large"}
+                canEdit={canEdit}
+                userId={user.sqlId}
+                onFileChange={(file) => {
+                  const extension = file.type.split("/")[1];
+                  uploadFile(
+                    file,
+                    `user_files/${user.sqlId}_avatar.${extension}`,
+                  ).then((url) => {
+                    handleTextFieldChange("avatarUrl")(url);
+                  });
+                }}
+              />
+              <Heading $variant="h2">
+                {canEdit ? (
+                  <TextEditable
+                    text={user.username || user.email}
+                    onBlur={handleTextFieldChange("username")}
+                  />
+                ) : (
+                  <P>{user.username || user.email}</P>
+                )}
+              </Heading>
+              <Heading $variant="h3">
+                joined: {formatDateTime(user.createdAt, "long")}
+              </Heading>
+              <Heading $variant="h2">Bio</Heading>
               {canEdit ? (
-                <TextEditable
-                  text={user.username || user.email}
-                  onBlur={handleTextFieldChange("username")}
+                <TextArea
+                  value={aboutMe}
+                  onChange={(e) => setAboutMe(e.target.value)}
+                  onBlur={() => {
+                    if (user.aboutMe !== aboutMe) {
+                      handleTextFieldChange("aboutMe")(aboutMe);
+                    }
+                  }}
+                  placeholder="Tell the world about yourself!"
                 />
               ) : (
-                <P>{user.username || user.email}</P>
+                <P>{user.aboutMe || "No bio yet"}</P>
               )}
-            </Heading>
-            <Heading $variant="h3">
-              joined: {formatDateTime(user.createdAt, "long")}
-            </Heading>
-            <Heading $variant="h2">Bio</Heading>
-            {canEdit ? (
-              <TextArea
-                value={aboutMe}
-                onChange={(e) => setAboutMe(e.target.value)}
-                onBlur={() => {
-                  if (user.aboutMe !== aboutMe) {
-                    handleTextFieldChange("aboutMe")(aboutMe);
-                  }
-                }}
-                placeholder="Tell the world about yourself!"
-              />
-            ) : (
-              <P>{user.aboutMe || "No bio yet"}</P>
-            )}
-          </FlexContainer>
-        </FlexItem>
-        <FlexItem $basis="50%">
-          <Spacer $paddingX="medium">
+            </FlexContainer>
+          </Spacer>
+        </GridItem>
+        <GridItem $mdCol={6}>
+          <Spacer $paddingX="small">
             <FlexContainer $direction="column" $gap="medium">
               <Heading $variant="h2">Games</Heading>
               {games.filter(isFetchedGame).map((game) => (
@@ -215,8 +218,8 @@ function FetchedUser(props: { user: StoreUser }) {
               ))}
             </FlexContainer>
           </Spacer>
-        </FlexItem>
-      </FlexContainer>
+        </GridItem>
+      </GridContainer>
     </StyledFetchedUser>
   );
 }

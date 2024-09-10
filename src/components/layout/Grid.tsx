@@ -13,18 +13,8 @@ export const GridContainer = styled.div<{
 }>`
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  //grid-auto-rows: minmax(min-content, max-content);
-  grid-auto-rows: max-content;
-  //grid-template-rows: repeat(8, minmax(min-content, 1fr));
   width: 100%;
-  height: 100%;
-  max-height: 100%;
-  overflow: auto;
   grid-gap: ${(props) => gaps[props.$gap || "small"]};
-  > * {
-    max-height: 100%;
-    overflow: auto;
-  }
 `;
 
 const { xs, sm, md, lg } = breakpoints;

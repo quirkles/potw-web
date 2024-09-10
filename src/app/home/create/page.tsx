@@ -58,8 +58,6 @@ function Create() {
     dispatch(updateNewGame({ name: getFakeGameName(), isPrivate: false }));
   }, [dispatch]);
 
-  const responsiveContext = useResponsiveContext();
-
   return (
     <Styled>
       <Spacer $margin="medium">
@@ -79,7 +77,6 @@ function Create() {
             <div>
               <P>I can sum up my game in a few words:</P>
               <TextArea
-                cols={responsiveContext?.isMobile ? 30 : 50}
                 value={newGame.description || ""}
                 onChange={(e) =>
                   dispatch(

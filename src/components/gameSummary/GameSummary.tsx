@@ -32,8 +32,8 @@ const StyledGameSummary = styled.div<{
   $animationDelayMs: number;
 }>`
     height: 100%;
+    width: 100%;
     transition: all 0.2s ease-in-out;
-    z-index: 1;
     transform: scale(1);
     position: relative;
     background-color: ${getColorVariant("white", "base")};
