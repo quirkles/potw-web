@@ -1,5 +1,4 @@
-import { StoreFetchedGame } from "@/app/store/reducers/gamesReducer";
-
+import { StoreFetchedGame } from "@/app/services/schemas/store/game";
 import { GameWithRelations } from "@/app/services/schemas/withRelations";
 
 import { isDateString, stringAsDateString } from "@/utils/date";

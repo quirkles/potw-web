@@ -1,19 +1,18 @@
 import { getConfig } from "@/config";
 
 import { httpService } from "@/app/services/http/http.service";
+import { UserUpdate, userUpdateSchema } from "@/app/services/schemas/user";
 import {
-  User,
-  userSchema,
-  UserUpdate,
-  userUpdateSchema,
-} from "@/app/services/schemas/user";
+  UserWithRelations,
+  userWithRelationsSchema,
+} from "@/app/services/schemas/withRelations";
 
-export const fetchUserByIdRequest = (id: string): Promise<User> =>
+export const fetchUserByIdRequest = (id: string): Promise<UserWithRelations> =>
   httpService.get({
     url: `${getConfig().functionsUrl}/app-user-fetchOne?id=${id}&includeGames=true`,
-    responseSchema: userSchema,
+    responseSchema: userWithRelationsSchema,
     useAppCheck: true,
-  });
+  }) as Promise<UserWithRelations>;
 
 export const updateUserRequest = (
   user: Partial<UserUpdate>,

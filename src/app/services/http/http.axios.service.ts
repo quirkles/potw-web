@@ -1,7 +1,7 @@
 import { getToken } from "@firebase/app-check";
 import axios, { Axios, AxiosError } from "axios";
 import { v4 } from "uuid";
-import { ZodError, ZodSchema, ZodType } from "zod";
+import { output, ZodError, ZodSchema, ZodType } from "zod";
 
 import { getConfig } from "@/config";
 import { getFirebaseAppCheck } from "@/firebase";
@@ -26,12 +26,12 @@ export class HttpAxiosService implements HttpService {
     this.axiosInstance = axios.create();
   }
 
-  async get<T>(params: {
+  async get<T extends ZodSchema<unknown>>(params: {
     url: string;
     headers?: Record<string, string> | undefined;
-    responseSchema: ZodSchema<T>;
+    responseSchema: T;
     useAppCheck?: boolean;
-  }): Promise<T> {
+  }): Promise<output<T>> {
     try {
       let {
         responseSchema,
@@ -84,13 +84,13 @@ export class HttpAxiosService implements HttpService {
     }
   }
 
-  async post<T>(params: {
+  async post<T extends ZodSchema<unknown>>(params: {
     url: string;
     headers?: Record<string, string> | undefined;
     body: any;
-    responseSchema: ZodType<T>;
+    responseSchema: T;
     useAppCheck?: boolean;
-  }): Promise<T> {
+  }): Promise<output<T>> {
     try {
       let { responseSchema, body, useAppCheck, ...transformedParams } = params;
 
@@ -142,13 +142,13 @@ export class HttpAxiosService implements HttpService {
     }
   }
 
-  async put<T>(params: {
+  async put<T extends ZodSchema<unknown>>(params: {
     url: string;
     headers?: Record<string, string> | undefined;
     body: any;
-    responseSchema: ZodType<T>;
+    responseSchema: T;
     useAppCheck?: boolean;
-  }): Promise<T> {
+  }): Promise<output<T>> {
     try {
       let { responseSchema, body, useAppCheck, ...transformedParams } = params;
 
@@ -199,12 +199,12 @@ export class HttpAxiosService implements HttpService {
     }
   }
 
-  async delete<T>(params: {
+  async delete<T extends ZodSchema<unknown>>(params: {
     url: string;
     headers?: Record<string, string> | undefined;
-    responseSchema: ZodType<T>;
+    responseSchema: T;
     useAppCheck?: boolean;
-  }): Promise<T> {
+  }): Promise<output<T>> {
     try {
       let { responseSchema, useAppCheck, ...transformedParams } = params;
 

@@ -1,32 +1,32 @@
-import { ZodSchema } from "zod";
+import { output, ZodSchema } from "zod";
 
 import { HttpAxiosService } from "@/app/services/http/http.axios.service";
 
 import { logger } from "@/utils/logger";
 
 export interface HttpServiceMethods {
-  get: <T>(params: {
+  get: <T extends ZodSchema<unknown>>(params: {
     url: string;
     headers?: Record<string, string>;
-    responseSchema: ZodSchema<T>;
-  }) => Promise<T>;
-  post: <T>(params: {
-    url: string;
-    headers?: Record<string, string>;
-    body: any;
-    responseSchema: ZodSchema<T>;
-  }) => Promise<T>;
-  put: <T>(params: {
+    responseSchema: T;
+  }) => Promise<output<T>>;
+  post: <T extends ZodSchema<unknown>>(params: {
     url: string;
     headers?: Record<string, string>;
     body: any;
     responseSchema: ZodSchema<T>;
-  }) => Promise<T>;
-  delete: <T>(params: {
+  }) => Promise<output<T>>;
+  put: <T extends ZodSchema<unknown>>(params: {
+    url: string;
+    headers?: Record<string, string>;
+    body: any;
+    responseSchema: T;
+  }) => Promise<output<T>>;
+  delete: <T extends ZodSchema<unknown>>(params: {
     url: string;
     headers?: Record<string, string>;
     responseSchema: ZodSchema<T>;
-  }) => Promise<T>;
+  }) => Promise<output<T>>;
 }
 
 export type Interceptor<T extends keyof HttpServiceMethods> = {

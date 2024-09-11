@@ -74,6 +74,9 @@ const meta = {
         players: [],
         status: args.game_status,
         admin: args.game_admin_id,
+        regularScheduledStartTimeUtc: "2022-01-01T00:00:00Z",
+        createdAt: "2022-01-01T00:00:00Z",
+        updatedAt: "2022-01-01T00:00:00Z",
       },
     };
     return <GameSummary {...props} />;

@@ -10,94 +10,15 @@ import {
   fetchGames as fetchGamesRequest,
 } from "@/app/services/game";
 import { gameToStoreGame } from "@/app/services/game/transformers";
+import { createGamePayloadSchema, Game } from "@/app/services/schemas/game";
 import {
-  createGamePayloadSchema,
-  Game,
-  PeriodString,
-} from "@/app/services/schemas/game";
-
-import { addTo, DateString, getDateString } from "@/utils/date";
-import { getFakeGameName } from "@/utils/game";
-import { RecordToEnum } from "@/utils/typeUtils";
-
-export const BasicPeriod = {
-  daily: "daily",
-  weekly: "weekly",
-  monthly: "monthly",
-  biWeekly: "biWeekly",
-} as const;
-
-export type BasicPeriod = RecordToEnum<typeof BasicPeriod>;
-
-const CustomPeriodUnit = {
-  day: "day",
-  week: "week",
-  month: "month",
-} as const;
-
-type CustomPeriodUnit = keyof typeof CustomPeriodUnit;
-
-export type CustomPeriod = {
-  quantity: number;
-  unit: CustomPeriodUnit;
-};
-
-export const DayOfWeek = {
-  sunday: "sunday",
-  monday: "monday",
-  tuesday: "tuesday",
-  wednesday: "wednesday",
-  thursday: "thursday",
-  friday: "friday",
-  saturday: "saturday",
-} as const;
-
-export type DayOfWeek = RecordToEnum<typeof DayOfWeek>;
-
-export const Recurrence = {
-  every: "every",
-  everyOther: "everyOther",
-} as const;
-
-export type Recurrence = RecordToEnum<typeof Recurrence>;
-
-type CustomRecurring = {
-  recurrence: Recurrence;
-  dayOfWeek: DayOfWeek;
-};
-export type GamePeriod = BasicPeriod | CustomPeriod | CustomRecurring;
-
-export type StoreFetchedGame = {
-  status: "fetched";
-  sqlId: string;
-  name: string;
-  description: string | null;
-  isPrivate: boolean;
-  admin: string;
-  startDate: DateString;
-  endDate: DateString | null;
-  period: PeriodString;
-  players: string[];
-};
-type StoreFetchingGame = {
-  status: "fetching";
-  id: string;
-};
-type StoreFailedGame = {
-  status: "failed";
-  id: string;
-  error: string;
-};
-export type StoreGame = StoreFetchedGame | StoreFetchingGame | StoreFailedGame;
-
-type StoreNewGame = Omit<
   StoreFetchedGame,
-  "sqlId" | "adminId" | "players" | "admin" | "status"
-> & {
-  status: "unsaved" | "pendingCreate" | "failed";
-  addAdminAsPlayer: boolean;
-  isOpenEnded: boolean;
-};
+  StoreGame,
+  StoreNewGame,
+} from "@/app/services/schemas/store/game";
+
+import { addTo, getDateString } from "@/utils/date";
+import { getFakeGameName } from "@/utils/game";
 
 type StoreGameState = {
   games: {
@@ -122,6 +43,7 @@ export const gameSlice = createAppSlice({
       description: null,
       endDate: null,
       isOpenEnded: true,
+      regularScheduledStartTimeUtc: "17:00",
     },
   } as StoreGameState,
   reducers: (create) => ({
@@ -155,7 +77,7 @@ export const gameSlice = createAppSlice({
       },
       {
         pending: (state) => {
-          state.newGame.status = "pendingCreate";
+          state.newGame.status = "pending";
         },
         fulfilled: (state) => {
           state.newGame = {
@@ -168,6 +90,7 @@ export const gameSlice = createAppSlice({
             period: "weekly",
             startDate: addTo(7, "day", getDateString()),
             endDate: null,
+            regularScheduledStartTimeUtc: "17:00",
           };
         },
         rejected: (state, action) => {
@@ -181,9 +104,9 @@ export const gameSlice = createAppSlice({
         const existing = state.games[action.meta.arg];
         state.games[action.meta.arg] = {
           ...(existing || {}),
-          status: existing?.status || "fetching",
-          id: action.meta.arg,
-        } as StoreFetchedGame | StoreFetchingGame;
+          status: "pending",
+          sqlId: action.meta.arg,
+        };
       },
       fulfilled: (state, action) => {
         const game = action.payload;
@@ -192,7 +115,7 @@ export const gameSlice = createAppSlice({
       rejected: (state, action) => {
         state.games[action.meta.arg] = {
           status: "failed",
-          id: action.meta.arg,
+          sqlId: action.meta.arg,
           error: action.error.message || "Unknown error",
         };
       },

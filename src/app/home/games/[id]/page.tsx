@@ -9,13 +9,10 @@ import UsersBox from "@/app/home/games/[id]/partials/UsersBox";
 import { gameColors, getColor } from "@/app/styles/colors";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import {
-  gameSelectors,
-  gameSlice,
-  StoreFetchedGame,
-  StoreGame,
-} from "@/app/store/reducers/gamesReducer";
+import { gameSelectors, gameSlice } from "@/app/store/reducers/gamesReducer";
 import { selectUserBySqlId } from "@/app/store/selectors/users";
+
+import { StoreFetchedGame, StoreGame } from "@/app/services/schemas/store/game";
 
 import Heading from "@/components/heading/Heading";
 import { GridContainer, GridItem } from "@/components/layout/Grid";
@@ -52,8 +49,8 @@ function GamePage({ params }: { params: { id: string } }) {
   }
   return (
     <Styled>
-      <Spacer $padding={game?.status === "fetching" ? "xLarge" : "medium"}>
-        {game?.status === "fetching" && <Loader />}
+      <Spacer $padding="medium">
+        {game?.status === "pending" && <Loader />}
         {game?.status === "failed" && <h1>Error</h1>}
       </Spacer>
     </Styled>
@@ -89,7 +86,9 @@ function FetchedGame({ game }: { game: StoreFetchedGame }) {
           {game.description && <P>{game.description}</P>}
         </GridItem>
         <GridItem $mdCol={4}>
-          {admin && <AdminBox admin={admin} color={gameColor} game={game} />}
+          {admin && admin.status === "fetched" && (
+            <AdminBox admin={admin} color={gameColor} game={game} />
+          )}
         </GridItem>
         <GridItem $mdCol={8} $mdRow={2}>
           <GameWeekBox color={gameColor} />

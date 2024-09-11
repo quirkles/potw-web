@@ -6,7 +6,7 @@ import {
   gameWithRelationsSchema,
 } from "@/app/services/schemas/withRelations";
 
-export async function fetchGame(gameId: string): Promise<GameWithRelations> {
+export async function fetchGame(gameId: string) {
   await new Promise((resolve) => setTimeout(resolve, 2000));
   return fetch(`${getConfig().functionsUrl}/app-game-fetchOne?gameId=${gameId}`)
     .then((res) => {

@@ -3,10 +3,16 @@ import z from "zod";
 import { gameSchema } from "@/app/services/schemas/game";
 import { userSchema } from "@/app/services/schemas/user";
 
-const userWithRelationsSchema = userSchema.extend({
+export const userWithRelationsSchema = userSchema.extend({
   gamesAsAdmin: z.array(gameSchema).optional(),
   gamesAsParticipant: z.array(gameSchema).optional(),
-  picks: z.array(z.object({})).optional(),
+  picks: z
+    .array(
+      z.object({
+        sqlId: z.string(),
+      }),
+    )
+    .optional(),
 });
 
 export type UserWithRelations = z.infer<typeof userWithRelationsSchema>;

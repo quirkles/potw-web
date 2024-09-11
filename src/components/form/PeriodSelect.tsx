@@ -1,19 +1,60 @@
 import { ChangeEvent, PropsWithChildren } from "react";
 import { styled } from "styled-components";
 
-import {
-  BasicPeriod,
-  DayOfWeek,
-  GamePeriod,
-  Recurrence,
-} from "@/app/store/reducers/gamesReducer";
-
 import { PeriodString } from "@/app/services/schemas/game";
 
 import ArrowDownCircle from "@/components/icons/ArrowDownCircle.svg";
 
 import { getColorVariant, hexToRgbA } from "@/utils/color";
 import { periodStringToPeriod, periodToPeriodString } from "@/utils/period";
+import { RecordToEnum } from "@/utils/typeUtils";
+
+const BasicPeriod = {
+  daily: "daily",
+  weekly: "weekly",
+  monthly: "monthly",
+  biWeekly: "biWeekly",
+} as const;
+
+type BasicPeriod = RecordToEnum<typeof BasicPeriod>;
+
+const CustomPeriodUnit = {
+  day: "day",
+  week: "week",
+  month: "month",
+} as const;
+
+type CustomPeriodUnit = keyof typeof CustomPeriodUnit;
+
+type CustomPeriod = {
+  quantity: number;
+  unit: CustomPeriodUnit;
+};
+
+const DayOfWeek = {
+  sunday: "sunday",
+  monday: "monday",
+  tuesday: "tuesday",
+  wednesday: "wednesday",
+  thursday: "thursday",
+  friday: "friday",
+  saturday: "saturday",
+} as const;
+
+type DayOfWeek = RecordToEnum<typeof DayOfWeek>;
+
+const Recurrence = {
+  every: "every",
+  everyOther: "everyOther",
+} as const;
+
+type Recurrence = RecordToEnum<typeof Recurrence>;
+
+type CustomRecurring = {
+  recurrence: Recurrence;
+  dayOfWeek: DayOfWeek;
+};
+type GamePeriod = BasicPeriod | CustomPeriod | CustomRecurring;
 
 interface PeriodSelectProps {
   selectedPeriod: PeriodString;

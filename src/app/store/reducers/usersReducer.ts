@@ -1,16 +1,13 @@
 import { createAppSlice } from "@/app/store/createAppSlice";
 import { gameSlice } from "@/app/store/reducers/gamesReducer";
 
+import { StoreFetchedUser, StoreUser } from "@/app/services/schemas/store/user";
 import { User } from "@/app/services/schemas/user";
 import {
   fetchUserByIdRequest,
   updateUserRequest,
 } from "@/app/services/user/fetchUserById";
-
-export type StoreUser = User & {
-  fetchState: "idle" | "pending" | "fulfilled" | "rejected";
-  error: string | null;
-};
+import { userToStoreUser } from "@/app/services/user/transformers";
 
 export type StoreUsersState = {
   users: {
@@ -81,35 +78,24 @@ export const usersSlice = createAppSlice({
     });
   },
   reducers: (create) => ({
-    fetchUserById: create.asyncThunk(
-      async (userId: string) => {
-        return fetchUserByIdRequest(userId);
+    fetchUserById: create.asyncThunk(fetchUserByIdRequest, {
+      pending: (state, action) => {
+        state.users[action.meta.arg] = {
+          ...(state.users[action.meta.arg] || {}),
+          status: "pending",
+        };
       },
-      {
-        pending: (state, action) => {
-          state.users[action.meta.arg] = {
-            ...(state.users[action.meta.arg] || {}),
-            fetchState: "pending",
-            error: null,
-          };
-        },
-        fulfilled: (state, action) => {
-          state.users[action.payload.sqlId] = {
-            ...([action.payload.sqlId] || {}),
-            ...action.payload,
-            fetchState: "fulfilled",
-            error: null,
-          };
-        },
-        rejected: (state, action) => {
-          state.users[action.meta.arg] = {
-            ...(state.users[action.meta.arg] || {}),
-            fetchState: "rejected",
-            error: action.error.message || "Unknown error",
-          };
-        },
+      fulfilled: (state, action) => {
+        state.users[action.meta.arg] = userToStoreUser(action.payload);
       },
-    ),
+      rejected: (state, action) => {
+        state.users[action.meta.arg] = {
+          ...(state.users[action.meta.arg] || {}),
+          status: "failed",
+          error: action.error.message || "Unknown error",
+        };
+      },
+    }),
     updateUserField: create.asyncThunk(
       async <T extends keyof User>(params: {
         userId: string;
@@ -142,11 +128,6 @@ export const { fetchUserById, updateUserField } = usersSlice.actions;
 
 export default usersSlice.reducer;
 
-export const usersSelectors = {
-  getUserBySqlId: (
-    state: { usersState: StoreUsersState },
-    sqlId: string,
-  ): StoreUser | null => {
-    return state.usersState.users[sqlId] || null;
-  },
-} as const;
+export function isFetchedUser(user: StoreUser): user is StoreFetchedUser {
+  return user.status === "fetched";
+}

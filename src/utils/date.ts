@@ -1,7 +1,5 @@
 import { format as formatFn } from "date-fns";
 
-import { GamePeriod } from "@/app/store/reducers/gamesReducer";
-
 type Year =
   | "2024"
   | "2025"

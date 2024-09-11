@@ -1,5 +1,3 @@
-import { GamePeriod } from "@/app/store/reducers/gamesReducer";
-
 import { Period, PeriodString } from "@/app/services/schemas/game";
 
 export const periodStringToPeriod = (periodString: PeriodString): Period => {
@@ -49,7 +47,7 @@ export function getPeriodDisplayTextFromPeriodString(
   return getPeriodDisplayText(periodStringToPeriod(periodString));
 }
 
-export function getPeriodDisplayText(period: GamePeriod): string {
+export function getPeriodDisplayText(period: Period): string {
   if (typeof period === "string") {
     switch (period) {
       case "daily":

@@ -2,10 +2,10 @@ import { styled } from "styled-components";
 
 import { ColorName, getColor } from "@/app/styles/colors";
 
-import { StoreFetchedGame } from "@/app/store/reducers/gamesReducer";
-import { StoreUser } from "@/app/store/reducers/usersReducer";
-
 import { useResponsiveContext } from "@/app/providers/Responsive";
+
+import { StoreFetchedGame } from "@/app/services/schemas/store/game";
+import { StoreFetchedUser, StoreUser } from "@/app/services/schemas/store/user";
 
 import { Avatar } from "@/components/avatar/Avatar";
 import Heading from "@/components/heading/Heading";
@@ -22,7 +22,7 @@ const Styled = styled(FlexContainer)<{
 `;
 
 type AdminBoxParams = {
-  admin: StoreUser;
+  admin: StoreFetchedUser;
   color: ColorName;
   game: StoreFetchedGame;
 };

@@ -6,10 +6,11 @@ import { styled } from "styled-components";
 import { BaseColorName, gameColors } from "@/app/styles/colors";
 
 import { useAppSelector } from "@/app/store/hooks";
-import { StoreFetchedGame } from "@/app/store/reducers/gamesReducer";
 import { selectUserBySqlId } from "@/app/store/selectors/users";
 
 import { useResponsiveContext } from "@/app/providers/Responsive";
+
+import { StoreFetchedGame } from "@/app/services/schemas/store/game";
 
 import { Avatar } from "@/components/avatar/Avatar";
 import Divider from "@/components/divider/Divider";
@@ -119,23 +120,25 @@ export function GameSummary(props: IGameSummaryProps) {
           >
             <FlexItem>
               <FlexContainer $wrap="wrap" $rowGap="medium">
-                <FlexItem>
-                  <FlexContainer $direction="column" $gap="medium">
-                    <Avatar
-                      value={admin.email || ""}
-                      size={responsive?.isDesktop ? "xLarge" : "large"}
-                      onClick={() => {
-                        navigateToUserPage(admin.sqlId);
-                      }}
-                    />
-                    <P>
-                      Created by{" "}
-                      <Link href={`/home/users/${admin.sqlId}`}>
-                        {admin?.email}
-                      </Link>
-                    </P>
-                  </FlexContainer>
-                </FlexItem>
+                {admin?.sqlId && (
+                  <FlexItem>
+                    <FlexContainer $direction="column" $gap="medium">
+                      <Avatar
+                        value={admin.email || ""}
+                        size={responsive?.isDesktop ? "xLarge" : "large"}
+                        onClick={() => {
+                          navigateToUserPage(admin.sqlId as string);
+                        }}
+                      />
+                      <P>
+                        Created by{" "}
+                        <Link href={`/home/users/${admin.sqlId}`}>
+                          {admin?.email}
+                        </Link>
+                      </P>
+                    </FlexContainer>
+                  </FlexItem>
+                )}
                 <FlexItem>
                   <P $textTransform="capitalize" $fontSize="small">
                     {hasGameStarted ? "started" : "starts"}:{" "}

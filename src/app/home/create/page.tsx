@@ -15,7 +15,6 @@ import {
 import { authUserSelector } from "@/app/store/selectors/authUser";
 
 import { useNotificationsContext } from "@/app/providers/Notifications";
-import { useResponsiveContext } from "@/app/providers/Responsive";
 
 import { Game } from "@/app/services/schemas/game";
 
@@ -25,6 +24,7 @@ import Datepicker from "@/components/form/Datepicker";
 import PeriodSelect from "@/components/form/PeriodSelect";
 import TextEditable from "@/components/form/TextEditable";
 import TextArea from "@/components/form/Textarea";
+import Timepicker from "@/components/form/Timepicker";
 import Heading from "@/components/heading/Heading";
 import { FlexContainer } from "@/components/layout/FlexContainer";
 import { GridContainer, GridItem } from "@/components/layout/Grid";
@@ -136,44 +136,58 @@ function Create() {
               }}
             />
             <Spacer $paddingY="small" />
-            <div>
-              <Heading $variant="h4">End Date</Heading>
-              <FlexContainer $alignItems="center" $gap="small">
-                <Checkbox
-                  checked={newGame.isOpenEnded}
-                  onChange={(e) => {
-                    dispatch(updateNewGame({ isOpenEnded: e }));
+            <Heading $variant="h4">End Date</Heading>
+            <FlexContainer $alignItems="center" $gap="small">
+              <Checkbox
+                checked={newGame.isOpenEnded}
+                onChange={(e) => {
+                  dispatch(updateNewGame({ isOpenEnded: e }));
+                }}
+              />
+              <P $fontWeight="bold">
+                {newGame.isOpenEnded ? "Open ended game" : "Game has an end"}
+              </P>
+            </FlexContainer>
+            <Spacer $paddingY="xSmall" />
+            {newGame.isOpenEnded ? (
+              <P>
+                Game will continue indefinitely or until you choose to end it
+              </P>
+            ) : (
+              <>
+                <P>My game will end on:</P>
+                <Datepicker
+                  initialDate={
+                    newGame.endDate || addTo(1, "month", newGame.startDate)
+                  }
+                  onChange={(dateString) => {
+                    dispatch(updateNewGame({ endDate: dateString }));
                   }}
                 />
-                <P $fontWeight="bold">
-                  {newGame.isOpenEnded ? "Open ended game" : "Game has an end"}
-                </P>
-              </FlexContainer>
-              <Spacer $paddingY="xSmall" />
-              {newGame.isOpenEnded ? (
-                <P>
-                  Game will continue indefinitely or until you choose to end it
-                </P>
-              ) : (
-                <>
-                  <P>My game will end on:</P>
-                  <Datepicker
-                    initialDate={
-                      newGame.endDate || addTo(1, "month", newGame.startDate)
-                    }
-                    onChange={(dateString) => {
-                      dispatch(updateNewGame({ endDate: dateString }));
-                    }}
-                  />
-                </>
-              )}
-            </div>
+              </>
+            )}
             <Spacer $paddingY="small" />
             <Heading $variant="h4">Frequency</Heading>
             <P>My game will repeat:</P>
             <Spacer $paddingY="xSmall" />
             <PeriodSelect
               selectedPeriod={newGame.period}
+              onChange={(period) => {
+                dispatch(
+                  updateNewGame({
+                    period,
+                  }),
+                );
+              }}
+            />
+            <Spacer $paddingY="small" />
+            <Heading $variant="h4">Start Time</Heading>
+            <P>
+              My game will start at this time. This can be changed week to week.
+            </P>
+            <Spacer $paddingY="xSmall" />
+            <Timepicker
+              value={newGame.regularScheduledStartTimeUtc}
               onChange={(period) => {
                 dispatch(
                   updateNewGame({

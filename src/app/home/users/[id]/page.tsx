@@ -12,17 +12,17 @@ import {
 } from "@/app/store/reducers/gamesReducer";
 import {
   fetchUserById,
-  StoreUser,
   updateUserField,
-  usersSelectors,
 } from "@/app/store/reducers/usersReducer";
 import { authUserSelector } from "@/app/store/selectors/authUser";
 import { selectGamesForUser } from "@/app/store/selectors/games";
+import { selectUserBySqlId } from "@/app/store/selectors/users";
 
 import { useNotificationsContext } from "@/app/providers/Notifications";
 import { useResponsiveContext } from "@/app/providers/Responsive";
 
 import { uploadFile } from "@/app/services/file/upload";
+import { StoreFetchedUser } from "@/app/services/schemas/store/user";
 import { UserUpdate } from "@/app/services/schemas/user";
 
 import { Avatar } from "@/components/avatar/Avatar";
@@ -49,31 +49,28 @@ const StyledUserIdPage = styled.div`
 `;
 
 function UserIdPage({ params }: { params: { id: string } }) {
-  const user = useAppSelector((state) =>
-    usersSelectors.getUserBySqlId(state, params.id),
-  );
+  const user = useAppSelector((state) => selectUserBySqlId(state, params.id));
   const dispatch = useAppDispatch();
 
-  const userFetchState = user?.fetchState || "idle";
+  const doesUserExist = !!user;
 
   useEffect(() => {
-    if (userFetchState === "idle") {
+    if (!doesUserExist) {
       dispatch(fetchUserById(params.id));
     }
     return;
-  }, [dispatch, params.id, userFetchState]);
+  }, [dispatch, params.id, doesUserExist]);
 
-  switch (userFetchState) {
-    case "rejected":
+  switch (user.status) {
+    case "failed":
       return (
         <StyledUserIdPage>
           <Heading $variant="h1">Error fetching User!</Heading>
           <Heading $variant={"h3"}>Please try again later.</Heading>
         </StyledUserIdPage>
       );
-    case "fulfilled":
-      return <FetchedUser user={user as StoreUser} />;
-    case "idle":
+    case "fetched":
+      return <FetchedUser user={user as StoreFetchedUser} />;
     case "pending":
     default:
       return (
@@ -107,7 +104,7 @@ const StyledFetchedUser = styled.div<{
   }
 `;
 
-function FetchedUser(props: { user: StoreUser }) {
+function FetchedUser(props: { user: StoreFetchedUser }) {
   const { user } = props;
   const dispatch = useAppDispatch();
   const authUser = useAppSelector(authUserSelector);

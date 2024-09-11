@@ -4,9 +4,10 @@ import { styled } from "styled-components";
 import { ColorName, getColor } from "@/app/styles/colors";
 
 import { useAppSelector } from "@/app/store/hooks";
-import { StoreUser } from "@/app/store/reducers/usersReducer";
-import { selectUsersBySqlIds } from "@/app/store/selectors/users";
+import { selectFetchedUsersBySqlIds } from "@/app/store/selectors/users";
 import { RootState } from "@/app/store/store";
+
+import { StoreFetchedUser } from "@/app/services/schemas/store/user";
 
 import { FlexContainer, FlexItem } from "@/components/layout/FlexContainer";
 
@@ -28,8 +29,8 @@ type UsersBoxParams = {
   userIds: string[];
 };
 export default function UsersBox({ color, userIds }: UsersBoxParams) {
-  const users: StoreUser[] = useAppSelector((state: RootState) =>
-    selectUsersBySqlIds(state, userIds),
+  const users: StoreFetchedUser[] = useAppSelector((state: RootState) =>
+    selectFetchedUsersBySqlIds(state, userIds),
   );
   return (
     <Styled $color={color} $direction="column" $alignItems="stretch">
