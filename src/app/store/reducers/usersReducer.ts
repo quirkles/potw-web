@@ -26,14 +26,16 @@ export const usersSlice = createAppSlice({
         state.users[action.payload.admin.sqlId] = {
           ...state.users[action.payload.admin.sqlId],
           ...action.payload.admin,
-        };
+          status: "fetched",
+        } as StoreFetchedUser;
       }
       (action.payload.players || []).forEach((player) => {
         if (player.sqlId) {
           state.users[player.sqlId] = {
             ...state.users[player.sqlId],
             ...player,
-          };
+            status: "fetched",
+          } as StoreFetchedUser;
         }
       });
     });

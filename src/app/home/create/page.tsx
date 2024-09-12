@@ -188,10 +188,10 @@ function Create() {
             <Spacer $paddingY="xSmall" />
             <Timepicker
               value={newGame.regularScheduledStartTimeUtc}
-              onChange={(period) => {
+              onChange={(time) => {
                 dispatch(
                   updateNewGame({
-                    period,
+                    regularScheduledStartTimeUtc: `${time}:00`,
                   }),
                 );
               }}

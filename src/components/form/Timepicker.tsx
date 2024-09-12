@@ -1,7 +1,9 @@
-import { func } from "prop-types";
+import { styled } from "styled-components";
 import z from "zod";
 
-const timeStringRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+import { getColor } from "@/app/styles/colors";
+
+export const timeStringRegex = /^([01][0-9]|2[0123]):[0-5][0-9]:00$/;
 
 const timeStringSchema = z.string().regex(timeStringRegex);
 
@@ -12,18 +14,31 @@ export function isTimeString(time: string | TimeString): time is TimeString {
 }
 interface TimepickerProps {
   value: TimeString;
-  onChange: (time: TimeString) => void;
+  onChange?: (time: TimeString) => void;
 }
+
+const StyledInput = styled.input`
+  border: 1px solid ${getColor("black")};
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+  margin-right: 0.25rem;
+`;
+
 export default function Timepicker(props: TimepickerProps) {
+  const {
+    value,
+    onChange = () => {
+      /* noop */
+    },
+  } = props;
   return (
-    <input
+    <StyledInput
       type="time"
-      value={props.value}
+      value={value}
       onChange={(e) => {
-        const time = e.target.value;
-        if (timeStringSchema.safeParse(time).success) {
-          props.onChange(time);
-        }
+        onChange(e.target.value);
       }}
     />
   );

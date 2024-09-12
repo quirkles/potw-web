@@ -77,6 +77,7 @@ export const createGamePayloadSchema = z.object({
   endDate: validDateString().or(z.null()),
   addAdminAsPlayer: z.boolean(),
   period: periodStringSchema,
+  regularScheduledStartTimeUtc: z.string().refine(isTimeString),
   players: z.array(
     z.object({
       email: z.string(),

@@ -1,3 +1,4 @@
+import { useArgs } from "@storybook/preview-api";
 import type { Meta, StoryObj } from "@storybook/react";
 
 import Timepicker from "@/components/form/Timepicker";
@@ -34,8 +35,14 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     value: "17:00",
-    onChange: (date: string) => {
-      console.log(date);
-    },
+  },
+  render: function Render(args) {
+    const { onChange = () => null } = args;
+    const [{ value }, updateArgs] = useArgs();
+    const changeHandler = (date: string) => {
+      onChange(date);
+      updateArgs({ value: date });
+    };
+    return <Timepicker value={value} onChange={changeHandler} />;
   },
 };
