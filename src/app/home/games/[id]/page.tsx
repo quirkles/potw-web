@@ -9,7 +9,8 @@ import UsersBox from "@/app/home/games/[id]/partials/UsersBox";
 import { gameColors, getColor } from "@/app/styles/colors";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import { gameSelectors, gameSlice } from "@/app/store/reducers/gamesReducer";
+import { gameSlice } from "@/app/store/reducers/gamesReducer";
+import { selectGameBySqlId } from "@/app/store/selectors/games";
 import { selectUserBySqlId } from "@/app/store/selectors/users";
 
 import { StoreFetchedGame, StoreGame } from "@/app/services/schemas/store/game";
@@ -36,7 +37,7 @@ function GamePage({ params }: { params: { id: string } }) {
   const { id: gameId } = params;
   const dispatch = useAppDispatch();
   const game: StoreGame | null = useAppSelector((state) =>
-    gameSelectors.getGame(state, gameId),
+    selectGameBySqlId(state, gameId),
   );
 
   useEffect(() => {
@@ -75,7 +76,6 @@ const StyledGame = styled.div<{
 function FetchedGame({ game }: { game: StoreFetchedGame }) {
   const gameColor = getPseudoRandomFromArrayFromUid(game.sqlId, gameColors);
   const admin = useAppSelector((state) => selectUserBySqlId(state, game.admin));
-  console.log("admin", admin);
   return (
     <StyledGame $color={gameColor}>
       <GridContainer>
@@ -91,7 +91,7 @@ function FetchedGame({ game }: { game: StoreFetchedGame }) {
           )}
         </GridItem>
         <GridItem $mdCol={8} $mdRow={2}>
-          <GameWeekBox color={gameColor} />
+          <GameWeekBox color={gameColor} gameSqlId={game.sqlId} />
         </GridItem>
         <GridItem $mdCol={4}>
           <UsersBox color={gameColor} userIds={game.players} />

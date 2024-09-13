@@ -44,6 +44,7 @@ export const gameSlice = createAppSlice({
       endDate: null,
       isOpenEnded: true,
       regularScheduledStartTimeUtc: "17:00",
+      gameWeeks: [],
     },
   } as StoreGameState,
   reducers: (create) => ({
@@ -91,6 +92,7 @@ export const gameSlice = createAppSlice({
             startDate: addTo(7, "day", getDateString()),
             endDate: null,
             regularScheduledStartTimeUtc: "17:00",
+            gameWeeks: [],
           };
         },
         rejected: (state, action) => {
@@ -171,25 +173,6 @@ export const { updateNewGame, createGame, fetchGamesForUser, fetchGames } =
   gameSlice.actions;
 
 export default gameSlice.reducer;
-
-export const gameSelectors = {
-  getNewGame: (state: { gameState: StoreGameState }): StoreNewGame => {
-    return state.gameState.newGame;
-  },
-  getGames: (state: {
-    gameState: StoreGameState;
-  }): { [key: string]: StoreGame } => {
-    return state.gameState.games;
-  },
-  getGame: (
-    state: {
-      gameState: StoreGameState;
-    },
-    gameId: string,
-  ): StoreGame | null => {
-    return state.gameState.games[gameId] || null;
-  },
-} as const;
 
 export function isFetchedGame(game: StoreGame): game is StoreFetchedGame {
   return game.status === "fetched";

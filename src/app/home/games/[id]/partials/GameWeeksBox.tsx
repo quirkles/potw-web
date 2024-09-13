@@ -1,13 +1,19 @@
+import { func } from "prop-types";
 import { styled } from "styled-components";
 
 import { ColorName, getColor } from "@/app/styles/colors";
+
+import { useAppSelector } from "@/app/store/hooks";
+import { selectGameWeeksForGame } from "@/app/store/selectors/gameWeeks";
+
+import { GameWeek } from "@/app/services/schemas/gameWeek";
+import { StoreFetchedGameWeek } from "@/app/services/schemas/store/gameWeek";
 
 import { FlexContainer } from "@/components/layout/FlexContainer";
 
 const Styled = styled(FlexContainer)<{
   $color: ColorName;
 }>`
-  padding: 2rem;
   border: 2px solid ${(props) => getColor(props.$color)};
   color: ${(props) => getColor(props.$color)};
   height: 100%;
@@ -15,7 +21,27 @@ const Styled = styled(FlexContainer)<{
 
 type GameWeekBoxParams = {
   color: ColorName;
+  gameSqlId: string;
 };
-export default function GameWeekBox({ color }: GameWeekBoxParams) {
-  return <Styled $color={color}>Game weeks box</Styled>;
+export default function GameWeekBox({ color, gameSqlId }: GameWeekBoxParams) {
+  const gameWeeks = useAppSelector((state) =>
+    selectGameWeeksForGame(state, gameSqlId),
+  );
+  return (
+    <Styled $color={color}>
+      <FlexContainer $direction="column">
+        {gameWeeks.map((gameWeek) => (
+          <GameWeekItem key={gameWeek.sqlId} gameWeek={gameWeek} />
+        ))}
+      </FlexContainer>
+    </Styled>
+  );
+}
+
+const StyledGameWeekItem = styled.div`
+  padding: 1rem 1rem;
+`;
+
+function GameWeekItem({ gameWeek }: { gameWeek: StoreFetchedGameWeek }) {
+  return <StyledGameWeekItem>{gameWeek.startDateTime}</StyledGameWeekItem>;
 }

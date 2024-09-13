@@ -1,13 +1,17 @@
 import { createSelector } from "reselect";
 
-import {
-  gameSelectors,
-  isFetchedGame,
-} from "@/app/store/reducers/gamesReducer";
+import { isFetchedGame } from "@/app/store/reducers/gamesReducer";
 import { authUserSelector } from "@/app/store/selectors/authUser";
 import { RootState } from "@/app/store/store";
 
 export const selectGameState = (state: RootState) => state.gameState;
+
+export const selectGameBySqlId = createSelector(
+  [selectGameState, (_, sqlId: string) => sqlId],
+  (gameState, sqlId) => {
+    return gameState.games[sqlId];
+  },
+);
 
 export const selectGamesForUser = createSelector(
   [selectGameState, (_, sqlId?: string) => sqlId],
@@ -23,6 +27,10 @@ export const selectGamesForUser = createSelector(
     });
   },
 );
+
+export const selectNewGame = createSelector([selectGameState], (gameState) => {
+  return gameState.newGame;
+});
 
 export const selectFetchingGameIds = createSelector(
   [selectGameState],

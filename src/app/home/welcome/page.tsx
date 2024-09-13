@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { styled } from "styled-components";
 
+import { getColor } from "@/app/styles/colors";
 import { rubik } from "@/app/styles/fonts";
 
 import Heading from "@/components/heading/Heading";
@@ -16,11 +17,7 @@ const Styled = styled.div`
   height: 100%;
   overflow: auto;
   color: black;
-  background-image: linear-gradient(
-    to right top,
-    ${getColorVariant("purple")},
-    ${getColorVariant("red")}
-  );
+  background-color: ${getColor("white")};
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
   @keyframes gradient {
@@ -36,14 +33,13 @@ const Styled = styled.div`
   }
   .cta {
     color: white;
-    padding: 1em;
     text-align: center;
     cursor: pointer;
     transition: all 0.3s;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 4em 0;
+    padding: 2em 0;
     width: 100%;
     height: 100%;
     background-size: 400% 400%;
@@ -68,31 +64,13 @@ const Styled = styled.div`
       transform: scale(1.1);
     }
     &.create {
-      color: black;
-      background-image: linear-gradient(
-        to right top,
-        ${getColorVariant("cyan")},
-        ${getColorVariant("white")}
-      );
-      border: 4px dashed black;
+      color: ${getColorVariant("cyan")};
     }
     &.invite {
-      color: black;
-      background-image: linear-gradient(
-        to right top,
-        ${getColorVariant("yellow")},
-        ${getColorVariant("white")}
-      );
-      border: 4px dashed black;
+      color: ${getColorVariant("red")};
     }
     &.join {
-      color: black;
-      background-image: linear-gradient(
-        to right top,
-        ${getColorVariant("green")},
-        ${getColorVariant("white")}
-      );
-      border: 4px dashed black;
+      color: ${getColorVariant("green")};
     }
   }
 `;
@@ -124,17 +102,19 @@ function Home() {
         <GridContainer>
           <GridItem $smCol={6} $lgCol={4} onClick={redirect("/home/create")}>
             <div className={`cta create `}>
-              <Heading $variant="h3">Create a game</Heading>
+              <Heading $variant="h2" $underline>
+                Create a game
+              </Heading>
             </div>
           </GridItem>
           <GridItem $smCol={6} $lgCol={4} onClick={redirect("/home/invite")}>
             <div className={`cta invite `}>
-              <Heading $variant="h3">Invite your friends</Heading>
+              <Heading $variant="h2" $underline>Invite your friends</Heading>
             </div>
           </GridItem>
           <GridItem $smCol={6} $lgCol={4} onClick={redirect("/home/join")}>
             <div className={`cta join `}>
-              <Heading $variant="h3">Join a public game</Heading>
+              <Heading $variant="h2" $underline>Join a public game</Heading>
             </div>
           </GridItem>
         </GridContainer>

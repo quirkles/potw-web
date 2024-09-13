@@ -7,12 +7,9 @@ import { styled } from "styled-components";
 import InviteUsers from "@/app/home/create/InviteUsers";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import {
-  createGame,
-  gameSelectors,
-  updateNewGame,
-} from "@/app/store/reducers/gamesReducer";
+import { createGame, updateNewGame } from "@/app/store/reducers/gamesReducer";
 import { authUserSelector } from "@/app/store/selectors/authUser";
+import { selectNewGame } from "@/app/store/selectors/games";
 
 import { useNotificationsContext } from "@/app/providers/Notifications";
 
@@ -45,7 +42,7 @@ const Styled = styled.div`
 
 function Create() {
   const dispatch = useAppDispatch();
-  const newGame = useAppSelector(gameSelectors.getNewGame);
+  const newGame = useAppSelector(selectNewGame);
   const authUser = useAppSelector(authUserSelector);
 
   const { dispatchNotification } = useNotificationsContext();
