@@ -109,12 +109,16 @@ function Home() {
           </GridItem>
           <GridItem $smCol={6} $lgCol={4} onClick={redirect("/home/invite")}>
             <div className={`cta invite `}>
-              <Heading $variant="h2" $underline>Invite your friends</Heading>
+              <Heading $variant="h2" $underline>
+                Invite your friends
+              </Heading>
             </div>
           </GridItem>
           <GridItem $smCol={6} $lgCol={4} onClick={redirect("/home/join")}>
             <div className={`cta join `}>
-              <Heading $variant="h2" $underline>Join a public game</Heading>
+              <Heading $variant="h2" $underline>
+                Join a public game
+              </Heading>
             </div>
           </GridItem>
         </GridContainer>

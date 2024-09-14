@@ -77,6 +77,7 @@ const meta = {
         regularScheduledStartTimeUtc: "2022-01-01T00:00:00Z",
         createdAt: "2022-01-01T00:00:00Z",
         updatedAt: "2022-01-01T00:00:00Z",
+        gameWeeks: [],
       },
     };
     return <GameSummary {...props} />;
