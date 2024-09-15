@@ -1,6 +1,6 @@
 import z from "zod";
 
-import { userSchema } from "@/app/services/schemas/user";
+import { userSchema } from "@/app/services/schemas/backend/user";
 
 export const baseStoreUserSchema = userSchema.extend({
   gamesAsAdmin: z.array(z.string()),

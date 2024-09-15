@@ -13,7 +13,7 @@ import { selectNewGame } from "@/app/store/selectors/games";
 
 import { useNotificationsContext } from "@/app/providers/Notifications";
 
-import { Game } from "@/app/services/schemas/game";
+import { Game } from "@/app/services/schemas/backend/game";
 
 import Button from "@/components/button/Button";
 import Checkbox from "@/components/form/Checkbox";

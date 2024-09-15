@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 
 import { Colors } from "@/app/styles/colors";
 
-import { searchByEmail } from "@/app/services/user/searchByEmail";
+import { searchByEmail } from "@/app/services/backend/user/searchByEmail";
 
 import Button, { ButtonSize } from "@/components/button/Button";
 import Divider from "@/components/divider/Divider";

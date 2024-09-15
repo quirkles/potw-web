@@ -1,7 +1,7 @@
 import { ChangeEvent, PropsWithChildren } from "react";
 import { styled } from "styled-components";
 
-import { PeriodString } from "@/app/services/schemas/game";
+import { PeriodString } from "@/app/services/schemas/backend/game";
 
 import ArrowDownCircle from "@/components/icons/ArrowDownCircle.svg";
 

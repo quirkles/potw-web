@@ -1,6 +1,6 @@
 import z from "zod";
 
-import { gameSchema } from "@/app/services/schemas/game";
+import { gameSchema } from "@/app/services/schemas/backend/game";
 
 export const baseStoreGameSchema = gameSchema.extend({
   admin: z.string(),

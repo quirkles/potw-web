@@ -1,4 +1,3 @@
-import { func } from "prop-types";
 import { styled } from "styled-components";
 
 import { ColorName, getColor } from "@/app/styles/colors";
@@ -6,10 +5,12 @@ import { ColorName, getColor } from "@/app/styles/colors";
 import { useAppSelector } from "@/app/store/hooks";
 import { selectGameWeeksForGame } from "@/app/store/selectors/gameWeeks";
 
-import { GameWeek } from "@/app/services/schemas/gameWeek";
 import { StoreFetchedGameWeek } from "@/app/services/schemas/store/gameWeek";
 
 import { FlexContainer } from "@/components/layout/FlexContainer";
+
+import { formatDateTime } from "@/utils/date";
+import Link from "next/link";
 
 const Styled = styled(FlexContainer)<{
   $color: ColorName;
@@ -43,5 +44,12 @@ const StyledGameWeekItem = styled.div`
 `;
 
 function GameWeekItem({ gameWeek }: { gameWeek: StoreFetchedGameWeek }) {
-  return <StyledGameWeekItem>{gameWeek.startDateTime}</StyledGameWeekItem>;
+  return (
+    <StyledGameWeekItem>
+      <Link href={`/home/gameweek/${gameWeek.sqlId}`}>
+        {formatDateTime(gameWeek.startDateTime, "timeMonthDay")} -{" "}
+        {gameWeek.theme || "No theme set"}
+      </Link>
+    </StyledGameWeekItem>
+  );
 }

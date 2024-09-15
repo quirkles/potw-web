@@ -1,4 +1,4 @@
-import { Period, PeriodString } from "@/app/services/schemas/game";
+import { Period, PeriodString } from "@/app/services/schemas/backend/game";
 
 export const periodStringToPeriod = (periodString: PeriodString): Period => {
   if (

@@ -1,8 +1,8 @@
 import { getConfig } from "@/config";
 
 import { httpService } from "@/app/services/http/http.service";
-import { CreateGamePayload } from "@/app/services/schemas/game";
-import { gameWithRelationsSchema } from "@/app/services/schemas/withRelations";
+import { CreateGamePayload } from "@/app/services/schemas/backend/game";
+import { gameWithRelationsSchema } from "@/app/services/schemas/backend/withRelations";
 
 export async function createGameRequest(input: CreateGamePayload) {
   return httpService.post({

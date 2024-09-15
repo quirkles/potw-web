@@ -1,10 +1,10 @@
 import { getConfig } from "@/config";
 
-import { Game, gameSchema } from "@/app/services/schemas/game";
+import { Game, gameSchema } from "@/app/services/schemas/backend/game";
 import {
   GameWithRelations,
   gameWithRelationsSchema,
-} from "@/app/services/schemas/withRelations";
+} from "@/app/services/schemas/backend/withRelations";
 
 export async function fetchGame(gameId: string) {
   await new Promise((resolve) => setTimeout(resolve, 2000));

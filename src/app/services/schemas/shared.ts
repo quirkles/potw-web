@@ -1,4 +1,4 @@
-import { validDateTimeString } from "@/app/services/schemas/utils";
+import { validDateTimeString } from "@/app/services/schemas/backend/utils";
 
 export const withDates = {
   createdAt: validDateTimeString(),

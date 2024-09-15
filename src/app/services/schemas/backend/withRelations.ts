@@ -1,8 +1,8 @@
 import z from "zod";
 
-import { gameSchema } from "@/app/services/schemas/game";
-import { gameWeekSchema } from "@/app/services/schemas/gameWeek";
-import { userSchema } from "@/app/services/schemas/user";
+import { gameSchema } from "@/app/services/schemas/backend/game";
+import { gameWeekSchema } from "@/app/services/schemas/backend/gameWeek";
+import { userSchema } from "@/app/services/schemas/backend/user";
 
 export const userWithRelationsSchema = userSchema.extend({
   gamesAsAdmin: z.array(gameSchema).optional(),

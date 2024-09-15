@@ -1,7 +1,10 @@
-import { GameWeek } from "@/app/services/schemas/gameWeek";
+import { GameWeek } from "@/app/services/schemas/backend/gameWeek";
 import { StoreFetchedGame, StoreGame } from "@/app/services/schemas/store/game";
-import { StoreGameWeek } from "@/app/services/schemas/store/gameWeek";
-import { GameWithRelations } from "@/app/services/schemas/withRelations";
+import {
+  StoreFetchedGameWeek,
+  StoreGameWeek
+} from "@/app/services/schemas/store/gameWeek";
+import { GameWithRelations } from "@/app/services/schemas/backend/withRelations";
 
 import { isDateString, stringAsDateString } from "@/utils/date";
 
@@ -25,7 +28,7 @@ export function gameToStoreGame(game: GameWithRelations): StoreFetchedGame {
 export function gameWeekToStoreGameWeek(
   gameWeek: GameWeek,
   gameSqlId: string,
-): StoreGameWeek {
+): StoreFetchedGameWeek {
   return {
     ...gameWeek,
     gameId: gameSqlId,

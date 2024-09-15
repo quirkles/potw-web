@@ -1,16 +1,21 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { ZodError } from "zod";
 
-import { createAppSlice } from "@/app/store/createAppSlice";
-
 import {
   createGameRequest,
   fetchGame as fetchGameRequest,
   fetchGamesForUser as fetchGamesForUserRequest,
   fetchGames as fetchGamesRequest,
-} from "@/app/services/game";
-import { gameToStoreGame } from "@/app/services/game/transformers";
-import { createGamePayloadSchema, Game } from "@/app/services/schemas/game";
+} from "src/app/services/backend/game";
+
+import { createAppSlice } from "@/app/store/createAppSlice";
+import { gameWeeksSlice } from "@/app/store/reducers/gameWeeksReducer";
+
+import { gameToStoreGame } from "@/app/services/backend/game/transformers";
+import {
+  createGamePayloadSchema,
+  Game,
+} from "@/app/services/schemas/backend/game";
 import {
   StoreFetchedGame,
   StoreGame,
@@ -47,6 +52,15 @@ export const gameSlice = createAppSlice({
       gameWeeks: [],
     },
   } as StoreGameState,
+  extraReducers: (builder) => {
+    builder.addCase(
+      gameWeeksSlice.actions.fetchOneWithGame.fulfilled,
+      (state, action) => {
+        const game = action.payload.game;
+        state.games[game.sqlId] = gameToStoreGame(game);
+      },
+    );
+  },
   reducers: (create) => ({
     updateNewGame: create.reducer(
       (state, action: PayloadAction<Partial<StoreNewGame>>) => {

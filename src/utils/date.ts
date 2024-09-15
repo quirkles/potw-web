@@ -154,6 +154,8 @@ export function getDifferenceInDays(
 }
 
 const formats = {
+  monthDay: "MMMM do",
+  timeMonthDay: "eeee MMMM do @ h:mmbbbb",
   short: "MMM d, ''yy",
   long: "MMMM dd, yyyy",
 };

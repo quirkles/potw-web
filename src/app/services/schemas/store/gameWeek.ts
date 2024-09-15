@@ -1,6 +1,6 @@
 import z from "zod";
 
-import { gameWeekSchema } from "@/app/services/schemas/gameWeek";
+import { gameWeekSchema } from "@/app/services/schemas/backend/gameWeek";
 
 export const baseStoreGameWeekSchema = gameWeekSchema.extend({});
 
@@ -11,7 +11,7 @@ const storeFetchedGameWeekSchema = baseStoreGameWeekSchema.extend({
 
 export type StoreFetchedGameWeek = z.infer<typeof storeFetchedGameWeekSchema>;
 
-const storePendingGameWeekSchema = baseStoreGameWeekSchema.extend({
+const storePendingGameWeekSchema = baseStoreGameWeekSchema.partial().extend({
   status: z.literal("pending"),
 });
 
