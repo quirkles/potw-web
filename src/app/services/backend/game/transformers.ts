@@ -1,9 +1,9 @@
 import { GameWeek } from "@/app/services/schemas/backend/gameWeek";
 import { GameWithRelations } from "@/app/services/schemas/backend/withRelations";
-import { StoreFetchedGame, StoreGame } from "@/app/services/schemas/store/game";
+import { StoreFetchedGame } from "@/app/services/schemas/store/game";
 import {
   StoreFetchedGameWeek,
-  StoreGameWeek,
+  storeFetchedGameWeekSchema,
 } from "@/app/services/schemas/store/gameWeek";
 
 import { isDateString, stringAsDateString } from "@/utils/date";
@@ -29,9 +29,9 @@ export function gameWeekToStoreGameWeek(
   gameWeek: GameWeek,
   gameSqlId: string,
 ): StoreFetchedGameWeek {
-  return {
+  return storeFetchedGameWeekSchema.parse({
     ...gameWeek,
     gameId: gameSqlId,
     status: "fetched",
-  };
+  });
 }

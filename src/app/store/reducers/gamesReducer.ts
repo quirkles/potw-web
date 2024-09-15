@@ -57,7 +57,9 @@ export const gameSlice = createAppSlice({
       gameWeeksSlice.actions.fetchOneWithGame.fulfilled,
       (state, action) => {
         const game = action.payload.game;
-        state.games[game.sqlId] = gameToStoreGame(game);
+        if (game) {
+          state.games[game.sqlId] = gameToStoreGame(game);
+        }
       },
     );
   },

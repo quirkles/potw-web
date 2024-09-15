@@ -28,7 +28,7 @@ export const gameWeeksSlice = createAppSlice({
       },
       fulfilled: (state, action) => {
         state.gameWeeks[action.meta.arg] = gameWeekToStoreGameWeek(
-          action.payload.gameWeek,
+          action.payload,
           action.meta.arg,
         );
       },

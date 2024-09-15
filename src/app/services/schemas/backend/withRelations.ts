@@ -2,6 +2,7 @@ import z from "zod";
 
 import { gameSchema } from "@/app/services/schemas/backend/game";
 import { gameWeekSchema } from "@/app/services/schemas/backend/gameWeek";
+import { pickSchema } from "@/app/services/schemas/backend/pick";
 import { userSchema } from "@/app/services/schemas/backend/user";
 
 export const userWithRelationsSchema = userSchema.extend({
@@ -25,3 +26,8 @@ export const gameWithRelationsSchema = gameSchema.extend({
 });
 
 export type GameWithRelations = z.infer<typeof gameWithRelationsSchema>;
+
+export const gameWeekWithRelations = gameWeekSchema.extend({
+  game: gameSchema.optional(),
+  picks: z.array(pickSchema).optional(),
+});

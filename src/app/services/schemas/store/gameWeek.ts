@@ -4,7 +4,7 @@ import { gameWeekSchema } from "@/app/services/schemas/backend/gameWeek";
 
 export const baseStoreGameWeekSchema = gameWeekSchema.extend({});
 
-const storeFetchedGameWeekSchema = baseStoreGameWeekSchema.extend({
+export const storeFetchedGameWeekSchema = baseStoreGameWeekSchema.extend({
   gameId: z.string(),
   status: z.literal("fetched"),
 });

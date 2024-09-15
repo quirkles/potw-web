@@ -1,17 +1,11 @@
-import z from "zod";
-
 import { getConfig } from "@/config";
 
 import { httpService } from "@/app/services/http/http.service";
-import { gameSchema } from "@/app/services/schemas/backend/game";
-import { gameWeekSchema } from "@/app/services/schemas/backend/gameWeek";
+import { gameWeekWithRelations } from "@/app/services/schemas/backend/withRelations";
 
 export function fetchOneWithGame(gameWeekId: string) {
   return httpService.get({
     url: `${getConfig().functionsUrl}/app-gameWeeks-fetchOne?gameWeekId=${gameWeekId}`,
-    responseSchema: z.object({
-      gameWeek: gameWeekSchema,
-      game: gameSchema,
-    }),
+    responseSchema: gameWeekWithRelations,
   });
 }
