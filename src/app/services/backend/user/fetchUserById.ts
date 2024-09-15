@@ -1,7 +1,10 @@
 import { getConfig } from "@/config";
 
 import { httpService } from "@/app/services/http/http.service";
-import { UserUpdate, userUpdateSchema } from "@/app/services/schemas/backend/user";
+import {
+  UserUpdate,
+  userUpdateSchema,
+} from "@/app/services/schemas/backend/user";
 import {
   UserWithRelations,
   userWithRelationsSchema,

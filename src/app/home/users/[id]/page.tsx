@@ -22,8 +22,8 @@ import { useNotificationsContext } from "@/app/providers/Notifications";
 import { useResponsiveContext } from "@/app/providers/Responsive";
 
 import { uploadFile } from "@/app/services/file/upload";
-import { StoreFetchedUser } from "@/app/services/schemas/store/user";
 import { UserUpdate } from "@/app/services/schemas/backend/user";
+import { StoreFetchedUser } from "@/app/services/schemas/store/user";
 
 import { Avatar } from "@/components/avatar/Avatar";
 import TextEditable from "@/components/form/TextEditable";

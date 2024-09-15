@@ -1,5 +1,5 @@
-import { StoreFetchedUser } from "@/app/services/schemas/store/user";
 import { UserWithRelations } from "@/app/services/schemas/backend/withRelations";
+import { StoreFetchedUser } from "@/app/services/schemas/store/user";
 
 export function userToStoreUser(user: UserWithRelations): StoreFetchedUser {
   return {

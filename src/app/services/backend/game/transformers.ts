@@ -1,10 +1,10 @@
 import { GameWeek } from "@/app/services/schemas/backend/gameWeek";
+import { GameWithRelations } from "@/app/services/schemas/backend/withRelations";
 import { StoreFetchedGame, StoreGame } from "@/app/services/schemas/store/game";
 import {
   StoreFetchedGameWeek,
-  StoreGameWeek
+  StoreGameWeek,
 } from "@/app/services/schemas/store/gameWeek";
-import { GameWithRelations } from "@/app/services/schemas/backend/withRelations";
 
 import { isDateString, stringAsDateString } from "@/utils/date";
 

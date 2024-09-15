@@ -1,13 +1,13 @@
 import { createAppSlice } from "@/app/store/createAppSlice";
 import { gameSlice } from "@/app/store/reducers/gamesReducer";
 
-import { StoreFetchedUser, StoreUser } from "@/app/services/schemas/store/user";
-import { User } from "@/app/services/schemas/backend/user";
 import {
   fetchUserByIdRequest,
   updateUserRequest,
 } from "@/app/services/backend/user/fetchUserById";
 import { userToStoreUser } from "@/app/services/backend/user/transformers";
+import { User } from "@/app/services/schemas/backend/user";
+import { StoreFetchedUser, StoreUser } from "@/app/services/schemas/store/user";
 
 export type StoreUsersState = {
   users: {

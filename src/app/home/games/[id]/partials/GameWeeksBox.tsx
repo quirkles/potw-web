@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { styled } from "styled-components";
 
 import { ColorName, getColor } from "@/app/styles/colors";
@@ -10,7 +11,6 @@ import { StoreFetchedGameWeek } from "@/app/services/schemas/store/gameWeek";
 import { FlexContainer } from "@/components/layout/FlexContainer";
 
 import { formatDateTime } from "@/utils/date";
-import Link from "next/link";
 
 const Styled = styled(FlexContainer)<{
   $color: ColorName;
