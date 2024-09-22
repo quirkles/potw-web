@@ -98,7 +98,7 @@ function FetchedGame({ game }: { game: StoreFetchedGame }) {
         <GridItem $mdCol={4}>
           <UsersBox color={gameColor} userIds={game.players} />
         </GridItem>
-        <GridItem $mdCol={8}>
+        <GridItem $mdCol={6}>
           <CommentBox resourcePath={`games/${game.firestoreId}`} />
         </GridItem>
       </GridContainer>

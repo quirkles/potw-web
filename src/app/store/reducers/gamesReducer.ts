@@ -9,6 +9,7 @@ import {
 
 import { createAppSlice } from "@/app/store/createAppSlice";
 import {
+  fetchAllVotesForGameAction,
   fetchGameAction,
   fetchGameWeekWithGameAction,
 } from "@/app/store/sharedActions/fetch";
@@ -18,6 +19,7 @@ import {
   createGamePayloadSchema,
   Game,
 } from "@/app/services/schemas/backend/game";
+import { GameVote } from "@/app/services/schemas/backend/gameVotes";
 import {
   StoreFetchedGame,
   StoreGame,
@@ -29,7 +31,10 @@ import { getFakeGameName } from "@/utils/game";
 
 type StoreGameState = {
   games: {
-    [gameId: string]: StoreGame;
+    [gameId: string]: {
+      game: StoreGame;
+      votes: GameVote[];
+    };
   };
   fetchingGamesForUserIds: string[];
   newGame: StoreNewGame;
@@ -59,26 +64,54 @@ export const gameSlice = createAppSlice({
       const existing = state.games[action.meta.arg];
       state.games[action.meta.arg] = {
         ...(existing || {}),
-        status: "pending",
-        sqlId: action.meta.arg,
+        game: {
+          status: "pending",
+          sqlId: action.meta.arg,
+        },
       };
     });
     builder.addCase(fetchGameAction.fulfilled, (state, action) => {
       const game = action.payload;
-      state.games[game.sqlId] = gameToStoreGame(game);
+      if (!state.games[game.sqlId]) {
+        state.games[game.sqlId] = { votes: [], game: gameToStoreGame(game) };
+      } else {
+        state.games[game.sqlId]["game"] = gameToStoreGame(game);
+      }
     });
     builder.addCase(fetchGameAction.rejected, (state, action) => {
-      state.games[action.meta.arg] = {
-        status: "failed",
-        sqlId: action.meta.arg,
-        error: action.error.message || "Unknown error",
-      };
+      if (!state.games[action.meta.arg]) {
+        state.games[action.meta.arg] = {
+          votes: [],
+          game: {
+            status: "failed",
+            sqlId: action.meta.arg,
+            error: action.error.message || "Unknown error",
+          },
+        };
+      } else {
+        state.games[action.meta.arg]["game"] = {
+          status: "failed",
+          sqlId: action.meta.arg,
+          error: action.error.message || "Unknown error",
+        };
+      }
     });
     builder.addCase(fetchGameWeekWithGameAction.fulfilled, (state, action) => {
       const game = action.payload.game;
-      if (game) {
-        state.games[game.sqlId] = gameToStoreGame(game);
+      if (!game) {
+        return;
       }
+      if (state.games[action.meta.arg]) {
+        state.games[action.meta.arg]["game"] = gameToStoreGame(game);
+      } else {
+        state.games[action.meta.arg] = {
+          votes: [],
+          game: gameToStoreGame(game),
+        };
+      }
+    });
+    builder.addCase(fetchAllVotesForGameAction.fulfilled, (state, action) => {
+      state.games[action.meta.arg]["votes"] = action.payload;
     });
   },
   reducers: (create) => ({
@@ -148,7 +181,14 @@ export const gameSlice = createAppSlice({
             (id) => id !== action.meta.arg,
           );
           action.payload.forEach((game) => {
-            state.games[game.sqlId] = gameToStoreGame(game);
+            if (state.games[game.sqlId]) {
+              state.games[game.sqlId]["game"] = gameToStoreGame(game);
+            } else {
+              state.games[game.sqlId] = {
+                votes: [],
+                game: gameToStoreGame(game),
+              };
+            }
           });
         },
         rejected: (state, action) => {
@@ -168,7 +208,14 @@ export const gameSlice = createAppSlice({
           (id) => id !== "all",
         );
         action.payload.forEach((game) => {
-          state.games[game.sqlId] = gameToStoreGame(game);
+          if (state.games[game.sqlId]) {
+            state.games[game.sqlId]["game"] = gameToStoreGame(game);
+          } else {
+            state.games[game.sqlId] = {
+              votes: [],
+              game: gameToStoreGame(game),
+            };
+          }
         });
       },
       rejected: (state) => {

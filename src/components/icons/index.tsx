@@ -8,6 +8,7 @@ import { default as Community } from "./Community.svg";
 import { default as GoogleSvg } from "./Google.svg";
 import { default as LoginSvg } from "./Login.svg";
 import { default as LogoutSvg } from "./Logout.svg";
+import { default as MultiBubble } from "./MultiBubble.svg";
 import { default as MusicSvg } from "./Music.svg";
 import { default as SpotifySvg } from "./Spotify.svg";
 import { default as UserPlus } from "./UserPlus.svg";
@@ -23,6 +24,7 @@ export const Icons = {
   UserPlus,
   UserX,
   Calendar,
+  MultiBubble,
 } as const;
 
 export const iconTypes = Object.keys(Icons) as (keyof typeof Icons)[];

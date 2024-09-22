@@ -5,6 +5,7 @@ import { styled } from "styled-components";
 import { BoringAvatar } from "@/components/avatar/BoringAvatar/Avatar";
 
 const sizes = {
+  xSmall: 24,
   small: 48,
   large: 64,
   xLarge: 96,
@@ -32,7 +33,7 @@ type IAvatarProps = {
   onClick?: (e?: MouseEvent) => void;
   onFileChange?: (file: File) => void;
   value: string;
-  url?: string;
+  url?: string | null;
 };
 
 export function Avatar(props: IAvatarProps) {

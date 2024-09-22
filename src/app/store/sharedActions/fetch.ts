@@ -1,7 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { fetchGame as fetchGameRequest } from "@/app/services/backend/game";
-import { fetchOneWithGame } from "@/app/services/backend/gameWeek/fetchOneWithGame";
+import {
+  fetchAllVotesForGame,
+  fetchGame as fetchGameRequest,
+} from "@/app/services/backend/game";
+import { fetchOneWithGame } from "@/app/services/backend/gameWeek";
 
 export const fetchGameAction = createAsyncThunk(
   "game/fetchOne",
@@ -11,4 +14,9 @@ export const fetchGameAction = createAsyncThunk(
 export const fetchGameWeekWithGameAction = createAsyncThunk(
   "gameWeek/fetchOneWithGame",
   fetchOneWithGame,
+);
+
+export const fetchAllVotesForGameAction = createAsyncThunk(
+  "votes/fetchAllForGame",
+  fetchAllVotesForGame,
 );

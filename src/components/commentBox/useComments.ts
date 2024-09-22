@@ -45,6 +45,7 @@ type CreateCommentPayload = PartialBy<
     | "authorFirestoreId"
     | "authorSqlId"
   >,
+  | "title"
   | "parentCommentFirestoreId"
   | "replyCommentFirestoreIds"
   | "taggedUserFirestoreIds"
@@ -107,6 +108,7 @@ function addComment(comment: CreateCommentPayload, path: ResourcePathString) {
     taggedUserFirestoreIds: [],
     replyCommentFirestoreIds: [],
     parentCommentFirestoreId: null,
+    title: null,
     ...comment,
   };
   return setDoc(newCommentRef, potwCommentSchema.parse(newComment));

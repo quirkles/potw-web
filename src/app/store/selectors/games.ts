@@ -9,22 +9,24 @@ export const selectGameState = (state: RootState) => state.gameState;
 export const selectGameBySqlId = createSelector(
   [selectGameState, (_, sqlId: string) => sqlId],
   (gameState, sqlId) => {
-    return gameState.games[sqlId];
+    return gameState.games[sqlId]["game"];
   },
 );
 
 export const selectGamesForUser = createSelector(
   [selectGameState, (_, sqlId?: string) => sqlId],
   (gameState, userId) => {
-    return Object.values(gameState.games).filter((game) => {
-      if (!userId) {
-        return isFetchedGame(game);
-      }
-      return (
-        isFetchedGame(game) &&
-        (game.players.includes(userId) || game.admin === userId)
-      );
-    });
+    return Object.values(gameState.games)
+      .filter(({ game }) => {
+        if (!userId) {
+          return isFetchedGame(game);
+        }
+        return (
+          isFetchedGame(game) &&
+          (game.players.includes(userId) || game.admin === userId)
+        );
+      })
+      .map(({ game }) => game);
   },
 );
 

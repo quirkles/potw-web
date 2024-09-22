@@ -56,7 +56,6 @@ const widthValues: {
 };
 
 const DividerStyle = styled.div<DividerProps>`
-  width: 100%;
   padding-top: ${(props) =>
     spaceValues[
       props.$paddingTop || props.$paddingY || props.$padding || SIZE.none
@@ -90,13 +89,13 @@ const DividerStyle = styled.div<DividerProps>`
       props.$marginRight || props.$marginX || props.$margin || SIZE.none
     ]};
   > div {
-    width: 100%;
-    height: ${(props) => widthValues[props.$width || SIZE.medium]};
+    height: 100%;
+    width: ${(props) => widthValues[props.$width || SIZE.medium]};
     background-color: ${(props) => Colors[props.$color || "lightGrey"]};
   }
 `;
 
-function Divider(props: PropsWithChildren<DividerProps>) {
+function VerticalDivider(props: PropsWithChildren<DividerProps>) {
   return (
     <DividerStyle {...props}>
       <div />
@@ -104,4 +103,4 @@ function Divider(props: PropsWithChildren<DividerProps>) {
   );
 }
 
-export default Divider;
+export default VerticalDivider;

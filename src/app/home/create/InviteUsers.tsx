@@ -5,7 +5,7 @@ import { Colors } from "@/app/styles/colors";
 import { searchByEmail } from "@/app/services/backend/user/searchByEmail";
 
 import Button, { ButtonSize } from "@/components/button/Button";
-import Divider from "@/components/divider/Divider";
+import HorizontalDivider from "@/components/divider/HorizontalDivider";
 import Heading from "@/components/heading/Heading";
 import { FlexContainer, FlexItem } from "@/components/layout/FlexContainer";
 import P from "@/components/text/P";
@@ -57,7 +57,7 @@ function InviteUsers(props: IManageUsersProps) {
         onValueChange={searchByEmail}
         validate={(value) => (isEmail(value) ? null : "Invalid email")}
       />
-      <Divider $marginY="small" $width="xSmall" />
+      <HorizontalDivider $marginY="small" $width="xSmall" />
       <FlexContainer $direction="column" $gap="small">
         {emails.map((email) => (
           <UserListItem

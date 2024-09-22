@@ -13,7 +13,7 @@ import { useResponsiveContext } from "@/app/providers/Responsive";
 import { StoreFetchedGame } from "@/app/services/schemas/store/game";
 
 import { Avatar } from "@/components/avatar/Avatar";
-import Divider from "@/components/divider/Divider";
+import HorizontalDivider from "@/components/divider/HorizontalDivider";
 import Heading from "@/components/heading/Heading";
 import Icon from "@/components/icons";
 import { FlexContainer, FlexItem } from "@/components/layout/FlexContainer";
@@ -174,7 +174,7 @@ export function GameSummary(props: IGameSummaryProps) {
               </FlexContainer>
             </FlexItem>
             <FlexItem>
-              <Divider $color={colorName} />
+              <HorizontalDivider $color={colorName} />
             </FlexItem>
             <FlexItem>
               {description && (

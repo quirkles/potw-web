@@ -156,13 +156,14 @@ export function getDifferenceInDays(
 const formats = {
   monthDay: "MMMM do",
   timeMonthDay: "eeee MMMM do @ h:mmbbbb",
+  timeShortMonthDay: "MM/dd @ h:mmbbbb",
   short: "MMM d, ''yy",
   long: "MMMM dd, yyyy",
 };
 
 export function formatDateTime(
   input: Date | string,
-  format: keyof typeof formats,
+  format: keyof typeof formats = "long",
 ): string {
   let date: Date;
   try {

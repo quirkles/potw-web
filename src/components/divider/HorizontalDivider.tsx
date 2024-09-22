@@ -1,6 +1,8 @@
 import { PropsWithChildren } from "react";
 import { styled } from "styled-components";
 
+import { ColorName, Colors } from "@/app/styles/colors";
+
 export const SIZE = {
   none: "none",
   xSmall: "xSmall",
@@ -12,7 +14,7 @@ export const SIZE = {
 
 export type SIZE = keyof typeof SIZE;
 
-interface SpacerProps {
+interface DividerProps {
   $padding?: keyof typeof SIZE;
   $paddingX?: keyof typeof SIZE;
   $paddingY?: keyof typeof SIZE;
@@ -27,11 +29,11 @@ interface SpacerProps {
   $marginBottom?: keyof typeof SIZE;
   $marginLeft?: keyof typeof SIZE;
   $marginRight?: keyof typeof SIZE;
-  $bgColor?: string;
-  $color?: string;
+  $width?: keyof typeof SIZE;
+  $color?: ColorName;
 }
 
-const values: {
+const spaceValues: {
   [size in keyof typeof SIZE]: `${number}em`;
 } = {
   none: "0em",
@@ -42,40 +44,64 @@ const values: {
   xLarge: "4em",
 };
 
-const SpacerStyle = styled.div<SpacerProps>`
-  max-height: 100%;
-  background-color: ${(props) => props.$bgColor};
-  color: ${(props) => props.$color};
+const widthValues: {
+  [size in keyof typeof SIZE]: `${number}px`;
+} = {
+  none: "0px",
+  xSmall: "0.5px",
+  small: "1px",
+  medium: "1.5px",
+  large: "2px",
+  xLarge: "4px",
+};
+
+const DividerStyle = styled.div<DividerProps>`
+  width: 100%;
   padding-top: ${(props) =>
-    values[
+    spaceValues[
       props.$paddingTop || props.$paddingY || props.$padding || SIZE.none
     ]};
   padding-bottom: ${(props) =>
-    values[
+    spaceValues[
       props.$paddingBottom || props.$paddingY || props.$padding || SIZE.none
     ]};
   padding-left: ${(props) =>
-    values[
+    spaceValues[
       props.$paddingLeft || props.$paddingX || props.$padding || SIZE.none
     ]};
   padding-right: ${(props) =>
-    values[
+    spaceValues[
       props.$paddingRight || props.$paddingX || props.$padding || SIZE.none
     ]};
   margin-top: ${(props) =>
-    values[props.$marginTop || props.$marginY || props.$margin || SIZE.none]};
+    spaceValues[
+      props.$marginTop || props.$marginY || props.$margin || SIZE.none
+    ]};
   margin-bottom: ${(props) =>
-    values[
+    spaceValues[
       props.$marginBottom || props.$marginY || props.$margin || SIZE.none
     ]};
   margin-left: ${(props) =>
-    values[props.$marginLeft || props.$marginX || props.$margin || SIZE.none]};
+    spaceValues[
+      props.$marginLeft || props.$marginX || props.$margin || SIZE.none
+    ]};
   margin-right: ${(props) =>
-    values[props.$marginRight || props.$marginX || props.$margin || SIZE.none]};
+    spaceValues[
+      props.$marginRight || props.$marginX || props.$margin || SIZE.none
+    ]};
+  > div {
+    width: 100%;
+    height: ${(props) => widthValues[props.$width || SIZE.medium]};
+    background-color: ${(props) => Colors[props.$color || "lightGrey"]};
+  }
 `;
 
-function Spacer(props: PropsWithChildren<SpacerProps>) {
-  return <SpacerStyle {...props}>{props.children}</SpacerStyle>;
+function HorizontalDivider(props: PropsWithChildren<DividerProps>) {
+  return (
+    <DividerStyle {...props}>
+      <div />
+    </DividerStyle>
+  );
 }
 
-export default Spacer;
+export default HorizontalDivider;

@@ -8,11 +8,20 @@ import { useAppSelector } from "@/app/store/hooks";
 import { authUserSelector } from "@/app/store/selectors/authUser";
 import { selectUserBySqlId } from "@/app/store/selectors/users";
 
+import { Avatar } from "@/components/avatar/Avatar";
+import Button from "@/components/button/Button";
+import { Colors } from "@/components/colors/Colors";
 import {
   ResourcePathString,
   useComments,
 } from "@/components/commentBox/useComments";
 import { getCommentArray } from "@/components/commentBox/utils";
+import VerticalDivider from "@/components/divider/VerticalDivider";
+import MultiBubble from "@/components/icons/MultiBubble.svg";
+import { FlexContainer } from "@/components/layout/FlexContainer";
+import { Small } from "@/components/text/Small";
+
+import { formatDateTime } from "@/utils/date";
 
 interface CommentBoxProps {
   resourcePath: ResourcePathString;
@@ -37,13 +46,11 @@ export default function CommentBox({ resourcePath }: CommentBoxProps) {
   const { createComment } = actions;
 
   const [commentBody, setCommentBody] = useState("");
-  const [commentTitle, setCommentTitle] = useState("");
   const doCreateComment = () => {
     if (!authUser?.firestoreId || !authUser?.sqlId) {
       return;
     }
     createComment({
-      title: commentTitle,
       content: commentBody,
       taggedUserFirestoreIds: [],
       replyCommentFirestoreIds: [],
@@ -51,19 +58,9 @@ export default function CommentBox({ resourcePath }: CommentBoxProps) {
       authorSqlId: authUser.sqlId,
     });
     setCommentBody("");
-    setCommentTitle("");
   };
   return (
     <StyledCommentBox>
-      <h1>CommentBox</h1>
-      {getCommentArray(commentsState.comments).map((comment) => (
-        <Comment key={comment.firestoreId} comment={comment} />
-      ))}
-      <input
-        type="text"
-        value={commentTitle}
-        onChange={(e) => setCommentTitle(e.target.value)}
-      />
       <textarea
         name="new-comment"
         cols={30}
@@ -71,22 +68,56 @@ export default function CommentBox({ resourcePath }: CommentBoxProps) {
         value={commentBody}
         onChange={(e) => setCommentBody(e.target.value)}
       ></textarea>
-      <button onClick={doCreateComment}>Add Comment</button>
+      <Button
+        buttonText="Add comment"
+        onClick={doCreateComment}
+        color="green"
+        Icon={MultiBubble}
+      ></Button>
+      <FlexContainer $direction="column" $gap="small" $alignItems="stretch">
+        {getCommentArray(commentsState.comments).map((comment) => (
+          <Comment key={comment.firestoreId} comment={comment} />
+        ))}
+      </FlexContainer>
     </StyledCommentBox>
   );
 }
 
-const StyledComment = styled.div``;
+const StyledComment = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.5rem;
+  background-color: ${getColor("green_100")};
+`;
 
 function Comment({ comment }: { comment: PotwComment }) {
   const author = useAppSelector((state) =>
     selectUserBySqlId(state, comment.authorSqlId),
   );
+  if (!author.sqlId) {
+    return null;
+  }
   return (
     <StyledComment>
-      {comment.title && <h2>{comment.title}</h2>}
-      <p>{comment.content}</p>
-      <small>Author: {author.username || author.email}</small>
+      <FlexContainer $alignItems="flex-end" $gap="small">
+        <Avatar url={author.avatarUrl} value={author.sqlId} size="xSmall" />
+        <Small $color="grey" $fontSize="sm">
+          {author.username || author.email}
+        </Small>
+      </FlexContainer>
+      <Colors $backgroundColor="white">
+        <FlexContainer $gap="small" $alignItems="stretch">
+          <VerticalDivider $width="large" $color="green" />
+          <FlexContainer $direction="column">
+            {comment.title && <h2>{comment.title}</h2>}
+            <p>{comment.content}</p>
+          </FlexContainer>
+        </FlexContainer>
+      </Colors>
+      <Small $color="lightGrey_200" $fontSize="xs" $fontStyle="italic">
+        {formatDateTime(comment.createdAt, "timeShortMonthDay")}
+      </Small>
     </StyledComment>
   );
 }
