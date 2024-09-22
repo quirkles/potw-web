@@ -2,9 +2,11 @@ import { gameWeekToStoreGameWeek } from "src/app/services/backend/game";
 
 import { createAppSlice } from "@/app/store/createAppSlice";
 import { gameSlice } from "@/app/store/reducers/gamesReducer";
+import {
+  fetchGameAction,
+  fetchGameWeekWithGameAction,
+} from "@/app/store/sharedActions/fetch";
 
-import { fetchOneWithGame } from "@/app/services/backend/gameWeek/fetchOneWithGame";
-import { StoreFetchedGame, StoreGame } from "@/app/services/schemas/store/game";
 import { StoreGameWeek } from "@/app/services/schemas/store/gameWeek";
 
 type StoreGameWeekState = {
@@ -18,24 +20,21 @@ export const gameWeeksSlice = createAppSlice({
   initialState: {
     gameWeeks: {},
   } as StoreGameWeekState,
-  reducers: (create) => ({
-    fetchOneWithGame: create.asyncThunk(fetchOneWithGame, {
-      pending: (state, action) => {
-        state.gameWeeks[action.meta.arg] = {
-          status: "pending",
-          sqlId: action.meta.arg,
-        };
-      },
-      fulfilled: (state, action) => {
-        state.gameWeeks[action.meta.arg] = gameWeekToStoreGameWeek(
-          action.payload,
-          action.meta.arg,
-        );
-      },
-    }),
-  }),
+  reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(gameSlice.actions.fetchGame.fulfilled, (state, action) => {
+    builder.addCase(fetchGameWeekWithGameAction.pending, (state, action) => {
+      state.gameWeeks[action.meta.arg] = {
+        status: "pending",
+        sqlId: action.meta.arg,
+      };
+    });
+    builder.addCase(fetchGameWeekWithGameAction.fulfilled, (state, action) => {
+      state.gameWeeks[action.meta.arg] = gameWeekToStoreGameWeek(
+        action.payload,
+        action.meta.arg,
+      );
+    });
+    builder.addCase(fetchGameAction.fulfilled, (state, action) => {
       (action.payload.gameWeeks || [])
         .map((gw) => gameWeekToStoreGameWeek(gw, action.payload.sqlId))
         .forEach((gameWeek) => {

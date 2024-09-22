@@ -3,13 +3,15 @@ import { ZodError } from "zod";
 
 import {
   createGameRequest,
-  fetchGame as fetchGameRequest,
   fetchGamesForUser as fetchGamesForUserRequest,
   fetchGames as fetchGamesRequest,
 } from "src/app/services/backend/game";
 
 import { createAppSlice } from "@/app/store/createAppSlice";
-import { gameWeeksSlice } from "@/app/store/reducers/gameWeeksReducer";
+import {
+  fetchGameAction,
+  fetchGameWeekWithGameAction,
+} from "@/app/store/sharedActions/fetch";
 
 import { gameToStoreGame } from "@/app/services/backend/game/transformers";
 import {
@@ -53,15 +55,31 @@ export const gameSlice = createAppSlice({
     },
   } as StoreGameState,
   extraReducers: (builder) => {
-    builder.addCase(
-      gameWeeksSlice.actions.fetchOneWithGame.fulfilled,
-      (state, action) => {
-        const game = action.payload.game;
-        if (game) {
-          state.games[game.sqlId] = gameToStoreGame(game);
-        }
-      },
-    );
+    builder.addCase(fetchGameAction.pending, (state, action) => {
+      const existing = state.games[action.meta.arg];
+      state.games[action.meta.arg] = {
+        ...(existing || {}),
+        status: "pending",
+        sqlId: action.meta.arg,
+      };
+    });
+    builder.addCase(fetchGameAction.fulfilled, (state, action) => {
+      const game = action.payload;
+      state.games[game.sqlId] = gameToStoreGame(game);
+    });
+    builder.addCase(fetchGameAction.rejected, (state, action) => {
+      state.games[action.meta.arg] = {
+        status: "failed",
+        sqlId: action.meta.arg,
+        error: action.error.message || "Unknown error",
+      };
+    });
+    builder.addCase(fetchGameWeekWithGameAction.fulfilled, (state, action) => {
+      const game = action.payload.game;
+      if (game) {
+        state.games[game.sqlId] = gameToStoreGame(game);
+      }
+    });
   },
   reducers: (create) => ({
     updateNewGame: create.reducer(
@@ -107,7 +125,7 @@ export const gameSlice = createAppSlice({
             period: "weekly",
             startDate: addTo(7, "day", getDateString()),
             endDate: null,
-            regularScheduledStartTimeUtc: "17:00",
+            regularScheduledStartTimeUtc: "17:00:00",
             gameWeeks: [],
           };
         },
@@ -117,27 +135,6 @@ export const gameSlice = createAppSlice({
         },
       },
     ),
-    fetchGame: create.asyncThunk(fetchGameRequest, {
-      pending: (state, action) => {
-        const existing = state.games[action.meta.arg];
-        state.games[action.meta.arg] = {
-          ...(existing || {}),
-          status: "pending",
-          sqlId: action.meta.arg,
-        };
-      },
-      fulfilled: (state, action) => {
-        const game = action.payload;
-        state.games[game.sqlId] = gameToStoreGame(game);
-      },
-      rejected: (state, action) => {
-        state.games[action.meta.arg] = {
-          status: "failed",
-          sqlId: action.meta.arg,
-          error: action.error.message || "Unknown error",
-        };
-      },
-    }),
     fetchGamesForUser: create.asyncThunk(
       (sqlId: string) => {
         return fetchGamesForUserRequest(sqlId);
@@ -185,7 +182,7 @@ export const gameSlice = createAppSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { updateNewGame, createGame, fetchGamesForUser, fetchGames } =
+export const { updateNewGame, createGame, fetchGamesForUser } =
   gameSlice.actions;
 
 export default gameSlice.reducer;

@@ -9,12 +9,13 @@ import UsersBox from "@/app/home/games/[id]/partials/UsersBox";
 import { gameColors, getColor } from "@/app/styles/colors";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import { gameSlice } from "@/app/store/reducers/gamesReducer";
 import { selectGameBySqlId } from "@/app/store/selectors/games";
 import { selectUserBySqlId } from "@/app/store/selectors/users";
+import { fetchGameAction } from "@/app/store/sharedActions/fetch";
 
 import { StoreFetchedGame, StoreGame } from "@/app/services/schemas/store/game";
 
+import CommentBox from "@/components/commentBox/CommentBox";
 import Heading from "@/components/heading/Heading";
 import { GridContainer, GridItem } from "@/components/layout/Grid";
 import Loader from "@/components/loader/Loader";
@@ -27,6 +28,7 @@ const Styled = styled.div`
   max-height: 100%;
   height: 100%;
   width: 100%;
+  overflow: auto;
   display: flex;
   > * {
     flex-grow: 1;
@@ -42,7 +44,7 @@ function GamePage({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     if (gameId) {
-      dispatch(gameSlice.actions.fetchGame(gameId as string));
+      dispatch(fetchGameAction(gameId as string));
     }
   }, [gameId, dispatch]);
   if (game?.status === "fetched") {
@@ -66,7 +68,7 @@ const StyledGame = styled.div<{
   max-height: 100%;
   height: 100%;
   width: 100%;
-
+  overflow: auto;
   padding: 2rem;
 
   background-color: ${getColor("white")};
@@ -95,6 +97,9 @@ function FetchedGame({ game }: { game: StoreFetchedGame }) {
         </GridItem>
         <GridItem $mdCol={4}>
           <UsersBox color={gameColor} userIds={game.players} />
+        </GridItem>
+        <GridItem $mdCol={8}>
+          <CommentBox resourcePath={`games/${game.firestoreId}`} />
         </GridItem>
       </GridContainer>
     </StyledGame>

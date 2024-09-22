@@ -1,5 +1,6 @@
 import { createAppSlice } from "@/app/store/createAppSlice";
 import { gameSlice } from "@/app/store/reducers/gamesReducer";
+import { fetchGameAction } from "@/app/store/sharedActions/fetch";
 
 import {
   fetchUserByIdRequest,
@@ -21,7 +22,7 @@ export const usersSlice = createAppSlice({
     users: {},
   } as StoreUsersState,
   extraReducers: (builder) => {
-    builder.addCase(gameSlice.actions.fetchGame.fulfilled, (state, action) => {
+    builder.addCase(fetchGameAction.fulfilled, (state, action) => {
       if (action.payload.admin) {
         state.users[action.payload.admin.sqlId] = {
           ...state.users[action.payload.admin.sqlId],

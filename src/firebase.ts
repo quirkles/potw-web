@@ -6,6 +6,7 @@ import {
   initializeAppCheck,
   ReCaptchaEnterpriseProvider,
 } from "firebase/app-check";
+import { getFirestore } from "firebase/firestore";
 
 import { getConfig } from "@/config";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -44,4 +45,8 @@ export function getFirebaseAnalytics(): Analytics {
     analytics = getAnalytics(getFirebaseApp());
   }
   return analytics;
+}
+
+export function getAppFirestore() {
+  return getFirestore(getFirebaseApp());
 }

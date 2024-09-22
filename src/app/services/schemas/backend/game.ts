@@ -4,7 +4,7 @@ import {
   validDateString,
   validDateTimeString,
 } from "@/app/services/schemas/backend/utils";
-import { withDates } from "@/app/services/schemas/shared";
+import { withDates, withIds } from "@/app/services/schemas/shared";
 
 import { isTimeString } from "@/components/form/Timepicker";
 
@@ -89,7 +89,6 @@ export type CreateGamePayload = z.infer<typeof createGamePayloadSchema>;
 
 export const gameSchema = z
   .object({
-    sqlId: z.string(),
     name: z.string(),
     description: z.string().nullable(),
     startDate: z.string().refine(isDateString),
@@ -98,6 +97,7 @@ export const gameSchema = z
     period: periodStringSchema,
     isPrivate: z.boolean(),
   })
-  .extend(withDates);
+  .extend(withDates)
+  .extend(withIds);
 
 export type Game = z.infer<typeof gameSchema>;

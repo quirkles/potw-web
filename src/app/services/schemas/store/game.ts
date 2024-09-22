@@ -30,6 +30,7 @@ export type StoreFailedGame = z.infer<typeof storeFailedGameSchema>;
 const storeNewGameSchema = baseStoreGameSchema
   .omit({
     sqlId: true,
+    firestoreId: true,
     admin: true,
     players: true,
     createdAt: true,
