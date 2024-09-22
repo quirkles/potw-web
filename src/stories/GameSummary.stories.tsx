@@ -65,6 +65,7 @@ const meta = {
     const props = {
       game: {
         sqlId: args.game_id,
+        firestoreId: "firestore-id",
         name: args.game_name,
         description: args.game_description,
         isPrivate: args.game_isPrivate,
