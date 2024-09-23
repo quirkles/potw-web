@@ -234,7 +234,7 @@ function Create() {
                         <p>
                           View your new game{" "}
                           <Link
-                            href={`/home/games/${(game.payload as Game).sqlId}`}
+                            href={`/home/game/${(game.payload as Game).sqlId}`}
                           >
                             here
                           </Link>

@@ -12,12 +12,12 @@ import { FlexContainer } from "@/components/layout/FlexContainer";
 
 import { formatDateTime } from "@/utils/date";
 
-const Styled = styled(FlexContainer)<{
+const Styled = styled.div<{
   $color: ColorName;
 }>`
-  border: 2px solid ${(props) => getColor(props.$color)};
   color: ${(props) => getColor(props.$color)};
   height: 100%;
+  width: 100%;
 `;
 
 type GameWeekBoxParams = {
@@ -30,7 +30,7 @@ export default function GameWeekBox({ color, gameSqlId }: GameWeekBoxParams) {
   );
   return (
     <Styled $color={color}>
-      <FlexContainer $direction="column">
+      <FlexContainer $direction="column" $alignItems="stretch">
         {gameWeeks.map((gameWeek) => (
           <GameWeekItem key={gameWeek.sqlId} gameWeek={gameWeek} />
         ))}
@@ -41,13 +41,14 @@ export default function GameWeekBox({ color, gameSqlId }: GameWeekBoxParams) {
 
 const StyledGameWeekItem = styled.div`
   padding: 1rem 1rem;
+  border-bottom: 1px solid ${getColor("grey_300")};
 `;
 
 function GameWeekItem({ gameWeek }: { gameWeek: StoreFetchedGameWeek }) {
   return (
     <StyledGameWeekItem>
       <Link href={`/home/gameweek/${gameWeek.sqlId}`}>
-        {formatDateTime(gameWeek.startDateTime, "timeMonthDay")} -{" "}
+        {formatDateTime(gameWeek.startDateTime, "timeShortMonthDay")} -{" "}
         {gameWeek.theme || "No theme set"}
       </Link>
     </StyledGameWeekItem>

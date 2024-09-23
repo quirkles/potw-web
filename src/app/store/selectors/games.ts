@@ -9,7 +9,7 @@ export const selectGameState = (state: RootState) => state.gameState;
 export const selectGameBySqlId = createSelector(
   [selectGameState, (_, sqlId: string) => sqlId],
   (gameState, sqlId) => {
-    return gameState.games[sqlId]["game"];
+    return gameState.games[sqlId]?.game;
   },
 );
 
@@ -52,5 +52,35 @@ export const selectGamesForAuthUser = createSelector(
               game.admin === authUser?.sqlId),
         )
       : null;
+  },
+);
+
+export const selectVotesForGame = createSelector(
+  [selectGameState, (_, sqlId: string | null) => sqlId],
+  (
+    gameState,
+    sqlId,
+  ): {
+    [userSqlId: string]: number;
+  } => {
+    if (!sqlId) {
+      return {};
+    }
+    return ((gameState.games[sqlId] || {})["votes"] || []).reduce(
+      (
+        acc: {
+          [userSqlId: string]: number;
+        },
+        vote,
+      ) => {
+        if (acc[vote.userSqlId]) {
+          acc[vote.userSqlId] += 1;
+        } else {
+          acc[vote.userSqlId] = 1;
+        }
+        return acc;
+      },
+      {},
+    );
   },
 );

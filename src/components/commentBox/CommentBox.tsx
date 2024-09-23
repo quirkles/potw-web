@@ -67,6 +67,7 @@ export default function CommentBox({ resourcePath }: CommentBoxProps) {
         rows={5}
         value={commentBody}
         onChange={(e) => setCommentBody(e.target.value)}
+        placeholder="Say something..."
       ></textarea>
       <Button
         buttonText="Add comment"

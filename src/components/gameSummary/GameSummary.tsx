@@ -109,7 +109,7 @@ export function GameSummary(props: IGameSummaryProps) {
       <FlexContainer $direction="column" $alignItems="stretch">
         <FlexItem className="header" $grow={1}>
           <Heading $variant="h3" $textTransform="capitalize" $font="sans">
-            <Link href={`/home/games/${sqlId}`}>{name}</Link>
+            <Link href={`/home/game/${sqlId}`}>{name}</Link>
           </Heading>
         </FlexItem>
         <FlexItem className="body">
@@ -132,7 +132,7 @@ export function GameSummary(props: IGameSummaryProps) {
                       />
                       <P>
                         Created by{" "}
-                        <Link href={`/home/users/${admin.sqlId}`}>
+                        <Link href={`/home/user/${admin.sqlId}`}>
                           {admin?.email}
                         </Link>
                       </P>

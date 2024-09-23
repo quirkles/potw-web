@@ -3,9 +3,9 @@
 import { useEffect } from "react";
 import { styled } from "styled-components";
 
-import AdminBox from "@/app/home/games/[id]/partials/AdminBox";
-import GameWeekBox from "@/app/home/games/[id]/partials/GameWeeksBox";
-import UsersBox from "@/app/home/games/[id]/partials/UsersBox";
+import AdminBox from "@/app/home/game/[id]/partials/AdminBox";
+import GameWeekBox from "@/app/home/game/[id]/partials/GameWeeksBox";
+import UsersBox from "@/app/home/game/[id]/partials/UsersBox";
 import { gameColors, getColor } from "@/app/styles/colors";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
@@ -92,14 +92,22 @@ function FetchedGame({ game }: { game: StoreFetchedGame }) {
             <AdminBox admin={admin} color={gameColor} game={game} />
           )}
         </GridItem>
-        <GridItem $mdCol={8} $mdRow={2}>
-          <GameWeekBox color={gameColor} gameSqlId={game.sqlId} />
+        <GridItem $mdCol={8} $mdRow={12}>
+          <CommentBox resourcePath={`games/${game.firestoreId}`} />
         </GridItem>
         <GridItem $mdCol={4}>
+          <Spacer $marginTop="xSmall" />
+          <Heading $variant="h3" $font="serif">
+            Standings
+          </Heading>
           <UsersBox color={gameColor} userIds={game.players} />
         </GridItem>
-        <GridItem $mdCol={6}>
-          <CommentBox resourcePath={`games/${game.firestoreId}`} />
+        <GridItem $mdCol={4}>
+          <Spacer $marginTop="xSmall" />
+          <Heading $variant="h3" $font="serif">
+            Rounds
+          </Heading>
+          <GameWeekBox color={gameColor} gameSqlId={game.sqlId} />
         </GridItem>
       </GridContainer>
     </StyledGame>

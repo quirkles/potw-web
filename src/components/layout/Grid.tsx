@@ -15,6 +15,7 @@ export const GridContainer = styled.div<{
   grid-template-columns: repeat(12, 1fr);
   width: 100%;
   grid-gap: ${(props) => gaps[props.$gap || "small"]};
+  grid-auto-flow: dense;
 `;
 
 const { xs, sm, md, lg } = breakpoints;

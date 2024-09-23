@@ -61,7 +61,7 @@ export default function Header(props: HeaderProps) {
   return (
     <StyledHeader>
       <div className="left">
-        <Link href={`/home/users/${props.user.sqlId}`}>
+        <Link href={`/home/user/${props.user.sqlId}`}>
           {props.user.username}
         </Link>
       </div>
