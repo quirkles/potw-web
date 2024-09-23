@@ -34,7 +34,7 @@ const Styled = styled(FlexContainer)<{
       h5 {
         margin: 0;
       }
-      padding: 0.5rem 2rem;
+      padding: 0.5rem 1rem;
       background-color: ${getColor("green_300")};
       text-decoration: underline;
     }
