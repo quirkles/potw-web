@@ -55,7 +55,7 @@ export const gameSlice = createAppSlice({
       description: null,
       endDate: null,
       isOpenEnded: true,
-      regularScheduledStartTimeUtc: "17:00",
+      regularScheduledStartTimeUtc: "17:00:00",
       gameWeeks: [],
     },
   } as StoreGameState,

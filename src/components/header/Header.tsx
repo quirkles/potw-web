@@ -71,7 +71,7 @@ export default function Header(props: HeaderProps) {
           buttonText="games"
           color="blue"
           Icon={AlbumListSvg}
-          route="/home/games"
+          route="/home/game"
           size={ButtonSize.sm}
         ></Button>
         <Button
