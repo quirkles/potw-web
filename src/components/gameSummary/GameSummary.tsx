@@ -141,7 +141,7 @@ export function GameSummary(props: IGameSummaryProps) {
                 )}
                 <FlexItem>
                   <P $textTransform="capitalize" $fontSize="small">
-                    {hasGameStarted ? "started" : "starts"}:{" "}
+                    {hasGameStarted ? "started" : "starts"}:{"  "}
                     <Span $fontWeight="bold" $color={colorName}>
                       {startDate}
                     </Span>
@@ -149,14 +149,14 @@ export function GameSummary(props: IGameSummaryProps) {
                   <P $textTransform="capitalize" $fontSize="small">
                     {hasGameEnded ? (
                       <Span>
-                        Ended{""}
+                        Ended:{""}
                         <Span $fontWeight="bold" $color={colorName}>
                           {endDate}
                         </Span>
                       </Span>
                     ) : doesGameEnd ? (
                       <Span>
-                        Ends{""}
+                        Ends:{" "}
                         <Span $fontWeight="bold" $color={colorName}>
                           {endDate}
                         </Span>
