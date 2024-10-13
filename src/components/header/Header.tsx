@@ -77,14 +77,15 @@ export default function Header(props: HeaderProps) {
         <Button
           buttonText="create"
           color="green"
-          Icon={Icons.MusicSvg}
+          Icon={Icons.Music}
           route="/home/create"
           size={ButtonSize.sm}
         ></Button>
         <Button
+          color="red"
           buttonText={"Logout"}
           onClick={props.handleLogout}
-          Icon={Icons.LogoutSvg}
+          Icon={Icons.Logout}
           size={ButtonSize.sm}
         ></Button>
       </div>

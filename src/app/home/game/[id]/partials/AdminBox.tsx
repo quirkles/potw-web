@@ -12,12 +12,7 @@ import Heading from "@/components/heading/Heading";
 import { FlexContainer } from "@/components/layout/FlexContainer";
 import P from "@/components/text/P";
 
-const Styled = styled(FlexContainer)<{
-  $color: ColorName;
-}>`
-  padding: 2rem;
-  border: 2px solid ${(props) => getColor(props.$color)};
-  color: ${(props) => getColor(props.$color)};
+const Styled = styled(FlexContainer)`
   height: 100%;
 `;
 
@@ -30,7 +25,6 @@ export default function AdminBox({ admin, game, color }: AdminBoxParams) {
   const responsive = useResponsiveContext();
   return (
     <Styled
-      $color={color}
       $direction="column"
       $gap={responsive?.isDesktop ? "large" : "medium"}
       $alignItems="center"
@@ -39,7 +33,7 @@ export default function AdminBox({ admin, game, color }: AdminBoxParams) {
         value={admin.email || ""}
         size={responsive?.isDesktop ? "xLarge" : "large"}
       />
-      <Heading $variant="h4">
+      <Heading $variant="h4" $color={color}>
         Game Admin: {admin.username || admin.email}
       </Heading>
       <P>

@@ -1,4 +1,16 @@
-export default function GoogleSvg() {
+export default function GoogleSvg({
+  size = "medium",
+  color,
+  stroke,
+  fill = "none",
+}: {
+  size?: "small" | "medium" | "large";
+  color?: string;
+  stroke?: string;
+  fill?: string;
+}) {
+  const width = size === "small" ? 16 : size === "medium" ? 24 : 32;
+  const height = size === "small" ? 16 : size === "medium" ? 24 : 32;
   return (
     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 48 48">
       <path

@@ -1,4 +1,4 @@
-export default function Calendar({
+export default function AlarmClock({
   size = "medium",
   color,
   stroke,
@@ -17,33 +17,33 @@ export default function Calendar({
       height={height}
       strokeWidth="1.5"
       viewBox={`0 0 ${width} ${height}`}
-      fill={fill}
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
       color={color}
     >
       <path
-        d="M15 4V2M15 4V6M15 4H10.5M3 10V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V10H3Z"
+        d="M17 13H12V8"
         stroke={stroke}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       ></path>
       <path
-        d="M3 10V6C3 4.89543 3.89543 4 5 4H7"
+        d="M5 3.5L7 2"
         stroke={stroke}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       ></path>
       <path
-        d="M7 2V6"
+        d="M19 3.5L17 2"
         stroke={stroke}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       ></path>
       <path
-        d="M21 10V6C21 4.89543 20.1046 4 19 4H18.5"
+        d="M12 22C16.9706 22 21 17.9706 21 13C21 8.02944 16.9706 4 12 4C7.02944 4 3 8.02944 3 13C3 17.9706 7.02944 22 12 22Z"
         stroke={stroke}
         strokeWidth="1.5"
         strokeLinecap="round"

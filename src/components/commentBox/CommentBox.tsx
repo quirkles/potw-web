@@ -37,6 +37,9 @@ const StyledCommentBox = styled.div`
     color: ${getColor("black")};
     background-color: white;
   }
+  Button {
+    align-self: flex-end;
+  }
 `;
 
 export default function CommentBox({ resourcePath }: CommentBoxProps) {
@@ -89,7 +92,6 @@ const StyledComment = styled.div`
   flex-direction: column;
   gap: 0.4rem;
   padding: 0.5rem;
-  background-color: ${getColor("green_100")};
 `;
 
 function Comment({ comment }: { comment: PotwComment }) {
@@ -101,7 +103,7 @@ function Comment({ comment }: { comment: PotwComment }) {
   }
   return (
     <StyledComment>
-      <FlexContainer $alignItems="flex-end" $gap="small">
+      <FlexContainer $alignItems="center" $gap="small">
         <Avatar url={author.avatarUrl} value={author.sqlId} size="xSmall" />
         <Small $color="grey" $fontSize="sm">
           {author.username || author.email}

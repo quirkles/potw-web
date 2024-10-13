@@ -9,19 +9,19 @@ export const baseStoreGameSchema = gameSchema.extend({
 });
 
 const storeFetchedGameSchema = baseStoreGameSchema.extend({
-  status: z.literal("fetched"),
+  fetchStatus: z.literal("fetched"),
 });
 
 export type StoreFetchedGame = z.infer<typeof storeFetchedGameSchema>;
 
 const storePendingGameSchema = baseStoreGameSchema.partial().extend({
-  status: z.literal("pending"),
+  fetchStatus: z.literal("pending"),
 });
 
 export type StorePendingGame = z.infer<typeof storePendingGameSchema>;
 
 const storeFailedGameSchema = baseStoreGameSchema.partial().extend({
-  status: z.literal("failed"),
+  fetchStatus: z.literal("failed"),
   error: z.string(),
 });
 
@@ -37,14 +37,14 @@ const storeNewGameSchema = baseStoreGameSchema
     updatedAt: true,
   })
   .extend({
-    status: z.enum(["unsaved", "pending", "failed"]),
+    fetchStatus: z.enum(["unsaved", "pending", "failed"]),
     addAdminAsPlayer: z.boolean(),
     isOpenEnded: z.boolean(),
   });
 
 export type StoreNewGame = z.infer<typeof storeNewGameSchema>;
 
-const storeGameSchema = z.discriminatedUnion("status", [
+const storeGameSchema = z.discriminatedUnion("fetchStatus", [
   storeFetchedGameSchema,
   storePendingGameSchema,
   storeFailedGameSchema,

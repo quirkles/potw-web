@@ -9,7 +9,6 @@ const StyledHeading = styled.h1<{
   $textTransform?: string;
   $underline: boolean;
 }>`
-  margin-bottom: 0.5em;
   text-decoration: underline;
   color: ${(props) => (props.$color ? getColor(props.$color) : "inherit")};
   text-transform: ${(props) => props.$textTransform || "none"};

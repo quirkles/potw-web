@@ -24,7 +24,7 @@ export const gameWeeksSlice = createAppSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchGameWeekWithGameAction.pending, (state, action) => {
       state.gameWeeks[action.meta.arg] = {
-        status: "pending",
+        fetchStatus: "pending",
         sqlId: action.meta.arg,
       };
     });

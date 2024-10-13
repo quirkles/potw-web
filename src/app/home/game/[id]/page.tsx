@@ -7,6 +7,7 @@ import AdminBox from "@/app/home/game/[id]/partials/AdminBox";
 import GameWeekBox from "@/app/home/game/[id]/partials/GameWeeksBox";
 import UsersBox from "@/app/home/game/[id]/partials/UsersBox";
 import { gameColors, getColor } from "@/app/styles/colors";
+import { defaultBorderRadius } from "@/app/styles/consts";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import { selectGameBySqlId } from "@/app/store/selectors/games";
@@ -17,10 +18,13 @@ import { StoreFetchedGame, StoreGame } from "@/app/services/schemas/store/game";
 
 import CommentBox from "@/components/commentBox/CommentBox";
 import Heading from "@/components/heading/Heading";
+import { Box } from "@/components/layout/Box";
+import { FlexContainer } from "@/components/layout/FlexContainer";
 import { GridContainer, GridItem } from "@/components/layout/Grid";
 import Loader from "@/components/loader/Loader";
 import Spacer from "@/components/spacer/Spacer";
 import P from "@/components/text/P";
+import { Small } from "@/components/text/Small";
 
 import { getPseudoRandomFromArrayFromUid } from "@/utils/random";
 
@@ -47,14 +51,14 @@ function GamePage({ params }: { params: { id: string } }) {
       dispatch(fetchGameAction(gameId as string));
     }
   }, [gameId, dispatch]);
-  if (game?.status === "fetched") {
+  if (game?.fetchStatus === "fetched") {
     return <FetchedGame game={game} />;
   }
   return (
     <Styled>
       <Spacer $padding="medium">
-        {game?.status === "pending" && <Loader />}
-        {game?.status === "failed" && <h1>Error</h1>}
+        {game?.fetchStatus === "pending" && <Loader />}
+        {game?.fetchStatus === "failed" && <h1>Error</h1>}
       </Spacer>
     </Styled>
   );
@@ -75,6 +79,20 @@ const StyledGame = styled.div<{
   color: ${getColor("black")};
 `;
 
+function BoxWithSpacer({ children }: { children: React.ReactNode }) {
+  return (
+    <Box
+      $backgroundColor="lightGrey_100"
+      $borderRadius={defaultBorderRadius}
+      $border={`1px solid ${getColor("grey_100")}`}
+    >
+      <Spacer $paddingX="small" $paddingY="small">
+        {children}
+      </Spacer>
+    </Box>
+  );
+}
+
 function FetchedGame({ game }: { game: StoreFetchedGame }) {
   const gameColor = getPseudoRandomFromArrayFromUid(game.sqlId, gameColors);
   const admin = useAppSelector((state) => selectUserBySqlId(state, game.admin));
@@ -82,32 +100,37 @@ function FetchedGame({ game }: { game: StoreFetchedGame }) {
     <StyledGame $color={gameColor}>
       <GridContainer>
         <GridItem $xsCol={12}>
-          <Heading $variant="h1" $color={gameColor} $underline>
-            {game.name}
-          </Heading>
-          {game.description && <P>{game.description}</P>}
+          <BoxWithSpacer>
+            <FlexContainer $direction="column" $gap="small">
+              <Heading $variant="h1" $color={gameColor} $underline>
+                {game.name}
+              </Heading>
+              {game.description && (
+                <>
+                  <Small $color="grey">about:</Small>
+                  <P>{game.description}</P>
+                </>
+              )}
+            </FlexContainer>
+          </BoxWithSpacer>
         </GridItem>
         <GridItem $mdCol={4}>
           {admin && admin.status === "fetched" && (
-            <AdminBox admin={admin} color={gameColor} game={game} />
+            <BoxWithSpacer>
+              <AdminBox admin={admin} color={gameColor} game={game} />
+            </BoxWithSpacer>
           )}
         </GridItem>
-        <GridItem $mdCol={8} $mdRow={12}>
-          <CommentBox resourcePath={`games/${game.firestoreId}`} />
+        <GridItem $mdCol={8}>
+          <GameWeekBox color={gameColor} gameSqlId={game.sqlId} />
         </GridItem>
         <GridItem $mdCol={4}>
-          <Spacer $marginTop="xSmall" />
-          <Heading $variant="h3" $font="serif">
-            Standings
-          </Heading>
           <UsersBox color={gameColor} userIds={game.players} />
         </GridItem>
-        <GridItem $mdCol={4}>
-          <Spacer $marginTop="xSmall" />
-          <Heading $variant="h3" $font="serif">
-            Rounds
-          </Heading>
-          <GameWeekBox color={gameColor} gameSqlId={game.sqlId} />
+        <GridItem $mdCol={8}>
+          <BoxWithSpacer>
+            <CommentBox resourcePath={`games/${game.firestoreId}`} />
+          </BoxWithSpacer>
         </GridItem>
       </GridContainer>
     </StyledGame>

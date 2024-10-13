@@ -16,7 +16,7 @@ export function gameToStoreGame(game: GameWithRelations): StoreFetchedGame {
   }
   return {
     ...game,
-    status: "fetched",
+    fetchStatus: "fetched",
     startDate: game.startDate,
     endDate: stringAsDateString(game.endDate),
     admin: game.admin?.sqlId || "N/A",
@@ -32,6 +32,6 @@ export function gameWeekToStoreGameWeek(
   return storeFetchedGameWeekSchema.parse({
     ...gameWeek,
     gameId: gameSqlId,
-    status: "fetched",
+    fetchStatus: "fetched",
   });
 }

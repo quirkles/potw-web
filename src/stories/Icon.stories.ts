@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import Icon, { iconTypes } from "@/components/icons";
+import Icon, { IconTypes } from "@/components/icons";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
@@ -16,7 +16,7 @@ const meta = {
   argTypes: {
     iconType: {
       control: "select",
-      values: iconTypes,
+      values: IconTypes,
     },
     size: {
       control: "select",
@@ -57,6 +57,6 @@ type Story = StoryObj<typeof meta>;
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Primary: Story = {
   args: {
-    iconType: iconTypes[0],
+    iconType: IconTypes[0],
   },
 };

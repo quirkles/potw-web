@@ -13,6 +13,7 @@ export const GridContainer = styled.div<{
 }>`
   display: grid;
   grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(auto-fill);
   width: 100%;
   grid-gap: ${(props) => gaps[props.$gap || "small"]};
   grid-auto-flow: dense;

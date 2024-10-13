@@ -48,7 +48,7 @@ export const gameSlice = createAppSlice({
     newGame: {
       name: "",
       isPrivate: false,
-      status: "unsaved",
+      fetchStatus: "unsaved",
       addAdminAsPlayer: true,
       period: "weekly",
       startDate: addTo(7, "day", getDateString()),
@@ -65,7 +65,7 @@ export const gameSlice = createAppSlice({
       state.games[action.meta.arg] = {
         ...(existing || {}),
         game: {
-          status: "pending",
+          fetchStatus: "pending",
           sqlId: action.meta.arg,
         },
       };
@@ -83,14 +83,14 @@ export const gameSlice = createAppSlice({
         state.games[action.meta.arg] = {
           votes: [],
           game: {
-            status: "failed",
+            fetchStatus: "failed",
             sqlId: action.meta.arg,
             error: action.error.message || "Unknown error",
           },
         };
       } else {
         state.games[action.meta.arg]["game"] = {
-          status: "failed",
+          fetchStatus: "failed",
           sqlId: action.meta.arg,
           error: action.error.message || "Unknown error",
         };
@@ -145,13 +145,13 @@ export const gameSlice = createAppSlice({
       },
       {
         pending: (state) => {
-          state.newGame.status = "pending";
+          state.newGame.fetchStatus = "pending";
         },
         fulfilled: (state) => {
           state.newGame = {
             name: getFakeGameName(),
             isPrivate: false,
-            status: "unsaved",
+            fetchStatus: "unsaved",
             addAdminAsPlayer: true,
             isOpenEnded: true,
             description: null,
@@ -163,7 +163,7 @@ export const gameSlice = createAppSlice({
           };
         },
         rejected: (state, action) => {
-          state.newGame.status = "failed";
+          state.newGame.fetchStatus = "failed";
           throw new Error(action.error.message);
         },
       },
@@ -235,5 +235,5 @@ export const { updateNewGame, createGame, fetchGamesForUser } =
 export default gameSlice.reducer;
 
 export function isFetchedGame(game: StoreGame): game is StoreFetchedGame {
-  return game.status === "fetched";
+  return game.fetchStatus === "fetched";
 }
