@@ -73,7 +73,7 @@ const meta = {
         endDate: args.game_endDate,
         period: args.game_period,
         players: [],
-        status: args.game_status,
+        fetchStatus: args.game_status,
         admin: args.game_admin_id,
         regularScheduledStartTimeUtc: "2022-01-01T00:00:00Z",
         createdAt: "2022-01-01T00:00:00Z",
