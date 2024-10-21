@@ -3,9 +3,9 @@
 import { useEffect } from "react";
 import { styled } from "styled-components";
 
-import AdminBox from "@/app/home/game/[id]/partials/AdminBox";
-import GameWeekBox from "@/app/home/game/[id]/partials/GameWeeksBox";
-import UsersBox from "@/app/home/game/[id]/partials/UsersBox";
+import AdminBox from "@/app/home/game/[gameId]/partials/AdminBox";
+import GameWeekBox from "@/app/home/game/[gameId]/partials/GameWeeksBox";
+import UsersBox from "@/app/home/game/[gameId]/partials/UsersBox";
 import { gameColors, getColor } from "@/app/styles/colors";
 import { defaultBorderRadius } from "@/app/styles/consts";
 
@@ -14,7 +14,7 @@ import { selectGameBySqlId } from "@/app/store/selectors/games";
 import { selectUserBySqlId } from "@/app/store/selectors/users";
 import { fetchGameAction } from "@/app/store/sharedActions/fetch";
 
-import { StoreFetchedGame, StoreGame } from "@/app/services/schemas/store/game";
+import { StoreFetchedGame } from "@/app/services/schemas/store/game";
 
 import CommentBox from "@/components/commentBox/CommentBox";
 import Heading from "@/components/heading/Heading";
@@ -34,26 +34,40 @@ const Styled = styled.div`
   width: 100%;
   overflow: auto;
   display: flex;
+  background-color: ${getColor("white")};
+  color: ${getColor("black")};
   > * {
     flex-grow: 1;
   }
 `;
 
-function GamePage({ params }: { params: { id: string } }) {
-  const { id: gameId } = params;
+function GamePage({ params }: { params: { gameId: string } }) {
+  const { gameId: gameId } = params;
   const dispatch = useAppDispatch();
-  const game: StoreGame | null = useAppSelector((state) =>
-    selectGameBySqlId(state, gameId),
-  );
+  const game = useAppSelector((state) => selectGameBySqlId(state, gameId));
+
+  let { fetchStatus } = game || {};
+
+  if (fetchStatus === "fetched" && !game?.gameWeeks) {
+    // This is a hack-y way to force a refetch if the game has only been partially fetched, eg from the games page
+    fetchStatus = undefined;
+  }
 
   useEffect(() => {
-    if (gameId) {
+    if (
+      gameId &&
+      fetchStatus !== "fetched" &&
+      fetchStatus !== "pending" &&
+      fetchStatus !== "failed"
+    ) {
       dispatch(fetchGameAction(gameId as string));
     }
-  }, [gameId, dispatch]);
+  }, [gameId, fetchStatus, dispatch]);
+
   if (game?.fetchStatus === "fetched") {
     return <FetchedGame game={game} />;
   }
+
   return (
     <Styled>
       <Spacer $padding="medium">
@@ -66,17 +80,14 @@ function GamePage({ params }: { params: { id: string } }) {
 
 export default GamePage;
 
-const StyledGame = styled.div<{
-  $color: string;
-}>`
+const StyledGame = styled.div`
+  background-color: ${getColor("white")};
+  color: ${getColor("black")};
   max-height: 100%;
   height: 100%;
   width: 100%;
   overflow: auto;
   padding: 2rem;
-
-  background-color: ${getColor("white")};
-  color: ${getColor("black")};
 `;
 
 function BoxWithSpacer({ children }: { children: React.ReactNode }) {
@@ -97,7 +108,7 @@ function FetchedGame({ game }: { game: StoreFetchedGame }) {
   const gameColor = getPseudoRandomFromArrayFromUid(game.sqlId, gameColors);
   const admin = useAppSelector((state) => selectUserBySqlId(state, game.admin));
   return (
-    <StyledGame $color={gameColor}>
+    <StyledGame>
       <GridContainer>
         <GridItem $xsCol={12}>
           <BoxWithSpacer>

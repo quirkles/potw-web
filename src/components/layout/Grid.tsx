@@ -12,8 +12,8 @@ export const GridContainer = styled.div<{
   $gap?: keyof typeof gaps;
 }>`
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(auto-fill);
+  grid-template-columns: repeat(12, 1fr));
+  grid-template-rows: repeat(auto-fill, 1fr);
   width: 100%;
   grid-gap: ${(props) => gaps[props.$gap || "small"]};
   grid-auto-flow: dense;

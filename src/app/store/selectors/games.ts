@@ -4,12 +4,14 @@ import { isFetchedGame } from "@/app/store/reducers/gamesReducer";
 import { authUserSelector } from "@/app/store/selectors/authUser";
 import { RootState } from "@/app/store/store";
 
+import { StoreGame } from "@/app/services/schemas/store/game";
+
 export const selectGameState = (state: RootState) => state.gameState;
 
 export const selectGameBySqlId = createSelector(
   [selectGameState, (_, sqlId: string) => sqlId],
-  (gameState, sqlId) => {
-    return gameState.games[sqlId]?.game;
+  (gameState, sqlId): StoreGame | null => {
+    return gameState.games[sqlId]?.game || null;
   },
 );
 

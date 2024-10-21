@@ -12,7 +12,6 @@ export const BaseColors = {
   yellow: "#F19C13",
   purple: "#5A1E49",
   orange: "#F35E47",
-  pink: "#F6B3B3",
   cyan: "#69BFD7",
   white: "#F9F9F3",
   black: "#000000",

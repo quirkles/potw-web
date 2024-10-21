@@ -21,7 +21,7 @@ export function gameToStoreGame(game: GameWithRelations): StoreFetchedGame {
     endDate: stringAsDateString(game.endDate),
     admin: game.admin?.sqlId || "N/A",
     players: game.players?.map((player) => player.sqlId || "N/A") || [],
-    gameWeeks: game.gameWeeks?.map((gw) => gw.sqlId) || [],
+    gameWeeks: game.gameWeeks?.map((gw) => gw.sqlId),
   };
 }
 

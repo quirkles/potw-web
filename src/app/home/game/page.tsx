@@ -90,9 +90,7 @@ function Games() {
           <GridItem $xsRow={1} $xsCol={12}>
             <FlexContainer $alignItems="center">
               <FlexItem $grow={1}>
-                <Heading $variant="h1" $underline>
-                  Games
-                </Heading>
+                <Heading $variant="h1">Games</Heading>
               </FlexItem>
               <FlexItem>
                 <FlexContainer $gap="small">

@@ -5,7 +5,7 @@ import { gameSchema } from "@/app/services/schemas/backend/game";
 export const baseStoreGameSchema = gameSchema.extend({
   admin: z.string(),
   players: z.array(z.string()),
-  gameWeeks: z.array(z.string()),
+  gameWeeks: z.array(z.string()).optional(),
 });
 
 const storeFetchedGameSchema = baseStoreGameSchema.extend({

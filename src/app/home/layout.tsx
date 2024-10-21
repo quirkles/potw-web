@@ -8,7 +8,11 @@ import { styled } from "styled-components";
 import { getColor } from "@/app/styles/colors";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import { initializeAuthUser } from "@/app/store/reducers/authUserReducer";
+import {
+  IAuthUser,
+  initializeAuthUser,
+} from "@/app/store/reducers/authUserReducer";
+import { usersSlice } from "@/app/store/reducers/usersReducer";
 import { authUserSelector } from "@/app/store/selectors/authUser";
 
 import { useResponsiveContext } from "@/app/providers/Responsive";
@@ -84,7 +88,11 @@ function Home(props: PropsWithChildren<{}>) {
   }, [token, router]);
   useEffect(() => {
     if (token) {
-      dispatch(initializeAuthUser(jwtDecode(token as string)));
+      const decodedToken: IAuthUser = jwtDecode(token);
+      dispatch(initializeAuthUser(decodedToken));
+      if (decodedToken?.sqlId) {
+        dispatch(usersSlice.actions.fetchUserById(decodedToken.sqlId));
+      }
     }
   }, [token, dispatch]);
   const handleLogout = () => {

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { Maybe } from "@/utils/typeUtils";
 
-type IAuthUser = Maybe<
+export type IAuthUser = Maybe<
   Partial<{
     email: string;
     firestoreId: string;

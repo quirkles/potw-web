@@ -21,7 +21,7 @@ import {
 import keyMirror from "@/utils/object";
 import { PartialBy } from "@/utils/typeUtils";
 
-const entities = ["games"] as const;
+const entities = ["games", "gameWeeks"] as const;
 
 export const entityMap = keyMirror(entities);
 

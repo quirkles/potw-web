@@ -53,6 +53,9 @@ export default function CommentBox({ resourcePath }: CommentBoxProps) {
     if (!authUser?.firestoreId || !authUser?.sqlId) {
       return;
     }
+    if (!commentBody.trim() || !commentBody.trim().length) {
+      return;
+    }
     createComment({
       content: commentBody,
       taggedUserFirestoreIds: [],
@@ -64,6 +67,7 @@ export default function CommentBox({ resourcePath }: CommentBoxProps) {
   };
   return (
     <StyledCommentBox>
+      <h1>{resourcePath}</h1>
       <textarea
         name="new-comment"
         cols={30}
@@ -98,7 +102,7 @@ function Comment({ comment }: { comment: PotwComment }) {
   const author = useAppSelector((state) =>
     selectUserBySqlId(state, comment.authorSqlId),
   );
-  if (!author.sqlId) {
+  if (!author?.sqlId) {
     return null;
   }
   return (

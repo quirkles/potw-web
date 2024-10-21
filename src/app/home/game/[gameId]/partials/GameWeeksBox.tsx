@@ -42,7 +42,11 @@ export default function GameWeekBox({ gameSqlId, color }: GameWeekBoxParams) {
         </Heading>
       </Spacer>
       {gameWeeks.map((gameWeek) => (
-        <GameWeekItem key={gameWeek.sqlId} gameWeek={gameWeek} />
+        <GameWeekItem
+          key={gameWeek.sqlId}
+          gameWeek={gameWeek}
+          gameSqlId={gameSqlId}
+        />
       ))}
     </Styled>
   );
@@ -64,7 +68,13 @@ const StyledGameWeekItem = styled.div`
   }
 `;
 
-function GameWeekItem({ gameWeek }: { gameWeek: StoreFetchedGameWeek }) {
+function GameWeekItem({
+  gameWeek,
+  gameSqlId,
+}: {
+  gameWeek: StoreFetchedGameWeek;
+  gameSqlId: string;
+}) {
   const iconType: IconType =
     gameWeek.status === "complete"
       ? "Check"
@@ -86,7 +96,7 @@ function GameWeekItem({ gameWeek }: { gameWeek: StoreFetchedGameWeek }) {
               : "black"
         }
       />
-      <Link href={`/home/gameweek/${gameWeek.sqlId}`}>
+      <Link href={`/home/game/${gameSqlId}/gameweek/${gameWeek.sqlId}`}>
         {formatDateTime(gameWeek.startDateTime, "timeShortMonthDay")}
       </Link>
       <P>{gameWeek.theme || "No theme set"}</P>

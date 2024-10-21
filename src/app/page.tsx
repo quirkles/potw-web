@@ -5,14 +5,16 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { useAppDispatch } from "@/app/store/hooks";
-import { initializeAuthUser } from "@/app/store/reducers/authUserReducer";
+import {
+  IAuthUser,
+  initializeAuthUser,
+} from "@/app/store/reducers/authUserReducer";
+import { usersSlice } from "@/app/store/reducers/usersReducer";
 
 import { safeGetLocalStorage } from "@/utils/localStorage";
 
 export default function Home() {
-  const [token, setToken] = useState<string | null>(
-    safeGetLocalStorage("token"),
-  );
+  const [token] = useState<string | null>(safeGetLocalStorage("token"));
   const router = useRouter();
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -25,7 +27,11 @@ export default function Home() {
     }
     const setUserInStore = (e: StorageEvent) => {
       if (e.key === "token" && e.newValue) {
-        dispatch(initializeAuthUser(jwtDecode(e.newValue)));
+        const decodedToken: IAuthUser = jwtDecode(e.newValue);
+        dispatch(initializeAuthUser(decodedToken));
+        if (decodedToken?.sqlId) {
+          dispatch(usersSlice.actions.fetchUserById(decodedToken.sqlId));
+        }
       }
     };
     window.addEventListener("storage", setUserInStore);
