@@ -11,3 +11,12 @@ export const withIds = {
   sqlId: z.string(),
   firestoreId: z.string(),
 };
+
+export const timestampToDate = z
+  .object({
+    seconds: z.number(),
+    nanoseconds: z.number(),
+  })
+  .transform((val) => {
+    return new Date(val.seconds * 1000);
+  });

@@ -61,7 +61,7 @@ function UserIdPage({ params }: { params: { id: string } }) {
     return;
   }, [dispatch, params.id, doesUserExist]);
 
-  switch (user.status) {
+  switch (user?.status) {
     case "failed":
       return (
         <StyledUserIdPage>

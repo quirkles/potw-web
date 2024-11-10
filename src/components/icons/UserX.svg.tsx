@@ -1,8 +1,8 @@
-export default function UserPlus({
+export default function UserX({
   size = "medium",
   color,
   stroke,
-  fill,
+  fill = "none",
 }: {
   size?: "small" | "medium" | "large";
   color?: string;

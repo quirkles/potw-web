@@ -1,18 +1,26 @@
 import { ComponentType } from "react";
 import { styled } from "styled-components";
 
+import { ColorName, Colors, getColor } from "@/app/styles/colors";
+
 import { getColorVariant } from "@/utils/color";
 
-const StyledIconButton = styled.button`
+const StyledIconButton = styled.button<{
+  $size?: "small" | "medium" | "large";
+  $color?: ColorName;
+}>`
   font-family: inherit;
-  font-size: 20px;
-  background: ${getColorVariant("blue")};
+  font-size: ${({ $size = "medium" }) =>
+    $size === "small" ? "0.8em" : $size === "medium" ? "1em" : "1.2em"};
+  background: ${({ $color = "blue" }) => getColor($color)};
   color: white;
-  padding: 0.5em 0.8em;
+  padding: ${({ $size = "medium" }) =>
+    $size === "small" ? "0.5em" : $size === "medium" ? "0.8em" : "1em"};
   display: flex;
   align-items: center;
   border: none;
-  border-radius: 16px;
+  border-radius: ${({ $size = "medium" }) =>
+    $size === "small" ? "0.5em" : $size === "medium" ? "0.8em" : "1em"};
   overflow: hidden;
   transition: all 0.2s;
   cursor: pointer;
@@ -55,15 +63,26 @@ const StyledIconButton = styled.button`
 `;
 
 interface IconButtonProps {
-  Icon: ComponentType;
+  Icon: ComponentType<{
+    size?: "small" | "medium" | "large";
+    color?: string;
+    stroke?: string;
+    fill?: string;
+  }>;
   onClick: () => void;
+  $size?: "small" | "medium" | "large";
+  $color?: ColorName;
 }
 function IconButton(props: IconButtonProps) {
   return (
-    <StyledIconButton onClick={props.onClick}>
+    <StyledIconButton
+      onClick={props.onClick}
+      $size={props.$size}
+      $color={props.$color}
+    >
       <div className="svg-wrapper-1">
         <div className="svg-wrapper">
-          <props.Icon />
+          <props.Icon size={props.$size} />
         </div>
       </div>
     </StyledIconButton>

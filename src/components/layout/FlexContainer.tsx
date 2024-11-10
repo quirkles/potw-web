@@ -13,9 +13,13 @@ interface FlexParentProps {
   $gap?: "small" | "medium" | "large";
   $rowGap?: "small" | "medium" | "large";
   $columnGap?: "small" | "medium" | "large";
+
+  $width?: string;
 }
 
 const FlexContainer = styled.div<FlexParentProps>`
+  width: ${(props) => props.$width || "auto"};
+
   display: flex;
   flex-direction: ${(props) => props.$direction || "row"};
   justify-content: ${(props) => props.$justifyContent || "flex-start"};

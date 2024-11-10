@@ -1,8 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect } from "react";
 import { styled } from "styled-components";
 
+import { useGameJoinRequests } from "@/app/home/game/[gameId]/hooks/useGameJoinRequests";
+import { useRequestToJoinGame } from "@/app/home/game/[gameId]/hooks/useRequestToJoinGame";
 import AdminBox from "@/app/home/game/[gameId]/partials/AdminBox";
 import GameWeekBox from "@/app/home/game/[gameId]/partials/GameWeeksBox";
 import UsersBox from "@/app/home/game/[gameId]/partials/UsersBox";
@@ -10,16 +13,21 @@ import { gameColors, getColor } from "@/app/styles/colors";
 import { defaultBorderRadius } from "@/app/styles/consts";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
+import { authUserSelector } from "@/app/store/selectors/authUser";
 import { selectGameBySqlId } from "@/app/store/selectors/games";
 import { selectUserBySqlId } from "@/app/store/selectors/users";
 import { fetchGameAction } from "@/app/store/sharedActions/fetch";
 
 import { StoreFetchedGame } from "@/app/services/schemas/store/game";
 
+import Button, { ButtonSize } from "@/components/button/Button";
+import IconButton from "@/components/button/IconButton";
 import CommentBox from "@/components/commentBox/CommentBox";
 import Heading from "@/components/heading/Heading";
+import UserPlus from "@/components/icons/UserPlus.svg";
+import UserX from "@/components/icons/UserX.svg";
 import { Box } from "@/components/layout/Box";
-import { FlexContainer } from "@/components/layout/FlexContainer";
+import { FlexContainer, FlexItem } from "@/components/layout/FlexContainer";
 import { GridContainer, GridItem } from "@/components/layout/Grid";
 import Loader from "@/components/loader/Loader";
 import Spacer from "@/components/spacer/Spacer";
@@ -44,6 +52,7 @@ const Styled = styled.div`
 function GamePage({ params }: { params: { gameId: string } }) {
   const { gameId: gameId } = params;
   const dispatch = useAppDispatch();
+
   const game = useAppSelector((state) => selectGameBySqlId(state, gameId));
 
   let { fetchStatus } = game || {};
@@ -107,6 +116,17 @@ function BoxWithSpacer({ children }: { children: React.ReactNode }) {
 function FetchedGame({ game }: { game: StoreFetchedGame }) {
   const gameColor = getPseudoRandomFromArrayFromUid(game.sqlId, gameColors);
   const admin = useAppSelector((state) => selectUserBySqlId(state, game.admin));
+  const authUser = useAppSelector(authUserSelector);
+
+  const { requestToJoinGame, currentRequestStatus } = useRequestToJoinGame(
+    game.firestoreId,
+    authUser?.firestoreId as string,
+  );
+
+  const { respondToJoinRequest, joinRequests } = useGameJoinRequests(
+    game.firestoreId,
+  );
+
   return (
     <StyledGame>
       <GridContainer>
@@ -126,11 +146,74 @@ function FetchedGame({ game }: { game: StoreFetchedGame }) {
           </BoxWithSpacer>
         </GridItem>
         <GridItem $mdCol={4}>
-          {admin && admin.status === "fetched" && (
-            <BoxWithSpacer>
-              <AdminBox admin={admin} color={gameColor} game={game} />
-            </BoxWithSpacer>
-          )}
+          <FlexContainer $direction="column" $gap="small" $alignItems="stretch">
+            {admin && admin.status === "fetched" && (
+              <BoxWithSpacer>
+                <AdminBox admin={admin} color={gameColor} game={game} />
+              </BoxWithSpacer>
+            )}
+            {admin.firestoreId === authUser?.firestoreId ? (
+              <BoxWithSpacer>
+                <FlexContainer
+                  $alignItems="flex-start"
+                  $direction="column"
+                  $gap="small"
+                >
+                  {joinRequests.length > 0 ? (
+                    joinRequests.map((r) => (
+                      <FlexContainer
+                        key={r.requesteeId}
+                        $gap="small"
+                        $width="100%"
+                        $alignItems="center"
+                      >
+                        <FlexItem $grow={1}>
+                          <Link href={`/home/user/${r.requesteeSqlId}`}>
+                            {r.requesteeEmail}
+                          </Link>
+                        </FlexItem>
+                        <IconButton
+                          $size="small"
+                          onClick={() => {
+                            respondToJoinRequest(r.requesteeId, "accepted");
+                          }}
+                          Icon={UserPlus}
+                          $color="green"
+                        ></IconButton>
+                        <IconButton
+                          $color="red"
+                          $size="small"
+                          onClick={() => {
+                            respondToJoinRequest(r.requesteeId, "rejected");
+                          }}
+                          Icon={UserX}
+                        ></IconButton>
+                      </FlexContainer>
+                    ))
+                  ) : (
+                    <P>No Pending Requests</P>
+                  )}
+                </FlexContainer>
+              </BoxWithSpacer>
+            ) : (
+              !game.players.includes(authUser?.sqlId as string) && (
+                <BoxWithSpacer>
+                  <FlexContainer $alignItems="center" $justifyContent="center">
+                    {currentRequestStatus === "pending" && (
+                      <P $color="grey">Request pending</P>
+                    )}
+                    {currentRequestStatus === null && (
+                      <Button
+                        size={ButtonSize.sm}
+                        buttonText="Request to join"
+                        onClick={requestToJoinGame}
+                      ></Button>
+                    )}
+                  </FlexContainer>
+                </BoxWithSpacer>
+              )
+            )}
+          </FlexContainer>
         </GridItem>
         <GridItem $mdCol={8}>
           <GameWeekBox color={gameColor} gameSqlId={game.sqlId} />

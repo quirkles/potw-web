@@ -140,7 +140,7 @@ function FetchedGameWeek({ gameWeek }: { gameWeek: StoreFetchedGameWeek }) {
             <P>{gameWeek.theme || "No theme set"}</P>
           </BoxWithSpacer>
         </GridItem>
-        <GridItem $mdCol={8}>
+        <GridItem>
           <BoxWithSpacer>
             <CommentBox resourcePath={`gameWeeks/${gameWeek.firestoreId}`} />
           </BoxWithSpacer>

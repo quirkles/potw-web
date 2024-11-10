@@ -23,11 +23,9 @@ const ReorderableStyle = styled.div`
 
 export function ReorderableContainer({ children }: PropsWithChildren) {
   const [isDragging, setIsDragging] = useState(false);
-  const [closestElementId, setClosestElementId] = useState<string | null>(null);
   const [isActive, setIsActive] = useState(false);
-  const [beforeOrAfter, setBeforeOrAfter] = useState<"before" | "after" | null>(
-    null,
-  );
+  const [beforeElementId, setBeforeElementId] = useState<string | null>(null);
+  const [afterElementId, setAfterElementId] = useState<string | null>(null);
   const [draggedElementId, setDraggedElementId] = useState<string | null>(null);
 
   const [orderedChildren, setOrderedChildren] = useState<
@@ -57,8 +55,20 @@ export function ReorderableContainer({ children }: PropsWithChildren) {
     setDraggedElementId(id);
     let distance = Number.POSITIVE_INFINITY;
     // rip through the refs and find the closest element to the x and y
-    let newClosestElementId = "";
-    let newBeforeOrAfter: "before" | "after" | null = null;
+    let newBeforeElement: {
+      id: string | null;
+      distance: number;
+    } = {
+      id: null,
+      distance: Number.POSITIVE_INFINITY,
+    };
+    let newAfterElement: {
+      id: string | null;
+      distance: number;
+    } = {
+      id: null,
+      distance: Number.POSITIVE_INFINITY,
+    };
     Object.keys(childRefs.current)
       .filter((key) => {
         if (key === id) {
@@ -92,68 +102,50 @@ export function ReorderableContainer({ children }: PropsWithChildren) {
         const distanceToCurrentEl = Math.abs(
           draggedElMiddleX - currentElRect.left,
         );
-        if (distanceToCurrentEl < distance) {
-          distance = distanceToCurrentEl;
-          newClosestElementId = key;
-          newBeforeOrAfter =
-            draggedElMiddleX < currentElMiddleX ? "before" : "after";
+        if (draggedElMiddleX < currentElMiddleX) {
+          if (distanceToCurrentEl < newBeforeElement.distance) {
+            newBeforeElement = { id: key, distance: distanceToCurrentEl };
+          }
+        }
+        if (draggedElMiddleX > currentElMiddleX) {
+          if (distanceToCurrentEl < newAfterElement.distance) {
+            newAfterElement = { id: key, distance: distanceToCurrentEl };
+          }
         }
       });
-    setClosestElementId(() => {
-      return newClosestElementId;
-    });
-    setBeforeOrAfter(() => {
-      return newBeforeOrAfter;
-    });
+    setBeforeElementId(newBeforeElement.id);
+    setAfterElementId(newAfterElement.id);
   }, 50);
   const onElementDrop = () => {
     setOrderedChildren((prev) => {
       const newChildren = prev.filter(({ id }) => id !== draggedElementId);
-      const closestElementIndex = newChildren.findIndex(
-        ({ id }) => id === closestElementId,
+      const beforeElementIndex = newChildren.findIndex(
+        ({ id }) => id === beforeElementId,
       );
-      if (beforeOrAfter === "before") {
-        newChildren.splice(closestElementIndex, 0, {
-          id: draggedElementId as string,
-          child: orderedChildren.find(({ id }) => id === draggedElementId)
-            ?.child,
-        });
-      } else {
-        newChildren.splice(closestElementIndex + 1, 0, {
-          id: draggedElementId as string,
-          child: orderedChildren.find(({ id }) => id === draggedElementId)
-            ?.child,
-        });
-      }
+      newChildren.splice(beforeElementIndex, 0, {
+        id: draggedElementId as string,
+        child: orderedChildren.find(({ id }) => id === draggedElementId)?.child,
+      });
       return newChildren;
     });
     setDraggedElementId(null);
     setIsDragging(false);
-    setClosestElementId(null);
-    setBeforeOrAfter(null);
+    setBeforeElementId(null);
+    setAfterElementId(null);
   };
   return (
     <ReorderableStyle
       onMouseLeave={() => {
         setIsActive(false);
         setIsDragging(false);
-        setClosestElementId(null);
         setDraggedElementId(null);
-        setBeforeOrAfter(null);
+        setBeforeElementId(null);
+        setAfterElementId(null);
       }}
       onMouseEnter={() => {
         setIsActive(true);
       }}
     >
-      <div>
-        <small>
-          {JSON.stringify(
-            { isDragging, closestElementId, beforeOrAfter },
-            null,
-            2,
-          )}
-        </small>
-      </div>
       {orderedChildren.map(({ child }, i) => {
         return isChildReactComponent(child) ? (
           <InternalReorderableItem
@@ -167,7 +159,10 @@ export function ReorderableContainer({ children }: PropsWithChildren) {
             id={child.props.id as string}
             index={i}
             showDropHint={
-              isDragging && closestElementId === child.props.id && beforeOrAfter
+              isDragging &&
+              ((beforeElementId === child.props.id && "before") ||
+                (afterElementId === child.props.id && "after") ||
+                false)
             }
           >
             {child}
@@ -187,6 +182,8 @@ const ReorderableItemStyle = styled.div<{
   $showDropHint: "before" | "after" | null | false;
   ref: ForwardedRef<HTMLDivElement>;
 }>`
+  transition: transform 0.1s ease-in-out;
+  transform: ${({ $showDropHint }) => ($showDropHint === "before" ? "translateX(5px)" : $showDropHint === "after" ? "translateX(-5px)" : "none")};
   cursor: ${({ $isDragging }) => ($isDragging ? "grabbing" : "grab")};
   position: relative;
   .anchor-content {
@@ -210,27 +207,11 @@ const ReorderableItemStyle = styled.div<{
   }
   ${({ $showDropHint }) =>
     $showDropHint === "before" && {
-      "&::before": {
-        content: '""',
-        position: "absolute",
-        top: 0,
-        left: "-12.5px",
-        width: "10px",
-        height: "100%",
-        background: getColor("grey_100"),
-      },
+      "border-left": `2px solid ${getColor("blue_200")}`,
     }}
   ${({ $showDropHint }) =>
     $showDropHint === "after" && {
-      "&::after": {
-        content: '""',
-        position: "absolute",
-        top: 0,
-        right: "-12.5px",
-        width: "10px",
-        height: "100%",
-        background: getColor("grey_100"),
-      },
+      "border-right": `2px solid ${getColor("blue_200")}`,
     }}
 }
 `;
