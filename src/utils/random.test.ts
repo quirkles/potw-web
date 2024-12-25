@@ -8,7 +8,7 @@ describe("random.getPseudoRandomInRangeFromUid", () => {
     const uid = "user123";
     const min = 1;
     const max = 10;
-    const result = random.getPseudoRandomInRangeFromUid(uid, max, min);
+    const result = random.getPseudoRandomInRangeFromString(uid, max, min);
     expect(result).toBeGreaterThanOrEqual(min);
     expect(result).toBeLessThanOrEqual(max);
   });
@@ -18,7 +18,9 @@ describe("random.getPseudoRandomInRangeFromUid", () => {
     const uid = "";
     const min = 1;
     const max = 10;
-    expect(() => random.getPseudoRandomInRangeFromUid(uid, max, min)).toThrow(
+    expect(() =>
+      random.getPseudoRandomInRangeFromString(uid, max, min),
+    ).toThrow(
       new Error(
         "Invalid input. `uid` must be a non-empty string and `max` must be greater than `min`.",
       ),
@@ -29,32 +31,34 @@ describe("random.getPseudoRandomInRangeFromUid", () => {
   it("should handle UIDs with mixed case characters by converting them to lowercase", () => {
     // Test with mixed case characters
     expect(
-      random.getPseudoRandomInRangeFromUid("UsErId123", 10, 5),
+      random.getPseudoRandomInRangeFromString("UsErId123", 10, 5),
     ).toBeGreaterThanOrEqual(5);
     expect(
-      random.getPseudoRandomInRangeFromUid("UsErId123", 10, 5),
+      random.getPseudoRandomInRangeFromString("UsErId123", 10, 5),
     ).toBeLessThanOrEqual(10);
 
     // Test with all uppercase characters
     expect(
-      random.getPseudoRandomInRangeFromUid("USERID", 100, 50),
+      random.getPseudoRandomInRangeFromString("USERID", 100, 50),
     ).toBeGreaterThanOrEqual(50);
     expect(
-      random.getPseudoRandomInRangeFromUid("USERID", 100, 50),
+      random.getPseudoRandomInRangeFromString("USERID", 100, 50),
     ).toBeLessThanOrEqual(100);
 
     // Test with all lowercase characters
     expect(
-      random.getPseudoRandomInRangeFromUid("userid", 20, 10),
+      random.getPseudoRandomInRangeFromString("userid", 20, 10),
     ).toBeGreaterThanOrEqual(10);
     expect(
-      random.getPseudoRandomInRangeFromUid("userid", 20, 10),
+      random.getPseudoRandomInRangeFromString("userid", 20, 10),
     ).toBeLessThanOrEqual(20);
   });
 
   // Manages cases where min and max values are the same
   it("should return the same value when min and max are equal", () => {
-    expect(() => random.getPseudoRandomInRangeFromUid("testuid", 5, 5)).toThrow(
+    expect(() =>
+      random.getPseudoRandomInRangeFromString("testuid", 5, 5),
+    ).toThrow(
       new Error(
         "Invalid input. `uid` must be a non-empty string and `max` must be greater than `min`.",
       ),
@@ -68,7 +72,7 @@ describe("random.getPseudoRandomInRangeFromUid", () => {
     const max = 1000;
     const min = 500;
 
-    const result = random.getPseudoRandomInRangeFromUid(uid, max, min);
+    const result = random.getPseudoRandomInRangeFromString(uid, max, min);
 
     expect(result).toBeGreaterThanOrEqual(min);
     expect(result).toBeLessThanOrEqual(max);
@@ -86,8 +90,8 @@ describe("random.getPseudoRandomInRangeFromUid", () => {
     const expectedOutput = 33;
 
     // Call the function with the test input
-    const result1 = random.getPseudoRandomInRangeFromUid(uid1, max, min);
-    const result2 = random.getPseudoRandomInRangeFromUid(uid2, max, min);
+    const result1 = random.getPseudoRandomInRangeFromString(uid1, max, min);
+    const result2 = random.getPseudoRandomInRangeFromString(uid2, max, min);
 
     // Assertion
     expect(result1).toBe(result2);

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ComponentType, HTMLAttributes, PropsWithChildren } from "react";
 import { styled } from "styled-components";
 
-import { BaseColorName } from "@/app/styles/colors";
+import { BaseColorName, Colors } from "@/app/styles/colors";
 
 import { getColorVariant, hexToRgbA } from "@/utils/color";
 
@@ -44,9 +44,12 @@ const StyledButton = styled.button<{
   $hasIcon: boolean;
   $color: BaseColorName;
   $size: ButtonSize;
+  $disabled: boolean;
 }>`
-  background: ${(props) => getColorVariant(props.$color)};
-  color: ${(props) => getColorVariant(props.$color, "font")};
+  background: ${(props) =>
+    props.$disabled ? Colors.grey_300 : getColorVariant(props.$color)};
+  color: ${(props) =>
+    props.$disabled ? Colors.grey_500 : getColorVariant(props.$color, "font")};
   font-family: inherit;
   font-size: ${(props) => getSizes(props.$size).fontsize}px;
   font-weight: 500;
@@ -66,8 +69,7 @@ const StyledButton = styled.button<{
       ]}em
     ${(props) => getSizes(props.$size).verticalPadding}em
     ${(props) => getSizes(props.$size).horizontalPadding}em;
-  cursor: pointer;
-
+  cursor: ${(props) => (props.$disabled ? "not-allowed" : "pointer")};
   a {
     text-decoration: none;
   }
@@ -100,7 +102,10 @@ const StyledButton = styled.button<{
   &:hover .icon {
     width: calc(100% - 0.6em);
     transform: translateX(${(props) => (props.$hasIcon ? 0.1 : 0)}em);
-    color: ${(props) => hexToRgbA(getColorVariant(props.$color), 1)};
+    color: ${(props) =>
+      props.$disabled
+        ? Colors.grey_500
+        : hexToRgbA(getColorVariant(props.$color), 1)};
     svg {
       transform: scale(1.5);
     }
@@ -117,6 +122,7 @@ interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   color?: BaseColorName;
   size?: ButtonSize;
   route?: string;
+  disabled?: boolean;
 }
 
 function Button(props: ButtonProps) {
@@ -126,6 +132,7 @@ function Button(props: ButtonProps) {
     buttonText,
     route,
     size = ButtonSize.med,
+    disabled,
     ...rest
   } = props;
   return (
@@ -133,6 +140,7 @@ function Button(props: ButtonProps) {
       $hasIcon={Boolean(Icon)}
       $color={color}
       $size={size}
+      $disabled={Boolean(disabled)}
       {...rest}
     >
       <Wrapper route={route}>

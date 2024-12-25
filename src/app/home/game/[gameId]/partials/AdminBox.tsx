@@ -2,10 +2,10 @@ import { styled } from "styled-components";
 
 import { ColorName, getColor } from "@/app/styles/colors";
 
-import { useResponsiveContext } from "@/app/providers/Responsive";
+import { StoreFetchedGame } from "@/app/store/schemas/game";
+import { StoreFetchedUser, StoreUser } from "@/app/store/schemas/user";
 
-import { StoreFetchedGame } from "@/app/services/schemas/store/game";
-import { StoreFetchedUser, StoreUser } from "@/app/services/schemas/store/user";
+import { useResponsiveContext } from "@/app/providers/Responsive";
 
 import { Avatar } from "@/components/avatar/Avatar";
 import Heading from "@/components/heading/Heading";

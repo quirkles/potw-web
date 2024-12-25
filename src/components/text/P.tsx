@@ -10,6 +10,9 @@ interface PProps {
   $fontWeight?: "light" | "normal" | "bold";
   $fontType?: "serif" | "sans" | "mono";
   $color?: ColorName;
+  $textAlign?: "left" | "center" | "right";
+  $verticalAlign?: "top" | "middle" | "bottom";
+  $lineHeight?: number;
 }
 
 const StyledP = styled.p<PProps>`
@@ -18,7 +21,7 @@ const StyledP = styled.p<PProps>`
       case "serif":
         return baskerville.style.fontFamily;
       case "sans":
-        rubik.style.fontFamily;
+        return rubik.style.fontFamily;
       case "mono":
         return overpassMono.style.fontFamily;
       default:
@@ -52,6 +55,9 @@ const StyledP = styled.p<PProps>`
   text-transform: ${(props: PProps) => props.$textTransform || "none"};
   color: ${(props: PProps) =>
     props.$color ? getColor(props.$color) || "inherit" : "inherit"};
+  text-align: ${(props: PProps) => props.$textAlign || "left"};
+  vertical-align: ${(props: PProps) => props.$verticalAlign || "top"};
+  line-height: ${(props: PProps) => props.$lineHeight || 1.5};
 `;
 function P(props: PropsWithChildren<PProps>) {
   return <StyledP {...props}>{props.children}</StyledP>;

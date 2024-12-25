@@ -79,6 +79,7 @@ const meta = {
         createdAt: "2022-01-01T00:00:00Z",
         updatedAt: "2022-01-01T00:00:00Z",
         gameWeeks: [],
+        adminSqlId: args.game_admin_id,
       },
     };
     return <GameSummary {...props} />;

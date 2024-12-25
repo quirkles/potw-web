@@ -1,3 +1,4 @@
+import { formatDateTime } from "@potw/utils";
 import Link from "next/link";
 import { styled } from "styled-components";
 
@@ -5,16 +6,13 @@ import { ColorName, getColor } from "@/app/styles/colors";
 import { defaultBorderRadius } from "@/app/styles/consts";
 
 import { useAppSelector } from "@/app/store/hooks";
+import { StoreFetchedGameWeek } from "@/app/store/schemas/gameWeek";
 import { selectGameWeeksForGame } from "@/app/store/selectors/gameWeeks";
-
-import { StoreFetchedGameWeek } from "@/app/services/schemas/store/gameWeek";
 
 import Heading from "@/components/heading/Heading";
 import Icon, { IconType } from "@/components/icons";
 import Spacer from "@/components/spacer/Spacer";
 import P from "@/components/text/P";
-
-import { formatDateTime } from "@/utils/date";
 
 const Styled = styled.div`
   background-color: ${getColor("lightGrey_100")};

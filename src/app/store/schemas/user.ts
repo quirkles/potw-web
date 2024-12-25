@@ -1,8 +1,7 @@
+import { sqlUserSchema } from "@potw/schemas";
 import z from "zod";
 
-import { userSchema } from "@/app/services/schemas/backend/user";
-
-export const baseStoreUserSchema = userSchema.extend({
+export const baseStoreUserSchema = sqlUserSchema.extend({
   gamesAsAdmin: z.array(z.string()),
   gamesAsParticipant: z.array(z.string()),
   picks: z.array(z.string()),
@@ -30,7 +29,6 @@ export type StoreFailedUser = z.infer<typeof storeFailedUserSchema>;
 const storeNewUserSchema = baseStoreUserSchema
   .omit({
     sqlId: true,
-    games: true,
   })
   .extend({
     status: z.enum(["unsaved", "pending", "failed"]),

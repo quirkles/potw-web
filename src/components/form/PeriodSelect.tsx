@@ -1,13 +1,15 @@
+import {
+  TPeriodString,
+  transformPeriodStringToPeriod,
+  transformPeriodToPeriodString,
+} from "@potw/schemas";
+import { RecordToEnum } from "@potw/type-utils";
 import { ChangeEvent, PropsWithChildren } from "react";
 import { styled } from "styled-components";
-
-import { PeriodString } from "@/app/services/schemas/backend/game";
 
 import ArrowDownCircle from "@/components/icons/ArrowDownCircle.svg";
 
 import { getColorVariant, hexToRgbA } from "@/utils/color";
-import { periodStringToPeriod, periodToPeriodString } from "@/utils/period";
-import { RecordToEnum } from "@/utils/typeUtils";
 
 const BasicPeriod = {
   daily: "daily",
@@ -57,8 +59,8 @@ type CustomRecurring = {
 type GamePeriod = BasicPeriod | CustomPeriod | CustomRecurring;
 
 interface PeriodSelectProps {
-  selectedPeriod: PeriodString;
-  onChange?: (period: PeriodString) => void;
+  selectedPeriod: TPeriodString;
+  onChange?: (period: TPeriodString) => void;
 }
 
 interface PeriodOptionProps {
@@ -174,7 +176,7 @@ function PeriodSelect(props: PropsWithChildren<PeriodSelectProps>) {
   const { onChange = () => null, selectedPeriod } = props;
 
   const selectedOption = options.find((option) =>
-    isEqual(option.period, periodStringToPeriod(selectedPeriod)),
+    isEqual(option.period, transformPeriodStringToPeriod(selectedPeriod)),
   );
 
   function handlePeriodChange(event: ChangeEvent<HTMLSelectElement>) {
@@ -186,7 +188,7 @@ function PeriodSelect(props: PropsWithChildren<PeriodSelectProps>) {
         `Could not find period with value: ${event.target.value}`,
       );
     }
-    onChange(periodToPeriodString(selectedPeriod?.period));
+    onChange(transformPeriodToPeriodString(selectedPeriod?.period));
   }
 
   return (

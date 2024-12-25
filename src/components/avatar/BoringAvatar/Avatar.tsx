@@ -1,4 +1,4 @@
-import { PartialBy } from "@/utils/typeUtils";
+import { PartialBy } from "@potw/type-utils";
 
 import AvatarBauhaus from "./AvatarBauhaus";
 import AvatarBeam from "./AvatarBeam";

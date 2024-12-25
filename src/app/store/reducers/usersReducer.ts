@@ -1,5 +1,8 @@
+import { TSqlUser } from "@potw/schemas";
+
 import { createAppSlice } from "@/app/store/createAppSlice";
 import { gameSlice } from "@/app/store/reducers/gamesReducer";
+import { StoreFetchedUser, StoreUser } from "@/app/store/schemas/user";
 import { fetchGameAction } from "@/app/store/sharedActions/fetch";
 
 import {
@@ -7,8 +10,6 @@ import {
   updateUserRequest,
 } from "@/app/services/backend/user/fetchUserById";
 import { userToStoreUser } from "@/app/services/backend/user/transformers";
-import { User } from "@/app/services/schemas/backend/user";
-import { StoreFetchedUser, StoreUser } from "@/app/services/schemas/store/user";
 
 export type StoreUsersState = {
   users: {
@@ -100,10 +101,10 @@ export const usersSlice = createAppSlice({
       },
     }),
     updateUserField: create.asyncThunk(
-      async <T extends keyof User>(params: {
+      async <T extends keyof TSqlUser>(params: {
         userId: string;
         field: T;
-        value: User[T];
+        value: TSqlUser[T];
       }) => {
         return updateUserRequest({
           sqlId: params.userId,

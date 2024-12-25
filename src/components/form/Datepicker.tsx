@@ -1,7 +1,6 @@
+import { TDateString } from "@potw/type-utils";
 import { useRef, useState } from "react";
 import { styled } from "styled-components";
-
-import { DateString } from "@/utils/date";
 
 const StyledDatepicker = styled.div`
   border-bottom: 1px dashed blue;
@@ -23,8 +22,8 @@ const StyledDatepicker = styled.div`
 `;
 
 interface DatepickerProps {
-  initialDate: DateString;
-  onChange?: (date: DateString) => void;
+  initialDate: TDateString;
+  onChange?: (date: TDateString) => void;
 }
 
 function Datepicker(props: DatepickerProps) {
@@ -39,7 +38,7 @@ function Datepicker(props: DatepickerProps) {
         value={date}
         onChange={(e) => {
           setDate(e.target.value);
-          onChange(e.target.value as DateString);
+          onChange(e.target.value as TDateString);
         }}
       />
     </StyledDatepicker>

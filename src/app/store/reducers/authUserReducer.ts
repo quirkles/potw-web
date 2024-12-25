@@ -1,6 +1,5 @@
+import { Maybe } from "@potw/type-utils";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-import { Maybe } from "@/utils/typeUtils";
 
 export type IAuthUser = Maybe<
   Partial<{

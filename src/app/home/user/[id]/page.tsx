@@ -1,5 +1,7 @@
 "use client";
 
+import { TUserUpdate } from "@potw/schemas/dist/lib/contract/user";
+import { formatDateTime } from "@potw/utils";
 import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 
@@ -14,6 +16,7 @@ import {
   fetchUserById,
   updateUserField,
 } from "@/app/store/reducers/usersReducer";
+import { StoreFetchedUser } from "@/app/store/schemas/user";
 import { authUserSelector } from "@/app/store/selectors/authUser";
 import { selectGamesForUser } from "@/app/store/selectors/games";
 import { selectUserBySqlId } from "@/app/store/selectors/users";
@@ -22,8 +25,6 @@ import { useNotificationsContext } from "@/app/providers/Notifications";
 import { useResponsiveContext } from "@/app/providers/Responsive";
 
 import { uploadFile } from "@/app/services/file/upload";
-import { UserUpdate } from "@/app/services/schemas/backend/user";
-import { StoreFetchedUser } from "@/app/services/schemas/store/user";
 
 import { Avatar } from "@/components/avatar/Avatar";
 import TextEditable from "@/components/form/TextEditable";
@@ -36,8 +37,7 @@ import Loader from "@/components/loader/Loader";
 import Spacer from "@/components/spacer/Spacer";
 import P from "@/components/text/P";
 
-import { formatDateTime } from "@/utils/date";
-import { getPseudoRandomFromArrayFromUid } from "@/utils/random";
+import { getPseudoRandomFromArrayFromString } from "@/utils/random";
 
 const StyledUserIdPage = styled.div`
   height: 100%;
@@ -119,7 +119,7 @@ function FetchedUser(props: { user: StoreFetchedUser }) {
   const responsive = useResponsiveContext();
 
   const canEdit = authUser?.sqlId === user.sqlId;
-  const userColor = getPseudoRandomFromArrayFromUid(user.sqlId, gameColors);
+  const userColor = getPseudoRandomFromArrayFromString(user.sqlId, gameColors);
 
   useEffect(() => {
     if (user.sqlId) {
@@ -128,7 +128,7 @@ function FetchedUser(props: { user: StoreFetchedUser }) {
   }, [user.sqlId, dispatch]);
 
   const handleTextFieldChange =
-    (fieldName: keyof UserUpdate) => (text: string) => {
+    (fieldName: keyof TUserUpdate) => (text: string) => {
       dispatch(
         updateUserField({ userId: user.sqlId, field: fieldName, value: text }),
       )

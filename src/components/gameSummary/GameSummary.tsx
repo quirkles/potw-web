@@ -1,4 +1,4 @@
-import { Icons } from "@storybook/components";
+import { getPeriodDisplayText } from "@potw/utils/dist/lib/period";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { styled } from "styled-components";
@@ -6,11 +6,10 @@ import { styled } from "styled-components";
 import { BaseColorName, gameColors } from "@/app/styles/colors";
 
 import { useAppSelector } from "@/app/store/hooks";
+import { StoreFetchedGame } from "@/app/store/schemas/game";
 import { selectUserBySqlId } from "@/app/store/selectors/users";
 
 import { useResponsiveContext } from "@/app/providers/Responsive";
-
-import { StoreFetchedGame } from "@/app/services/schemas/store/game";
 
 import { Avatar } from "@/components/avatar/Avatar";
 import HorizontalDivider from "@/components/divider/HorizontalDivider";
@@ -22,10 +21,9 @@ import P from "@/components/text/P";
 import Span from "@/components/text/Span";
 
 import { getColorVariant } from "@/utils/color";
-import { getPeriodDisplayTextFromPeriodString } from "@/utils/period";
 import {
-  getPseudoRandomFromArrayFromUid,
-  getPseudoRandomInRangeFromUid,
+  getPseudoRandomFromArrayFromString,
+  getPseudoRandomInRangeFromString,
 } from "@/utils/random";
 
 const StyledGameSummary = styled.div<{
@@ -82,9 +80,13 @@ interface IGameSummaryProps {
 export function GameSummary(props: IGameSummaryProps) {
   const { game } = props;
   const responsive = useResponsiveContext();
-  const colorName = getPseudoRandomFromArrayFromUid(game.sqlId, gameColors);
+  const colorName = getPseudoRandomFromArrayFromString(game.sqlId, gameColors);
   const router = useRouter();
-  const getAnimationDelay = getPseudoRandomInRangeFromUid(game.sqlId, 500, 0);
+  const getAnimationDelay = getPseudoRandomInRangeFromString(
+    game.sqlId,
+    500,
+    0,
+  );
   const {
     sqlId,
     name,
@@ -196,7 +198,7 @@ export function GameSummary(props: IGameSummaryProps) {
                   <Span>
                     Game is played{" "}
                     <Span $fontWeight="bold" $color={colorName}>
-                      {getPeriodDisplayTextFromPeriodString(period)}
+                      {getPeriodDisplayText(period)}
                     </Span>
                   </Span>
                 </P>

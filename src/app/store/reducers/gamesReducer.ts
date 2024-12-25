@@ -1,3 +1,6 @@
+import { TSqlGame, TSqlVote } from "@potw/schemas";
+import { createGamePayloadSchema } from "@potw/schemas/dist/lib/contract/game";
+import { addTo, getDateString } from "@potw/utils";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { ZodError } from "zod";
 
@@ -9,31 +12,25 @@ import {
 
 import { createAppSlice } from "@/app/store/createAppSlice";
 import {
+  StoreFetchedGame,
+  StoreGame,
+  StoreNewGame,
+} from "@/app/store/schemas/game";
+import {
   fetchAllVotesForGameAction,
   fetchGameAction,
   fetchGameWeekWithGameAction,
 } from "@/app/store/sharedActions/fetch";
 
 import { gameToStoreGame } from "@/app/services/backend/game/transformers";
-import {
-  createGamePayloadSchema,
-  Game,
-} from "@/app/services/schemas/backend/game";
-import { GameVote } from "@/app/services/schemas/backend/gameVotes";
-import {
-  StoreFetchedGame,
-  StoreGame,
-  StoreNewGame,
-} from "@/app/services/schemas/store/game";
 
-import { addTo, getDateString } from "@/utils/date";
 import { getFakeGameName } from "@/utils/game";
 
 type StoreGameState = {
   games: {
     [gameId: string]: {
       game: StoreGame;
-      votes: GameVote[];
+      votes: TSqlVote[];
     };
   };
   fetchingGamesForUserIds: string[];
@@ -129,7 +126,7 @@ export const gameSlice = createAppSlice({
             firestoreId: string | null;
           }[];
         },
-      ): Promise<Game> => {
+      ): Promise<TSqlGame> => {
         if (createGamePayload.isOpenEnded) {
           createGamePayload.endDate = null;
         }

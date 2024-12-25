@@ -13,7 +13,7 @@ import z from "zod";
 
 import { getAppFirestore } from "@/firebase";
 
-import { gameJoinRequestSchema } from "@/app/services/schemas/store/gameJoinRequest";
+import { gameJoinRequestSchema } from "@/app/store/schemas/gameJoinRequest";
 
 const gameJoinRequestWithRequesteeSchema = gameJoinRequestSchema.extend({
   requesteeSqlId: gameJoinRequestSchema.shape.requesteeId,
@@ -82,7 +82,7 @@ export function useGameJoinRequests(gameId: string): HookReturnValue {
     return () => {
       joinRequestsUnsub();
     };
-  }, []);
+  }, [gameId]);
 
   const respondToJoinRequest = (
     requestId: string,

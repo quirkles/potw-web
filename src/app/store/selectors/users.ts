@@ -1,9 +1,8 @@
 import { createSelector } from "@reduxjs/toolkit";
 
 import { isFetchedUser } from "@/app/store/reducers/usersReducer";
+import { StoreFetchedUser, StoreUser } from "@/app/store/schemas/user";
 import { RootState } from "@/app/store/store";
-
-import { StoreFetchedUser, StoreUser } from "@/app/services/schemas/store/user";
 
 const usersSelector = (state: RootState) => state.usersState;
 

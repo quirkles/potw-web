@@ -7,10 +7,11 @@ import {
   doc,
   setDoc,
 } from "@firebase/firestore";
+import { TFirebaseComment, firebaseCommentSchema } from "@potw/schemas";
+import { PartialBy } from "@potw/type-utils";
 import { useEffect, useReducer } from "react";
 
 import { getAppFirestore } from "@/firebase";
-import { potwCommentSchema, PotwComment } from "@/firestore/PotwComment";
 
 import {
   actionCreators,
@@ -19,7 +20,6 @@ import {
 } from "@/components/commentBox/useCommentsReducer";
 
 import keyMirror from "@/utils/object";
-import { PartialBy } from "@/utils/typeUtils";
 
 const entities = ["games", "gameWeeks"] as const;
 
@@ -36,7 +36,7 @@ const initialState: UseCommentsReducerState = {
 
 type CreateCommentPayload = PartialBy<
   Pick<
-    PotwComment,
+    TFirebaseComment,
     | "title"
     | "content"
     | "parentCommentFirestoreId"
@@ -66,7 +66,7 @@ export function useComments(resourcePath: ResourcePathString): [
     const unsubscribe = onSnapshot(query, (snapshot) => {
       snapshot.forEach((doc) => {
         const data = doc.data();
-        const parseResult = potwCommentSchema.safeParse(data);
+        const parseResult = firebaseCommentSchema.safeParse(data);
         if (parseResult.success) {
           dispatch(actionCreators.addComment(parseResult.data));
         }
@@ -101,7 +101,7 @@ function addComment(comment: CreateCommentPayload, path: ResourcePathString) {
   const db = getAppFirestore();
   const newCommentRef = doc(collection(db, path, "comments"));
   let nowString = new Date().toISOString();
-  const newComment: PotwComment = {
+  const newComment: TFirebaseComment = {
     firestoreId: newCommentRef.id,
     createdAt: nowString,
     updatedAt: nowString,
@@ -111,5 +111,5 @@ function addComment(comment: CreateCommentPayload, path: ResourcePathString) {
     title: null,
     ...comment,
   };
-  return setDoc(newCommentRef, potwCommentSchema.parse(newComment));
+  return setDoc(newCommentRef, firebaseCommentSchema.parse(newComment));
 }

@@ -1,25 +1,26 @@
+import {
+  sqlUserWithRelationsSchema,
+  TSqlUserWithRelations,
+  userUpdateSchema,
+} from "@potw/schemas";
+import { TUserUpdate } from "@potw/schemas/dist/lib/contract/user";
+
 import { getConfig } from "@/config";
 
 import { httpService } from "@/app/services/http/http.service";
-import {
-  UserUpdate,
-  userUpdateSchema,
-} from "@/app/services/schemas/backend/user";
-import {
-  UserWithRelations,
-  userWithRelationsSchema,
-} from "@/app/services/schemas/backend/withRelations";
 
-export const fetchUserByIdRequest = (id: string): Promise<UserWithRelations> =>
+export const fetchUserByIdRequest = (
+  id: string,
+): Promise<TSqlUserWithRelations> =>
   httpService.get({
     url: `${getConfig().functionsUrl}/app-user-fetchOne?id=${id}&includeGames=true`,
-    responseSchema: userWithRelationsSchema,
+    responseSchema: sqlUserWithRelationsSchema,
     useAppCheck: true,
-  }) as Promise<UserWithRelations>;
+  }) as Promise<TSqlUserWithRelations>;
 
 export const updateUserRequest = (
-  user: Partial<UserUpdate>,
-): Promise<UserUpdate> =>
+  user: Partial<TUserUpdate>,
+): Promise<TUserUpdate> =>
   httpService.post({
     url: `${getConfig().functionsUrl}/app-user-update`,
     responseSchema: userUpdateSchema,

@@ -1,10 +1,6 @@
-import { getConfig } from "@/config";
+import { sqlGameWithRelationsSchema } from "@potw/schemas";
 
-import { Game, gameSchema } from "@/app/services/schemas/backend/game";
-import {
-  GameWithRelations,
-  gameWithRelationsSchema,
-} from "@/app/services/schemas/backend/withRelations";
+import { getConfig } from "@/config";
 
 export async function fetchGame(gameId: string) {
   await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -16,7 +12,7 @@ export async function fetchGame(gameId: string) {
       return res.json();
     })
     .then((data) => {
-      return gameWithRelationsSchema.parse(data);
+      return sqlGameWithRelationsSchema.parse(data);
     })
     .catch((e) => {
       console.error(`Error fetching games: ${e}`);

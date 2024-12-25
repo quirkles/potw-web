@@ -1,8 +1,9 @@
+import { TFirebaseComment } from "@potw/schemas";
+import { formatDateTime } from "@potw/utils";
 import { useState } from "react";
 import { styled } from "styled-components";
 
 import { getColor } from "@/app/styles/colors";
-import { PotwComment } from "@/firestore/PotwComment";
 
 import { useAppSelector } from "@/app/store/hooks";
 import { authUserSelector } from "@/app/store/selectors/authUser";
@@ -20,8 +21,6 @@ import VerticalDivider from "@/components/divider/VerticalDivider";
 import MultiBubble from "@/components/icons/MultiBubble.svg";
 import { FlexContainer } from "@/components/layout/FlexContainer";
 import { Small } from "@/components/text/Small";
-
-import { formatDateTime } from "@/utils/date";
 
 interface CommentBoxProps {
   resourcePath: ResourcePathString;
@@ -67,10 +66,10 @@ export default function CommentBox({ resourcePath }: CommentBoxProps) {
   };
   return (
     <StyledCommentBox>
-      <h1>{resourcePath}</h1>
+      <h2>{resourcePath}</h2>
       <textarea
         name="new-comment"
-        cols={30}
+        cols={20}
         rows={5}
         value={commentBody}
         onChange={(e) => setCommentBody(e.target.value)}
@@ -98,7 +97,7 @@ const StyledComment = styled.div`
   padding: 0.5rem;
 `;
 
-function Comment({ comment }: { comment: PotwComment }) {
+function Comment({ comment }: { comment: TFirebaseComment }) {
   const author = useAppSelector((state) =>
     selectUserBySqlId(state, comment.authorSqlId),
   );

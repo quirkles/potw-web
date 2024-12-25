@@ -1,14 +1,14 @@
-import { GameWeek } from "@/app/services/schemas/backend/gameWeek";
-import { GameWithRelations } from "@/app/services/schemas/backend/withRelations";
-import { StoreFetchedGame } from "@/app/services/schemas/store/game";
+import { TSqlGameWeek, TSqlGameWithRelations } from "@potw/schemas";
+import { isDateString } from "@potw/type-utils";
+import { stringAsDateString } from "@potw/utils";
+
+import { StoreFetchedGame } from "@/app/store/schemas/game";
 import {
   StoreFetchedGameWeek,
   storeFetchedGameWeekSchema,
-} from "@/app/services/schemas/store/gameWeek";
+} from "@/app/store/schemas/gameWeek";
 
-import { isDateString, stringAsDateString } from "@/utils/date";
-
-export function gameToStoreGame(game: GameWithRelations): StoreFetchedGame {
+export function gameToStoreGame(game: TSqlGameWithRelations): StoreFetchedGame {
   if (!isDateString(game.startDate)) {
     throw new Error(
       "Invalid date string in gameToStoreGame: " + game.startDate,
@@ -26,7 +26,7 @@ export function gameToStoreGame(game: GameWithRelations): StoreFetchedGame {
 }
 
 export function gameWeekToStoreGameWeek(
-  gameWeek: GameWeek,
+  gameWeek: TSqlGameWeek,
   gameSqlId: string,
 ): StoreFetchedGameWeek {
   return storeFetchedGameWeekSchema.parse({

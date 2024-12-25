@@ -1,8 +1,7 @@
+import { sqlGameSchema } from "@potw/schemas";
 import z from "zod";
 
-import { gameSchema } from "@/app/services/schemas/backend/game";
-
-export const baseStoreGameSchema = gameSchema.extend({
+export const baseStoreGameSchema = sqlGameSchema.extend({
   admin: z.string(),
   players: z.array(z.string()),
   gameWeeks: z.array(z.string()).optional(),
@@ -35,6 +34,7 @@ const storeNewGameSchema = baseStoreGameSchema
     players: true,
     createdAt: true,
     updatedAt: true,
+    adminSqlId: true,
   })
   .extend({
     fetchStatus: z.enum(["unsaved", "pending", "failed"]),

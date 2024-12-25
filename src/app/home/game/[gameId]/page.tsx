@@ -13,12 +13,11 @@ import { gameColors, getColor } from "@/app/styles/colors";
 import { defaultBorderRadius } from "@/app/styles/consts";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
+import { StoreFetchedGame } from "@/app/store/schemas/game";
 import { authUserSelector } from "@/app/store/selectors/authUser";
 import { selectGameBySqlId } from "@/app/store/selectors/games";
 import { selectUserBySqlId } from "@/app/store/selectors/users";
 import { fetchGameAction } from "@/app/store/sharedActions/fetch";
-
-import { StoreFetchedGame } from "@/app/services/schemas/store/game";
 
 import Button, { ButtonSize } from "@/components/button/Button";
 import IconButton from "@/components/button/IconButton";
@@ -34,7 +33,7 @@ import Spacer from "@/components/spacer/Spacer";
 import P from "@/components/text/P";
 import { Small } from "@/components/text/Small";
 
-import { getPseudoRandomFromArrayFromUid } from "@/utils/random";
+import { getPseudoRandomFromArrayFromString } from "@/utils/random";
 
 const Styled = styled.div`
   max-height: 100%;
@@ -114,7 +113,7 @@ function BoxWithSpacer({ children }: { children: React.ReactNode }) {
 }
 
 function FetchedGame({ game }: { game: StoreFetchedGame }) {
-  const gameColor = getPseudoRandomFromArrayFromUid(game.sqlId, gameColors);
+  const gameColor = getPseudoRandomFromArrayFromString(game.sqlId, gameColors);
   const admin = useAppSelector((state) => selectUserBySqlId(state, game.admin));
   const authUser = useAppSelector(authUserSelector);
 

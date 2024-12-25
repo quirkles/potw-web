@@ -1,12 +1,11 @@
 import { createSelector } from "reselect";
 
-import { RootState } from "@/app/store/store";
-
 import {
   StoreFetchedGameWeek,
   StoreGameWeek,
   storeGameWeekIsFetched,
-} from "@/app/services/schemas/store/gameWeek";
+} from "@/app/store/schemas/gameWeek";
+import { RootState } from "@/app/store/store";
 
 export const selectGameWeekState = (state: RootState) => state.gameWeekState;
 

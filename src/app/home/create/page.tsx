@@ -1,5 +1,7 @@
 "use client";
 
+import { TSqlGame } from "@potw/schemas";
+import { addTo, stringAsDateString } from "@potw/utils";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { styled } from "styled-components";
@@ -12,8 +14,6 @@ import { authUserSelector } from "@/app/store/selectors/authUser";
 import { selectNewGame } from "@/app/store/selectors/games";
 
 import { useNotificationsContext } from "@/app/providers/Notifications";
-
-import { Game } from "@/app/services/schemas/backend/game";
 
 import Button from "@/components/button/Button";
 import Checkbox from "@/components/form/Checkbox";
@@ -29,7 +29,6 @@ import Spacer from "@/components/spacer/Spacer";
 import P from "@/components/text/P";
 
 import { getColorVariant } from "@/utils/color";
-import { addTo } from "@/utils/date";
 import { getFakeGameName } from "@/utils/game";
 
 const Styled = styled.div`
@@ -127,7 +126,7 @@ function Create() {
             <Heading $variant="h4">Start Date</Heading>
             <P>My game will start on:</P>
             <Datepicker
-              initialDate={newGame.startDate}
+              initialDate={stringAsDateString(newGame.startDate)!}
               onChange={(dateString) => {
                 dispatch(updateNewGame({ startDate: dateString }));
               }}
@@ -155,7 +154,8 @@ function Create() {
                 <P>My game will end on:</P>
                 <Datepicker
                   initialDate={
-                    newGame.endDate || addTo(1, "month", newGame.startDate)
+                    stringAsDateString(newGame.endDate) ||
+                    addTo(1, "month", stringAsDateString(newGame.startDate)!)
                   }
                   onChange={(dateString) => {
                     dispatch(updateNewGame({ endDate: dateString }));
@@ -234,7 +234,7 @@ function Create() {
                         <p>
                           View your new game{" "}
                           <Link
-                            href={`/home/game/${(game.payload as Game).sqlId}`}
+                            href={`/home/game/${(game.payload as TSqlGame).sqlId}`}
                           >
                             here
                           </Link>

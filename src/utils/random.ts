@@ -1,6 +1,6 @@
 import { F, S } from "@mobily/ts-belt";
 
-function _getPseudoRandomInRangeFromUid(
+function _getPseudoRandomInRangeFromString(
   uid: string,
   max: number,
   min = 0,
@@ -19,22 +19,22 @@ function _getPseudoRandomInRangeFromUid(
   return Math.floor(seed % (max - min + 1)) + min;
 }
 
-export const getPseudoRandomInRangeFromUid = F.memoizeWithKey(
+export const getPseudoRandomInRangeFromString = F.memoizeWithKey(
   S.make,
-  _getPseudoRandomInRangeFromUid,
+  _getPseudoRandomInRangeFromString,
 );
 
-function _getPseudoRandomFromArrayFromUid<T>(uid: string, array: T[]): T {
+function _getPseudoRandomFromArrayFromString<T>(uid: string, array: T[]): T {
   if (uid.trim() === "" || array.length === 0) {
     throw new Error(
       "Invalid input. `uid` must be a non-empty string and `array` must be a non-empty array.",
     );
   }
-  const index = getPseudoRandomInRangeFromUid(uid, array.length - 1);
+  const index = getPseudoRandomInRangeFromString(uid, array.length - 1);
   return array[index];
 }
 
-export const getPseudoRandomFromArrayFromUid = F.memoizeWithKey(
+export const getPseudoRandomFromArrayFromString = F.memoizeWithKey(
   <T>(uid: string, array: T[]) => `${uid}|${JSON.stringify(array)}`,
-  _getPseudoRandomFromArrayFromUid,
+  _getPseudoRandomFromArrayFromString,
 );

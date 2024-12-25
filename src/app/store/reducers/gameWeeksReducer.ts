@@ -2,12 +2,11 @@ import { gameWeekToStoreGameWeek } from "src/app/services/backend/game";
 
 import { createAppSlice } from "@/app/store/createAppSlice";
 import { gameSlice } from "@/app/store/reducers/gamesReducer";
+import { StoreGameWeek } from "@/app/store/schemas/gameWeek";
 import {
   fetchGameAction,
   fetchGameWeekWithGameAction,
 } from "@/app/store/sharedActions/fetch";
-
-import { StoreGameWeek } from "@/app/services/schemas/store/gameWeek";
 
 type StoreGameWeekState = {
   gameWeeks: {

@@ -1,14 +1,13 @@
 import { A, D, pipe } from "@mobily/ts-belt";
+import { TFirebaseComment } from "@potw/schemas";
 import deepmerge from "deepmerge";
 
-import { PotwComment } from "@/firestore/PotwComment";
-
 export const actionCreators = {
-  addComments: (comments: PotwComment[]) => ({
+  addComments: (comments: TFirebaseComment[]) => ({
     type: "ADD_COMMENTS",
     payload: comments,
   }),
-  addComment: (comment: PotwComment) => ({
+  addComment: (comment: TFirebaseComment) => ({
     type: "ADD_COMMENT",
     payload: comment,
   }),
@@ -20,9 +19,9 @@ export type UseCommentsReducerActionPayload = ReturnType<
 
 export interface UseCommentsReducerState {
   comments: {
-    [commentId: string]: PotwComment;
+    [commentId: string]: TFirebaseComment;
   };
-  newComment: Partial<Omit<PotwComment, "id">>;
+  newComment: Partial<Omit<TFirebaseComment, "id">>;
 }
 export function useCommentsReducer(
   state: UseCommentsReducerState,

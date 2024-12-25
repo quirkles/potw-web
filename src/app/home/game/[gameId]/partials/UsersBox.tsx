@@ -6,11 +6,10 @@ import { ColorName, getColor } from "@/app/styles/colors";
 import { defaultBorderRadius } from "@/app/styles/consts";
 
 import { useAppSelector } from "@/app/store/hooks";
+import { StoreFetchedUser } from "@/app/store/schemas/user";
 import { selectVotesForGame } from "@/app/store/selectors/games";
 import { selectFetchedUsersBySqlIds } from "@/app/store/selectors/users";
 import { RootState } from "@/app/store/store";
-
-import { StoreFetchedUser } from "@/app/services/schemas/store/user";
 
 import Heading from "@/components/heading/Heading";
 import { FlexContainer, FlexItem } from "@/components/layout/FlexContainer";

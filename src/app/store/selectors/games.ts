@@ -1,10 +1,9 @@
 import { createSelector } from "reselect";
 
 import { isFetchedGame } from "@/app/store/reducers/gamesReducer";
+import { StoreGame } from "@/app/store/schemas/game";
 import { authUserSelector } from "@/app/store/selectors/authUser";
 import { RootState } from "@/app/store/store";
-
-import { StoreGame } from "@/app/services/schemas/store/game";
 
 export const selectGameState = (state: RootState) => state.gameState;
 

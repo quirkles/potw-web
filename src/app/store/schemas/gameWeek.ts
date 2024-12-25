@@ -1,12 +1,25 @@
+import { sqlGameWeekSchema } from "@potw/schemas";
 import z from "zod";
 
-import { gameWeekSchema } from "@/app/services/schemas/backend/gameWeek";
-
-export const baseStoreGameWeekSchema = gameWeekSchema.extend({});
+export const baseStoreGameWeekSchema = sqlGameWeekSchema.extend({});
 
 export const storeFetchedGameWeekSchema = baseStoreGameWeekSchema.extend({
   gameId: z.string(),
   fetchStatus: z.literal("fetched"),
+  theme: z.string().nullable().optional().default(null),
+  // poll that allows users to vote on the theme
+  themePoll: z
+    .record(
+      // the theme
+      z.string(),
+      z.object({
+        // array of user id voted for the theme
+        votes: z.array(z.string()),
+      }),
+    )
+    .nullable()
+    .optional()
+    .default(null),
 });
 
 export type StoreFetchedGameWeek = z.infer<typeof storeFetchedGameWeekSchema>;

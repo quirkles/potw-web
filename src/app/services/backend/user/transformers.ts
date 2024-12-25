@@ -1,7 +1,8 @@
-import { UserWithRelations } from "@/app/services/schemas/backend/withRelations";
-import { StoreFetchedUser } from "@/app/services/schemas/store/user";
+import { TSqlUserWithRelations } from "@potw/schemas";
 
-export function userToStoreUser(user: UserWithRelations): StoreFetchedUser {
+import { StoreFetchedUser } from "@/app/store/schemas/user";
+
+export function userToStoreUser(user: TSqlUserWithRelations): StoreFetchedUser {
   return {
     ...user,
     status: "fetched",
