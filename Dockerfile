@@ -8,7 +8,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Copy the GOOGLE_APPLICATION_CREDENTIALS file
-COPY ${GOOGLE_APPLICATION_CREDENTIALS} $./google-creds.json
+COPY ${GOOGLE_APPLICATION_CREDENTIALS} ./google-creds.json
 
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
