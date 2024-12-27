@@ -3,6 +3,18 @@ steps:
     name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
     args: [ './scripts/decrypt_secrets.sh', '-e=${_TARGET_ENVIRONMENT}' ]
+  - id: 'fetch perm key'
+    name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'secrets'
+      - 'versions'
+      - 'access'
+      - 'latest'
+      - '--secret'
+      - 'potw-gcloud-builder-perm-key'
+      - '--out-file'
+      - '/tmp/gcloud-perm-key.json'
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
     args: [
@@ -11,7 +23,8 @@ steps:
       'ENV_FILE=$_TARGET_ENVIRONMENT',
       '-t',
       'gcr.io/$PROJECT_ID/quirkles-potw:$COMMIT_SHA',
-      '.']
+      '.'
+    ]
   # Push the container image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/quirkles-potw:$COMMIT_SHA']

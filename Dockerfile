@@ -7,15 +7,14 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Copy the GOOGLE_APPLICATION_CREDENTIALS file
-COPY ${GOOGLE_APPLICATION_CREDENTIALS} ./google-creds.json
+COPY /tmp/gcloud-perm-key.json /keys/gcloud-perm-key.json
 
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 
-RUN ls -a ./google-creds.json
+RUN cat /keys/gcloud-perm-key.json
 
-RUN export GOOGLE_APPLICATION_CREDENTIALS=./google-creds.json && npm run npm-auth
+RUN GOOGLE_APPLICATION_CREDENTIALS=/keys/gcloud-perm-key.json && npm run npm-auth
 
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
