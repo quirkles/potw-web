@@ -13,7 +13,7 @@ COPY ${GOOGLE_APPLICATION_CREDENTIALS} $./google-creds.json
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 
-RUN GOOGLE_APPLICATION_CREDENTIALS=./google-creds.json && npm run npm-auth
+RUN export GOOGLE_APPLICATION_CREDENTIALS=./google-creds.json && npm run npm-auth
 
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
