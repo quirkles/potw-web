@@ -10,7 +10,7 @@ WORKDIR /app
 COPY ./gcloud-perm-key.json gcloud-perm-key.json
 
 # Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc ./
 
 RUN cat ./gcloud-perm-key.json
 
