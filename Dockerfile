@@ -7,14 +7,14 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-COPY /tmp/gcloud-perm-key.json /keys/gcloud-perm-key.json
+COPY ./gcloud-perm-key.json gcloud-perm-key.json
 
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 
-RUN cat /keys/gcloud-perm-key.json
+RUN cat ./gcloud-perm-key.json
 
-RUN GOOGLE_APPLICATION_CREDENTIALS=/keys/gcloud-perm-key.json && npm run npm-auth
+RUN GOOGLE_APPLICATION_CREDENTIALS=./gcloud-perm-key.json && npm run npm-auth
 
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \

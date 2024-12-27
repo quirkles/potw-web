@@ -14,7 +14,7 @@ steps:
       - '--secret'
       - 'potw-gcloud-builder-perm-key'
       - '--out-file'
-      - '/tmp/gcloud-perm-key.json'
+      - './gcloud-perm-key.json'
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
     args: [
