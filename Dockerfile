@@ -14,7 +14,7 @@ COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 
 RUN cat ./gcloud-perm-key.json
 
-RUN GOOGLE_APPLICATION_CREDENTIALS=./gcloud-perm-key.json && npm run npm-auth
+RUN export GOOGLE_APPLICATION_CREDENTIALS=./gcloud-perm-key.json && npm run npm-auth
 
 RUN \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
