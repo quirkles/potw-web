@@ -70,3 +70,12 @@ GCP project ID: [quirkles-potw](https://console.cloud.google.com/welcome?invt=Ab
 
 Managed by: [Alex Quirk](mailto:alex@quirkles.com). Contact for access
 
+## Additional Resources
+
+### POTW WEB
+Repo that contains the backend functions.
+https://github.com/quirkles/potw-functions
+
+### POTW PACKAGES
+Repo that contains shared code for the web and backend.
+https://github.com/quirkles/potw-packages
