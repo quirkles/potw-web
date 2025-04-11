@@ -72,7 +72,7 @@ Managed by: [Alex Quirk](mailto:alex@quirkles.com). Contact for access
 
 ## Additional Resources
 
-### POTW WEB
+### POTW FUNCTIONS
 Repo that contains the backend functions.
 https://github.com/quirkles/potw-functions
 

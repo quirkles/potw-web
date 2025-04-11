@@ -1,10 +1,10 @@
 "use client";
 
-import { uuidv4 } from "@firebase/util";
 import { TFirebaseGameWeekThemePollSchema } from "@potw/schemas";
 import { formatDateTime } from "@potw/utils";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { styled } from "styled-components";
+import { v4 } from "uuid";
 
 import { useGameWeekTheme } from "@/app/home/game/[gameId]/gameweek/hooks/useGameweekTheme";
 import { ColorName, gameColors, getColor } from "@/app/styles/colors";
@@ -272,7 +272,7 @@ function CreateOrEditThemePoll({
     setThemeOptions(
       Object.keys((existingPoll || {}).options || {}).map((theme) => ({
         value: theme,
-        uid: uuidv4(),
+        uid: v4(),
       })),
     );
   }, [existingPoll]);
@@ -333,7 +333,7 @@ function CreateOrEditThemePoll({
                   if (opts.some((opt) => opt.value === value)) {
                     return opts;
                   }
-                  return [...opts, { value, uid: uuidv4() }];
+                  return [...opts, { value, uid: v4() }];
                 });
                 setNewThemeOption("Add option +");
               }}
