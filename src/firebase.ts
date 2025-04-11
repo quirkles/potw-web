@@ -1,3 +1,4 @@
+"use client";
 // Import the functions you need from the SDKs you need
 import { Analytics, getAnalytics } from "firebase/analytics";
 import { FirebaseApp, initializeApp } from "firebase/app";
@@ -25,10 +26,15 @@ let analytics: Analytics;
 export function getFirebaseApp(): FirebaseApp {
   if (!app) {
     app = initializeApp(firebaseConfig);
-    appCheck = initializeAppCheck(app, {
-      provider: new ReCaptchaEnterpriseProvider(getConfig().recaptchaSiteKey),
-      isTokenAutoRefreshEnabled: true,
-    });
+    const reCaptchaEnterpriseProvider = new ReCaptchaEnterpriseProvider(
+      getConfig().recaptchaSiteKey,
+    );
+    if (typeof window !== "undefined") {
+      appCheck = initializeAppCheck(app, {
+        provider: reCaptchaEnterpriseProvider,
+        isTokenAutoRefreshEnabled: true,
+      });
+    }
   }
   return app;
 }

@@ -4,6 +4,8 @@ import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { getFirebaseApp } from "@/firebase";
+
 import { useAppDispatch } from "@/app/store/hooks";
 import {
   IAuthUser,
@@ -18,6 +20,7 @@ export default function Home() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   useEffect(() => {
+    getFirebaseApp();
     if (window.localStorage.getItem("token")) {
       dispatch(
         initializeAuthUser(
