@@ -1,5 +1,5 @@
 import { sqlGameWeekSchema } from "@potw/schemas";
-import z from "zod";
+import { default as z } from "zod";
 
 export const baseStoreGameWeekSchema = sqlGameWeekSchema.extend({});
 

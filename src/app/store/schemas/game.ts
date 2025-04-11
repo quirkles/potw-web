@@ -1,5 +1,5 @@
 import { sqlGameSchema } from "@potw/schemas";
-import z from "zod";
+import { default as z } from "zod";
 
 export const baseStoreGameSchema = sqlGameSchema.extend({
   admin: z.string(),

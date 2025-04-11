@@ -1,4 +1,4 @@
-import z from "zod";
+import { default as z } from "zod";
 
 type Collections = {
   [collectionName: string]: Collection;

@@ -9,7 +9,7 @@ import {
   where,
 } from "@firebase/firestore";
 import { useEffect, useState } from "react";
-import z from "zod";
+import { default as z } from "zod";
 
 import { getAppFirestore } from "@/firebase";
 

@@ -1,4 +1,4 @@
-import z, { ZodError } from "zod";
+import { default as z, ZodError } from "zod";
 
 const configSchema = z.object({
   env: z.enum(["local", "dev", "production"]),

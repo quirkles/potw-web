@@ -1,5 +1,5 @@
 import { timestampToDateField } from "@potw/schemas";
-import z from "zod";
+import { default as z } from "zod";
 
 export const gameJoinRequestSchema = z.object({
   status: z.enum(["accepted", "rejected", "pending"]),

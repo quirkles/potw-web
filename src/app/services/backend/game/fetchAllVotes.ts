@@ -1,5 +1,5 @@
 import { sqlVoteSchema } from "@potw/schemas";
-import z from "zod";
+import { default as z } from "zod";
 
 import { getConfig } from "@/config";
 
