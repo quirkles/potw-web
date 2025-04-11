@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import { styled } from "styled-components";
 
 import { useGameJoinRequests } from "@/app/home/game/[gameId]/hooks/useGameJoinRequests";
@@ -48,8 +48,8 @@ const Styled = styled.div`
   }
 `;
 
-function GamePage({ params }: { params: { gameId: string } }) {
-  const { gameId: gameId } = params;
+function GamePage({ params }: { params: Promise<{ gameId: string }> }) {
+  const { gameId: gameId } = use(params);
   const dispatch = useAppDispatch();
 
   const game = useAppSelector((state) => selectGameBySqlId(state, gameId));

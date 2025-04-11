@@ -101,16 +101,15 @@ export const usersSlice = createAppSlice({
       },
     }),
     updateUserField: create.asyncThunk(
-      async <T extends keyof TSqlUser>(params: {
+      (params: {
         userId: string;
-        field: T;
-        value: TSqlUser[T];
-      }) => {
-        return updateUserRequest({
+        field: keyof TSqlUser;
+        value: TSqlUser[typeof params.field];
+      }) =>
+        updateUserRequest({
           sqlId: params.userId,
           [params.field]: params.value,
-        });
-      },
+        }),
       {
         pending: (state, action) => {},
         fulfilled: (state, action) => {

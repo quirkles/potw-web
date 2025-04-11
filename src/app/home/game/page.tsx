@@ -51,7 +51,7 @@ function Games() {
 
   const handleToggleShowAllGames = (checked: boolean) => {
     if (checked && !fetchingGameIds.includes("all")) {
-      dispatch(gameSlice.actions.fetchGames(null));
+      dispatch(gameSlice.actions.fetchGames());
     } else if (authUser?.sqlId && !fetchingGameIds.includes(authUser.sqlId)) {
       dispatch(gameSlice.actions.fetchGamesForUser(authUser.sqlId));
     }
@@ -64,7 +64,7 @@ function Games() {
     }
     if (isShowingAllGames && !fetchingGameIds.includes("all")) {
       setHasDoneInitialFetch(true);
-      dispatch(gameSlice.actions.fetchGames(null));
+      dispatch(gameSlice.actions.fetchGames());
     } else if (authUser?.sqlId && !fetchingGameIds.includes(authUser.sqlId)) {
       setHasDoneInitialFetch(true);
       dispatch(gameSlice.actions.fetchGamesForUser(authUser.sqlId));

@@ -2,7 +2,7 @@
 
 import { TFirebaseGameWeekThemePollSchema } from "@potw/schemas";
 import { formatDateTime } from "@potw/utils";
-import { PropsWithChildren, useEffect, useState } from "react";
+import { PropsWithChildren, useEffect, useState, use } from "react";
 import { styled } from "styled-components";
 import { v4 } from "uuid";
 
@@ -54,9 +54,9 @@ const Styled = styled.div`
 export default function GameWeek({
   params,
 }: {
-  params: { gameWeekId: string; gameId: string };
+  params: Promise<{ gameWeekId: string; gameId: string }>;
 }) {
-  const { gameWeekId, gameId } = params;
+  const { gameWeekId } = use(params);
 
   const gameWeek = useAppSelector((state) =>
     selectGameWeekBySqlId(state, gameWeekId),

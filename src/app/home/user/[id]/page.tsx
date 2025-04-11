@@ -2,7 +2,7 @@
 
 import { TUserUpdate } from "@potw/schemas/dist/lib/contract/user";
 import { formatDateTime } from "@potw/utils";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { styled } from "styled-components";
 
 import { BaseColorName, gameColors, getColor } from "@/app/styles/colors";
@@ -48,18 +48,20 @@ const StyledUserIdPage = styled.div`
   justify-content: center;
 `;
 
-function UserIdPage({ params }: { params: { id: string } }) {
-  const user = useAppSelector((state) => selectUserBySqlId(state, params.id));
+function UserIdPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id: userId } = use(params);
+
+  const user = useAppSelector((state) => selectUserBySqlId(state, userId));
   const dispatch = useAppDispatch();
 
   const doesUserExist = !!user;
 
   useEffect(() => {
     if (!doesUserExist) {
-      dispatch(fetchUserById(params.id));
+      dispatch(fetchUserById(userId));
     }
     return;
-  }, [dispatch, params.id, doesUserExist]);
+  }, [dispatch, userId, doesUserExist]);
 
   switch (user?.status) {
     case "failed":

@@ -18,7 +18,7 @@ const meta = {
     value: {
       description: "The initial time",
       control: {
-        type: "string",
+        type: "date",
       },
     },
     onChange: {
