@@ -1,7 +1,7 @@
 import { getToken } from "@firebase/app-check";
 import axios, { Axios, AxiosError } from "axios";
 import { v4 } from "uuid";
-import { output, ZodError, ZodSchema, ZodType } from "zod";
+import { output, ZodError, ZodSchema } from "zod";
 
 import { getConfig } from "@/config";
 import { getFirebaseAppCheck } from "@/firebase";
@@ -56,7 +56,7 @@ export class HttpAxiosService implements HttpService {
         try {
           const appCheckTokenResponse = await getToken(
             getFirebaseAppCheck(),
-            /* forceRefresh= */ false,
+            /* forceRefresh= */ true,
           );
           headers["X-Firebase-AppCheck"] = appCheckTokenResponse.token;
         } catch (err) {
@@ -111,7 +111,7 @@ export class HttpAxiosService implements HttpService {
         try {
           const appCheckTokenResponse = await getToken(
             getFirebaseAppCheck(),
-            /* forceRefresh= */ false,
+            /* forceRefresh= */ true,
           );
           headers["X-Firebase-AppCheck"] = appCheckTokenResponse.token;
         } catch (err) {
@@ -175,7 +175,7 @@ export class HttpAxiosService implements HttpService {
         try {
           const appCheckTokenResponse = await getToken(
             getFirebaseAppCheck(),
-            /* forceRefresh= */ false,
+            /* forceRefresh= */ true,
           );
           headers["X-Firebase-AppCheck"] = appCheckTokenResponse.token;
         } catch (err) {
@@ -231,7 +231,7 @@ export class HttpAxiosService implements HttpService {
         try {
           const appCheckTokenResponse = await getToken(
             getFirebaseAppCheck(),
-            /* forceRefresh= */ false,
+            /* forceRefresh= */ true,
           );
           headers["X-Firebase-AppCheck"] = appCheckTokenResponse.token;
         } catch (err) {

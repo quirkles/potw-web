@@ -32,6 +32,7 @@ import Loader from "@/components/loader/Loader";
 import Spacer from "@/components/spacer/Spacer";
 import P from "@/components/text/P";
 import { Small } from "@/components/text/Small";
+import Span from "@/components/text/Span";
 
 import { getPseudoRandomFromArrayFromString } from "@/utils/random";
 
@@ -126,21 +127,63 @@ function FetchedGame({ game }: { game: StoreFetchedGame }) {
     game.firestoreId,
   );
 
+  const { startDate, endDate } = game;
+
+  const hasGameStarted = new Date(startDate) < new Date();
+  const doesGameEnd = !!endDate;
+  const hasGameEnded = doesGameEnd && new Date(endDate) < new Date();
+
   return (
     <StyledGame>
       <GridContainer>
         <GridItem $xsCol={12}>
           <BoxWithSpacer>
             <FlexContainer $direction="column" $gap="small">
-              <Heading $variant="h1" $color={gameColor} $underline>
-                {game.name}
-              </Heading>
-              {game.description && (
-                <>
-                  <Small $color="grey">about:</Small>
-                  <P>{game.description}</P>
-                </>
-              )}
+              <FlexItem>
+                <Heading $variant="h1" $color={gameColor} $underline>
+                  {game.name}
+                </Heading>
+              </FlexItem>
+              <FlexItem>
+                {game.description && (
+                  <FlexContainer>
+                    <Small $color="grey">about:</Small>
+                    <P>{game.description}</P>
+                  </FlexContainer>
+                )}
+              </FlexItem>
+              <FlexItem>
+                <P $textTransform="capitalize" $fontSize="small">
+                  {hasGameStarted ? "started" : "starts"}:{"  "}
+                  <Span $fontWeight="bold" $color={gameColor}>
+                    {startDate}
+                  </Span>
+                </P>
+                <P $textTransform="capitalize" $fontSize="small">
+                  {hasGameEnded ? (
+                    <Span>
+                      Ended:{""}
+                      <Span $fontWeight="bold" $color={gameColor}>
+                        {endDate}
+                      </Span>
+                    </Span>
+                  ) : doesGameEnd ? (
+                    <Span>
+                      Ends:{" "}
+                      <Span $fontWeight="bold" $color={gameColor}>
+                        {endDate}
+                      </Span>
+                    </Span>
+                  ) : (
+                    <Span $noWrap>
+                      No end date{""}
+                      <Span $fontWeight="bold" $color={gameColor}>
+                        (ongoing).
+                      </Span>
+                    </Span>
+                  )}
+                </P>
+              </FlexItem>
             </FlexContainer>
           </BoxWithSpacer>
         </GridItem>

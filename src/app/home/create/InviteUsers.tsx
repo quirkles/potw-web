@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 
 import { Colors } from "@/app/styles/colors";
 
-import { searchByEmail } from "@/app/services/backend/user/searchByEmail";
+import { searchByEmail } from "@/app/services/firebase/user";
 
 import Button, { ButtonSize } from "@/components/button/Button";
 import HorizontalDivider from "@/components/divider/HorizontalDivider";
