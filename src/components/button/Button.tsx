@@ -63,7 +63,7 @@ const StyledButton = styled.button<{
   position: relative;
   height: ${(props) => getSizes(props.$size).height}em;
   padding: ${(props) => getSizes(props.$size).verticalPadding}em
-    ${(props) => (props) =>
+    ${(props) =>
       getSizes(props.$size)[
         props.$hasIcon ? "withIconPadding" : "horizontalPadding"
       ]}em
@@ -83,8 +83,7 @@ const StyledButton = styled.button<{
     align-items: center;
     justify-content: center;
     height: ${(props) => getSizes(props.$size).iconHeight}em;
-    width: ${(props) =>
-      props.$hasIcon ? getSizes(props.$size).iconWidth : 0}em;
+    // width: ${(props) => props.$hasIcon ? getSizes(props.$size).iconWidth : 0}em;
     border-radius: 0.7em;
     box-shadow: 0.1em 0.1em 0.6em 0.2em
       ${(props) => getColorVariant(props.$color)};
@@ -118,7 +117,7 @@ const StyledButton = styled.button<{
 
 interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   buttonText: string;
-  Icon?: ComponentType;
+  Icon?: ComponentType<{ color?: BaseColorName; stroke?: BaseColorName }>;
   color?: BaseColorName;
   size?: ButtonSize;
   route?: string;
@@ -147,7 +146,7 @@ function Button(props: ButtonProps) {
         {buttonText}
         {
           <div className="icon">
-            {props.Icon ? <props.Icon /> : props.buttonText}
+            {props.Icon ? <props.Icon stroke="black" /> : props.buttonText}
           </div>
         }
       </Wrapper>
