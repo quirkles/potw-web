@@ -83,7 +83,7 @@ const StyledButton = styled.button<{
     align-items: center;
     justify-content: center;
     height: ${(props) => getSizes(props.$size).iconHeight}em;
-    // width: ${(props) => props.$hasIcon ? getSizes(props.$size).iconWidth : 0}em;
+    width: ${(props) => props.$hasIcon ? getSizes(props.$size).iconWidth : 0}em;
     border-radius: 0.7em;
     box-shadow: 0.1em 0.1em 0.6em 0.2em
       ${(props) => getColorVariant(props.$color)};
