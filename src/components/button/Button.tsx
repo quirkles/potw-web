@@ -58,7 +58,8 @@ const StyledButton = styled.button<{
   letter-spacing: 0.05em;
   display: flex;
   align-items: center;
-  box-shadow: inset 0 0 1.6em -0.6em ${(props) => getColorVariant(props.$color)};
+  box-shadow: inset 0 0 1.6em -0.6em
+    ${(props) => (props.$disabled ? "none" : getColorVariant(props.$color))};
   overflow: hidden;
   position: relative;
   height: ${(props) => getSizes(props.$size).height}em;
@@ -75,7 +76,10 @@ const StyledButton = styled.button<{
   }
 
   .icon {
-    color: ${(props) => hexToRgbA(getColorVariant(props.$color), 0)};
+    color: ${(props) =>
+      props.$disabled
+        ? Colors.grey_300
+        : hexToRgbA(getColorVariant(props.$color), 0)};
     background: white;
     margin-left: 1em;
     position: absolute;
@@ -83,10 +87,11 @@ const StyledButton = styled.button<{
     align-items: center;
     justify-content: center;
     height: ${(props) => getSizes(props.$size).iconHeight}em;
-    width: ${(props) => props.$hasIcon ? getSizes(props.$size).iconWidth : 0}em;
+    width: ${(props) =>
+      props.$hasIcon ? getSizes(props.$size).iconWidth : 0}em;
     border-radius: 0.7em;
     box-shadow: 0.1em 0.1em 0.6em 0.2em
-      ${(props) => getColorVariant(props.$color)};
+      ${(props) => (props.$disabled ? "none" : getColorVariant(props.$color))};
     right: 0.3em;
     transition: all 0.3s;
     padding: ${(props) =>
@@ -97,22 +102,23 @@ const StyledButton = styled.button<{
       color: ${(props) => getColorVariant(props.$color)};
     }
   }
-
-  &:hover .icon {
-    width: calc(100% - 0.6em);
-    transform: translateX(${(props) => (props.$hasIcon ? 0.1 : 0)}em);
-    color: ${(props) =>
-      props.$disabled
-        ? Colors.grey_500
-        : hexToRgbA(getColorVariant(props.$color), 1)};
-    svg {
-      transform: scale(1.5);
-    }
-  }
-
-  &:active .icon {
-    transform: scale(0.95);
-  }
+  ${({ $disabled, $hasIcon, $color }) =>
+    !$disabled &&
+    `
+      &:hover .icon {
+        width: calc(100% - 0.6em);
+        transform: translateX(${$hasIcon ? 0.1 : 0}em);
+        color: ${hexToRgbA(getColorVariant($color), 1)};
+        svg {
+          transform: scale(1.5);
+        }
+      }
+    
+      &:active .icon {
+        transform: scale(0.95);
+      }
+    )}
+    `}
 `;
 
 interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {

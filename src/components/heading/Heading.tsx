@@ -8,6 +8,7 @@ const StyledHeading = styled.h1<{
   $color?: ColorName;
   $textTransform?: string;
   $underline: boolean;
+  $font: "mono" | "sans" | "serif";
 }>`
   text-decoration: underline;
   color: ${(props) => (props.$color ? getColor(props.$color) : "inherit")};
@@ -31,19 +32,13 @@ function Heading({
   children,
   $underline = false,
 }: PropsWithChildren<HeadingProps>) {
-  const fontClassname =
-    $font === "mono"
-      ? overpassMono.className
-      : $font === "sans"
-        ? rubik.className
-        : baskerville.className;
   return (
     <StyledHeading
       as={$variant}
       $color={$color}
       $textTransform={$textTransform}
-      className={fontClassname}
       $underline={$underline}
+      $font={$font}
     >
       {children}
     </StyledHeading>
