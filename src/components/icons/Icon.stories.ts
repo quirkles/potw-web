@@ -5,7 +5,7 @@ import { baseColors } from "@/app/styles/colors";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
-  title: "Example/Icon",
+  title: "Components/Icon",
   component: Icon,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout

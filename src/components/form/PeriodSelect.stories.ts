@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import TextEditable from "@/components/form/TextEditable";
+import PeriodSelect from "@/components/form/PeriodSelect";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
-  title: "Example/TextEditable",
-  component: TextEditable,
+  title: "Form/PeriodSelect",
+  component: PeriodSelect,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
     layout: "centered",
@@ -14,28 +14,19 @@ const meta = {
   tags: ["autodocs"],
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
-    text: {
-      description: "The text to display and edit",
-      control: {
-        type: "text",
-      },
-    },
     onChange: {
-      description: "Callback for when the text changes",
+      description: "Callback for when the period changes",
       action: "changed",
     },
-    onBlur: {
-      description: "Callback for when the text loses focus",
-      action: "blurred",
-    },
   },
-} satisfies Meta<typeof TextEditable>;
+} satisfies Meta<typeof PeriodSelect>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Primary: Story = {
   args: {
-    text: "Hello, world!",
+    selectedPeriod: "weekly",
   },
 };

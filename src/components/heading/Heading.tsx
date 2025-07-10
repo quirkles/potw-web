@@ -14,6 +14,18 @@ const StyledHeading = styled.h1<{
   color: ${(props) => (props.$color ? getColor(props.$color) : "inherit")};
   text-transform: ${(props) => props.$textTransform || "none"};
   text-decoration: ${(props) => (props.$underline ? "underline" : "none")};
+  font-family: ${({ $font }) => {
+    switch ($font) {
+      case "serif":
+        return baskerville.style.fontFamily;
+      case "sans":
+        return rubik.style.fontFamily;
+      case "mono":
+        return overpassMono.style.fontFamily;
+      default:
+        return overpassMono.style.fontFamily;
+    }
+  }};
 `;
 
 interface HeadingProps {

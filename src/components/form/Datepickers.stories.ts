@@ -1,12 +1,11 @@
-import { useArgs } from "@storybook/preview-api";
 import type { Meta, StoryObj } from "@storybook/react";
 
-import Timepicker from "@/components/form/Timepicker";
+import Datepicker from "@/components/form/Datepicker";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
-  title: "Example/TimePicker",
-  component: Timepicker,
+  title: "Form/Datepicker",
+  component: Datepicker,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
     layout: "centered",
@@ -15,8 +14,8 @@ const meta = {
   tags: ["autodocs"],
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
-    value: {
-      description: "The initial time",
+    initialDate: {
+      description: "The initial date",
       control: {
         type: "date",
       },
@@ -26,7 +25,7 @@ const meta = {
       action: "changed",
     },
   },
-} satisfies Meta<typeof Timepicker>;
+} satisfies Meta<typeof Datepicker>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -34,15 +33,6 @@ type Story = StoryObj<typeof meta>;
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Primary: Story = {
   args: {
-    value: "17:00",
-  },
-  render: function Render(args) {
-    const { onChange = () => null } = args;
-    const [{ value }, updateArgs] = useArgs();
-    const changeHandler = (date: string) => {
-      onChange(date);
-      updateArgs({ value: date });
-    };
-    return <Timepicker value={value} onChange={changeHandler} />;
+    initialDate: "2024-01-01",
   },
 };
